@@ -58,6 +58,8 @@
     <Compile Include="Dal\UserDal.cs" />
     <Compile Include="iBoxDB291.cs" />
     <Compile Include="Model\BllResult.cs" />
+    <Compile Include="Model\BoxDb.cs" />
+    <Compile Include="Model\IDataBase.cs" />
     <Compile Include="Model\ItemModel.cs" />
     <Compile Include="Model\Service.cs" />
     <Compile Include="Model\UserModel.cs" />

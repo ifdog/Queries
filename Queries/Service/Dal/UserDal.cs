@@ -1,68 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Common.Static;
 using Service.Model;
 
 namespace Service.Dal
 {
 	public class UserDal
 	{
-		readonly UserContext _userContext = new UserContext();
-
-		public void CreateUser(string userName, string password, long power = 2)
+		private readonly BoxDb<UserModel> _itemDb = new BoxDb<UserModel>();
+		public void CreateUser(string userName, string password, string realName, long power = 2)
 		{
 			if (userName == string.Empty || password == string.Empty) return;
-			_userContext.Users.Add(new UserModel
+			_itemDb.Insert(new UserModel
 			{
-				LastAccess = -1,
-				Password = password,
-				Power = 2,
-				Tag = string.Empty,
 				UserName = userName,
-				WhenReg = UnixTimeStamp.ToUnixTimaStamp(DateTime.Now)
+				Password = password,
+				RealName = realName,
+				Power = 2,
+				LastAccess = DateTime.MinValue,
 			});
-			_userContext.SaveChanges();
 		}
 
 		public bool CheckExist(string userName)
 		{
-			return _userContext.Users.Any(i => i.UserName.Equals(userName));
+			return _itemDb.Select().Any(i => i.UserName.Equals(userName));
 		}
 
 		public UserModel FindUserByName(string userName)
 		{
-			return _userContext.Users.FirstOrDefault(i => i.UserName.Equals(userName));
+			return _itemDb.Select().FirstOrDefault(i => i.UserName.Equals(userName));
 		}
 
-		public UserModel FindUserById(long userId)
+		public bool UpdatePassword(string userName, string password)
 		{
-			return _userContext.Users.FirstOrDefault(i => i.Id == userId);
+			var x = _itemDb.Select().FirstOrDefault(i => i.UserName.Equals(userName));
+			if (x == null) return false;
+			x.Password = password;
+			return _itemDb.Update(x);
 		}
 
-		public void UpdatePassword(string userName, string password)
+		public bool UpdateLastAccess(string userName)
 		{
-			var m = _userContext.Users.FirstOrDefault(i => i.UserName.Equals(userName));
-			if (m == null) return;
-			m.Password = password;
-			_userContext.SaveChanges();
-		}
-
-		public void UpdateLastAccess(string userName)
-		{
-			var m = _userContext.Users.FirstOrDefault(i => i.UserName.Equals(userName));
-			if (m == null) return;
-			m.LastAccess = UnixTimeStamp.ToUnixTimaStamp(DateTime.Now);
-			_userContext.SaveChanges();
-		}
-
-		public void UpdateLastAccess(long userId)
-		{
-			var m = _userContext.Users.FirstOrDefault(i => i.Id == userId);
-			if (m == null) return;
-			m.LastAccess = UnixTimeStamp.ToUnixTimaStamp(DateTime.Now);
-			_userContext.SaveChanges();
+			var x = _itemDb.Select().FirstOrDefault(i => i.UserName.Equals(userName));
+			if (x == null) return false;
+			x.LastAccess = DateTime.Now;
+			return _itemDb.Update(x);
 		}
 	}
 }

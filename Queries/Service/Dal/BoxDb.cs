@@ -13,7 +13,7 @@ namespace Service.Dal
 		private readonly AutoBox _autoBox;
 		private readonly string _itemName;
 
-		public BoxDb(string dbPath)
+		public BoxDb(string dbPath = "data")
 		{
 			_itemName = typeof(T).Name;
 			DB.Root($"/{dbPath}/");
@@ -75,6 +75,11 @@ namespace Service.Dal
 				});
 				return cube.Commit() == CommitResult.OK;
 			}
+		}
+
+		public bool BackUp(string path)
+		{
+			throw new NotImplementedException();
 		}
 
 		public void Dispose()

@@ -12,5 +12,6 @@ namespace Service.Dal.Base
 	    bool MultiUpdate(IEnumerable<T> objects);
         bool Delete(T obj);
 	    bool MultiDelete(IEnumerable<T> objects);
+	    bool BackUp(string path);
     }
 }

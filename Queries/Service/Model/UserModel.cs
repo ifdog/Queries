@@ -13,8 +13,8 @@ namespace Service.Model
 		public string Password { get; set; }
 		public string RealName { get; set; }
 		public long Power { get; set; }
-		public long LastAccess { get; set; }
-		public long RegDate { get; set; }
+		public DateTime LastAccess { get; set; }
+		public DateTime RegDate { get; set; }
 		public string Tag { get; set; }
 	}
 }

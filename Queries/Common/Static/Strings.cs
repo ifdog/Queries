@@ -5,22 +5,35 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
+
+
 namespace Common.Static
 {
 	public static class Strings
 	{
-		public static string ConcatAll(params string[] strings)
+
+
+		public static string Concat(params string[] strings)
 		{
-			strings = strings.Select(MessFilter).ToArray();
 			return string.Join(string.Empty, strings);
 		}
 
-		public static string MessFilter(string s)
+		public static string Filter(string s)
 		{
 			var a = Regex.Replace(s, @"[×|~|@|!|?|<|,|, |／|/|.|-|\s|#|$|\t|\n|#|\r|（|）|≤|、|(|)|℃|*]", string.Empty)
 				.ToUpper();
 			return a;
 		}
+
+	    public static string ToPinyin(string s)
+	    {
+	        return s.ToPinYin();
+	    }
+
+	    public static string ToShortPinyin(string s)
+	    {
+	        return s.ToPinYinAbbr();
+	    }
 
 		public static string GetWarp(string s, int warp = 15)
 		{

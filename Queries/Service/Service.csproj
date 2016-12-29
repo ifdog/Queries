@@ -54,12 +54,14 @@
   <ItemGroup>
     <Compile Include="Bll\ItemBll.cs" />
     <Compile Include="Bll\UserBll.cs" />
+    <Compile Include="Common\Factory\ItemFactory.cs" />
+    <Compile Include="Common\Factory\UserFactory.cs" />
     <Compile Include="Dal\ItemDal.cs" />
     <Compile Include="Dal\UserDal.cs" />
     <Compile Include="iBoxDB291.cs" />
     <Compile Include="Model\BllResult.cs" />
-    <Compile Include="Dal\BoxDb.cs" />
-    <Compile Include="Dal\Base\IDataBase.cs" />
+    <Compile Include="Common\DataBase\BoxDb.cs" />
+    <Compile Include="Common\DataBase\Base\IDataBase.cs" />
     <Compile Include="Model\Base\Item.cs" />
     <Compile Include="Model\ItemModel.cs" />
     <Compile Include="Service.cs" />

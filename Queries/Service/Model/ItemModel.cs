@@ -18,7 +18,7 @@ namespace Service.Model
 		public float Discount { get; set; }
 		public float OriginPrice { get; set; }
 		public float DiscountedPrice { get; set; }
-		public long Owner { get; set; }
+		public long OwnerId { get; set; }
 		public DateTime CreateDate { get; set; }
 		public string Tag { get; set; }
 		public string Mess { get; set; }

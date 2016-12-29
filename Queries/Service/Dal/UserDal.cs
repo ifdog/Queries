@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Common.Static;
+using Service.Common.DataBase;
+using Service.Common.Factory;
 using Service.Model;
 
 namespace Service.Dal
@@ -8,17 +10,12 @@ namespace Service.Dal
 	public class UserDal
 	{
 		private readonly BoxDb<UserModel> _itemDb = new BoxDb<UserModel>();
-		public void CreateUser(string userName, string password, string realName, long power = 2)
+        private readonly UserFactory _userFactory = new UserFactory();
+
+		public void CreateUser(string userName,string password, string realName, long power)
 		{
-			if (userName == string.Empty || password == string.Empty) return;
-			_itemDb.Insert(new UserModel
-			{
-				UserName = userName,
-				Password = password,
-				RealName = realName,
-				Power = 2,
-				LastAccess = DateTime.MinValue,
-			});
+		    var user =_userFactory.CreateNew(userName, password, realName, power);
+		    _itemDb.Insert(user);
 		}
 
 		public bool CheckExist(string userName)

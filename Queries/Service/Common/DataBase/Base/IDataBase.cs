@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Service.Model.Base;
 
-namespace Service.Dal.Base
+namespace Service.Common.DataBase.Base
 {
     public interface IDataBase<T> where T : Item
     {

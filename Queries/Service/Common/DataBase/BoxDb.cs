@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using Common.Static;
 using iBoxDB.LocalServer;
-using Service.Dal.Base;
+using Service.Common.DataBase.Base;
 using Service.Model.Base;
 
-namespace Service.Dal
+namespace Service.Common.DataBase
 {
 	public class BoxDb<T> : IDataBase<T>, IDisposable where T : Item, new()
 	{

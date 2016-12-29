@@ -58,10 +58,11 @@
     <Compile Include="Dal\UserDal.cs" />
     <Compile Include="iBoxDB291.cs" />
     <Compile Include="Model\BllResult.cs" />
-    <Compile Include="Model\BoxDb.cs" />
-    <Compile Include="Model\IDataBase.cs" />
+    <Compile Include="Dal\BoxDb.cs" />
+    <Compile Include="Dal\Base\IDataBase.cs" />
+    <Compile Include="Model\Base\Item.cs" />
     <Compile Include="Model\ItemModel.cs" />
-    <Compile Include="Model\Service.cs" />
+    <Compile Include="Service.cs" />
     <Compile Include="Model\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WSDatabaseConfig.cs" />

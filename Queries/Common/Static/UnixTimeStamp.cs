@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Common.Static
 {
-	static class UnixTimeStamp
+	public static class UnixTimeStamp
 	{
 		public static DateTime FromUnixTimeStamp(string timeStamp)
 		{

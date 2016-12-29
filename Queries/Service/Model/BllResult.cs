@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common.Enums;
 using Common.Structure;
 
@@ -43,7 +40,7 @@ namespace Service.Model
 			return new ReusltPostBody
 			{
 				Result = result,
-				ResultCode = 999
+				ResultCode = (int)ResultCode.ServerSideUndefinedException
 			};
 		}
 
@@ -52,7 +49,7 @@ namespace Service.Model
 			return new ReusltPostBody
 			{
 				Result = $"Server side exception :{e.Message}",
-				ResultCode = 999
+				ResultCode = (int)ResultCode.ServerSideUndefinedException
 			};
 		}
 	}

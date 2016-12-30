@@ -2,7 +2,7 @@
 
 namespace Service.Model
 {
-	public class UserModel:Item
+	public class UserModel:User
 	{
 		public string Tag { get; set; }
 	}

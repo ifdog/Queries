@@ -3,7 +3,7 @@ using Service.Model.Base;
 
 namespace Service.Dal.Base
 {
-    public interface IDal<T> where T : Item
+    public interface IDal<T> where T : Model.Base.Model
     {
         bool Insert(T obj);
 	    bool MultiInsert(IEnumerable<T> objects);

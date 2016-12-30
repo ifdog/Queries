@@ -7,7 +7,7 @@ using Service.Model.Base;
 
 namespace Service.Dal
 {
-	public class BaseDal<T> : IDal<T>, IDisposable where T : Item, new()
+	public class BaseDal<T> : IDal<T>, IDisposable where T : Model.Base.Model, new()
 	{
 		private readonly DB _databBase = new DB();
 		private readonly AutoBox _autoBox;

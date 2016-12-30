@@ -32,6 +32,7 @@
 		/// Undefined exception
 		/// </summary>
 		ServerSideUndefinedException = 20001,
-		ClientSideUndefinedException = 20002
+		ClientSideUndefinedException = 20002,
+        DataBaseUndefinedException = 20003
 	}
 }

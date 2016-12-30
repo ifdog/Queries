@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using Common.Static;
 using iBoxDB.LocalServer;
-using Service.Common.DataBase.Base;
+using Service.Dal.Base;
 using Service.Model.Base;
 
-namespace Service.Common.DataBase
+namespace Service.Dal
 {
-	public class BoxDb<T> : IDataBase<T>, IDisposable where T : Item, new()
+	public class BaseDal<T> : IDal<T>, IDisposable where T : Item, new()
 	{
 		private readonly DB _databBase = new DB();
 		private readonly AutoBox _autoBox;
 		private readonly string _itemName;
 
-		public BoxDb(string dbPath = "data")
+		public BaseDal(string dbPath = "data")
 		{
 			_itemName = typeof(T).Name;
 			DB.Root($"/{dbPath}/");

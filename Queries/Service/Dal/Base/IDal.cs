@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Service.Model.Base;
 
-namespace Service.Common.DataBase.Base
+namespace Service.Dal.Base
 {
-    public interface IDataBase<T> where T : Item
+    public interface IDal<T> where T : Item
     {
         bool Insert(T obj);
 	    bool MultiInsert(IEnumerable<T> objects);

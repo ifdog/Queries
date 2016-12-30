@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
-using Common.Static;
-using Service.Common.DataBase;
 using Service.Common.Factory;
 using Service.Model;
 
-namespace Service.Dal
+namespace Service.temp
 {
 	public class UserDal
 	{

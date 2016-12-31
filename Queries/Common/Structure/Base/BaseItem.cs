@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Service.Model.Base
+namespace Common.Structure.Base
 {
-    public class Item:Model
+    public class BaseItem:BaseObject
     {
         public string Name { get; set; }
         public string Brand { get; set; }

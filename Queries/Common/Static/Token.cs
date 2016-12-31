@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Common.Static
 {
-	public class Token
+	public static class Token
 	{
-		public string Create(long id, TimeSpan timeSpan)
+		public static string Create(long id, TimeSpan timeSpan)
 		{
 			return Base64.Encode($"{id}|{UnixTimeStamp.ToUnixTimaStamp(DateTime.Now + timeSpan)}");
 		}
 
-		public bool Validate(string token)
+		public static bool Validate(string token)
 		{
 			var o = Base64.Decode(token).Split('|');
 			if (o.Length != 2) return false;
@@ -29,7 +29,7 @@ namespace Common.Static
 			return false;
 		}
 
-		public long ParseId(string token)
+		public static long ParseId(string token)
 		{
 			var o = Base64.Decode(token).Split('|');
 			if (o.Length != 2) return -1;

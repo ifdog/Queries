@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Service.Model.Base
+namespace Common.Structure.Base
 {
-    public class User:Model
+    public class BaseUser:BaseObject
     {
         public string UserName { get; set; }
         public string Password { get; set; }

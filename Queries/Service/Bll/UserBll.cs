@@ -1,45 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common.Enums;
+using Common.Structure;
+using Common.Structure.Base;
 using Service.Common.Factory;
 using Service.Dal;
 using Service.Dal.Base;
-using Service.Model;
-using Service.Model.Base;
 
 namespace Service.Bll
 {
     public class UserBll
     {
-        private readonly IDal<User> _userDal = new BaseDal<User>();
+        private readonly IDal<UserModel> _userDal = new BaseDal<UserModel>();
+        private readonly ResultFactory _resultFactory = new ResultFactory();
 
-        public ResultCode Register(User user)
+        public ResultUserModel Register(UserModel user)
         {
-            if (_userDal.Select().Any(i => i.UserName.Equals(user.UserName))) return ResultCode.UserNameAlreadyExist;
+            if (_userDal.Select().Any(i => i.UserName.Equals(user.UserName)))
+                return _resultFactory.CreateUserResult(ResultCode.UserNameAlreadyExist);
             return _userDal.Insert(user)
-                ? ResultCode.Ok
-                : ResultCode.DataBaseUndefinedException;
+                ? _resultFactory.CreateUserResult(ResultCode.Ok)
+                : _resultFactory.CreateUserResult(ResultCode.DataBaseUndefinedException);
         }
 
-        public ResultCode Login(User user)
+        public ResultUserModel Login(UserModel user)
         {
-            if (!_userDal.Select().Any(i => i.UserName.Equals(user.UserName))) return ResultCode.UserNotExist;
+            if (!_userDal.Select().Any(i => i.UserName.Equals(user.UserName)))
+                return _resultFactory.CreateUserResult(ResultCode.UserNotExist);
             var u = _userDal.Select().FirstOrDefault(i => i.UserName.Equals(user.UserName));
-            if (u == null || u.Password.Equals(user.Password)) return ResultCode.InvalidUserNameOrPassword;
+            if (u == null || u.Password.Equals(user.Password))
+                return _resultFactory.CreateUserResult(ResultCode.InvalidUserNameOrPassword);
             user.LastAccess = DateTime.Now;
-            return _userDal.Update(user) ? ResultCode.Ok : ResultCode.DataBaseUndefinedException;
+            return _userDal.Update(user)
+                ? _resultFactory.CreateUserResult(ResultCode.Ok)
+                : _resultFactory.CreateUserResult(ResultCode.DataBaseUndefinedException);
         }
 
-        public ResultCode UpdatePassword(User user)
+        public ResultUserModel UpdatePassword(UserModel user)
         {
-            if (!_userDal.Select().Any(i => i.UserName.Equals(user.UserName))) return ResultCode.UserNotExist;
+            if (!_userDal.Select().Any(i => i.UserName.Equals(user.UserName)))
+                return _resultFactory.CreateUserResult(ResultCode.UserNotExist);
             var u = _userDal.Select().FirstOrDefault(i => i.UserName.Equals(user.UserName));
-            if (u == null) return ResultCode.DataBaseUndefinedException;
+            if (u == null) return _resultFactory.CreateUserResult(ResultCode.DataBaseUndefinedException);
             u.Password = user.Password;
-            return _userDal.Update(user) ? ResultCode.Ok : ResultCode.DataBaseUndefinedException;
+            return _userDal.Update(user)
+                ? _resultFactory.CreateUserResult(ResultCode.Ok)
+                : _resultFactory.CreateUserResult(ResultCode.DataBaseUndefinedException);
         }
     }
 }

@@ -54,21 +54,13 @@
   <ItemGroup>
     <Compile Include="Bll\ItemBll.cs" />
     <Compile Include="Bll\UserBll.cs" />
-    <Compile Include="Model\Base\Item.cs" />
-    <Compile Include="Model\Base\User.cs" />
-    <Compile Include="temp\ItemBll.cs" />
-    <Compile Include="temp\UserBll.cs" />
+    <Compile Include="Common\Factory\ResultFactory.cs" />
     <Compile Include="Common\Factory\ItemFactory.cs" />
     <Compile Include="Common\Factory\UserFactory.cs" />
-    <Compile Include="temp\ItemDal.cs" />
-    <Compile Include="temp\UserDal.cs" />
     <Compile Include="iBoxDB291.cs" />
     <Compile Include="Dal\BaseDal.cs" />
     <Compile Include="Dal\Base\IDal.cs" />
-    <Compile Include="Model\Base\Model.cs" />
-    <Compile Include="Model\ItemModel.cs" />
     <Compile Include="Service.cs" />
-    <Compile Include="Model\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WSDatabaseConfig.cs" />
   </ItemGroup>

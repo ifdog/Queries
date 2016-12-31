@@ -1,6 +1,5 @@
 ﻿using System;
-using Service.Model;
-using Service.Model.Base;
+using Common.Structure;
 
 namespace Service.Common.Factory
 {

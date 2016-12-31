@@ -1,35 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common.Enums;
 using Common.Static;
+using Common.Structure;
+using Common.Structure.Base;
 using Service.Common.Factory;
 using Service.Dal;
 using Service.Dal.Base;
-using Service.Model;
-using Service.Model.Base;
 
 namespace Service.Bll
 {
     public class ItemBll
     {
-        private readonly IDal<Item> _itemDal = new BaseDal<Item>();
+        private readonly IDal<ItemModel> _itemDal = new BaseDal<ItemModel>();
+        private readonly ResultFactory _resultFactory = new ResultFactory();
 
-        public ResultCode AddItem(Item item)
+        public ResultItemsModel AddItem(ItemModel item)
         {
-            return _itemDal.Insert(item) ? ResultCode.Ok : ResultCode.DataBaseUndefinedException;
+            return _itemDal.Insert(item)
+                ? _resultFactory.Create(ResultCode.Ok)
+                : _resultFactory.Create(ResultCode.DataBaseUndefinedException);
         }
 
-        public ResultCode AddItems(IEnumerable<Item> items)
+        public ResultItemsModel AddItems(IEnumerable<ItemModel> items)
         {
-            return _itemDal.MultiInsert(items) ? ResultCode.Ok : ResultCode.DataBaseUndefinedException;
+            return _itemDal.MultiInsert(items)
+                ? _resultFactory.Create(ResultCode.Ok)
+                : _resultFactory.Create(ResultCode.DataBaseUndefinedException);
         }
 
-        public IEnumerable<Item> Search(string hint)
-        {
-            return _itemDal.Select().Where(i=>i.Mess.Contains(Strings.Filter(hint.ToUpper())));
+        public ResultItemsModel Search(string hint)
+        { 
+            var x = _itemDal.Select().Where(i => i.Mess.Contains(Strings.Filter(hint.ToUpper())));
+            var baseList = new List<BaseObject>();
+            x.ForEach(i=>baseList.Add(i));
+            return
+                _resultFactory.Create(baseList);
         }
 
 

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using Common.Static;
 using iBoxDB.LocalServer;
 using Service.Dal.Base;
-using Service.Model.Base;
 
 namespace Service.Dal
 {
-	public class BaseDal<T> : IDal<T>, IDisposable where T : Model.Base.Model, new()
+	public class BaseDal<T> : IDal<T>, IDisposable where T : global::Common.Structure.Base.BaseObject, new()
 	{
 		private readonly DB _databBase = new DB();
 		private readonly AutoBox _autoBox;

@@ -1,6 +1,6 @@
 ﻿using System;
-using Service.Model;
 using Common.Static;
+using Common.Structure;
 using static Common.Static.Strings;
 
 namespace Service.Common.Factory

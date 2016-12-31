@@ -57,9 +57,18 @@
     <Compile Include="Static\Strings.cs" />
     <Compile Include="Static\Token.cs" />
     <Compile Include="Static\UnixTimeStamp.cs" />
-    <Compile Include="Structure\ItemPostBody.cs" />
-    <Compile Include="Structure\ResultPostBody.cs" />
-    <Compile Include="Structure\UserPostBody.cs" />
+    <Compile Include="Structure\Base\BaseItem.cs" />
+    <Compile Include="Structure\Base\BaseUser.cs" />
+    <Compile Include="Structure\ItemModel.cs" />
+    <Compile Include="Structure\Base\BaseObject.cs" />
+    <Compile Include="Structure\Base\BaseRequest.cs" />
+    <Compile Include="Structure\Base\BaseResult.cs" />
+    <Compile Include="Structure\RequestItemModel.cs" />
+    <Compile Include="Structure\RequestItemsModel.cs" />
+    <Compile Include="Structure\RequestUserModel.cs" />
+    <Compile Include="Structure\ResultItemsModel.cs" />
+    <Compile Include="Structure\ResultUserModel.cs" />
+    <Compile Include="Structure\UserModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChnCharInfo.XML" />

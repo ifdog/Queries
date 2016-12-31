@@ -18,26 +18,24 @@ namespace Service.Bll
         public ResultItemsModel AddItem(ItemModel item)
         {
             return _itemDal.Insert(item)
-                ? _resultFactory.Create(ResultCode.Ok)
-                : _resultFactory.Create(ResultCode.DataBaseUndefinedException);
+                ? _resultFactory.CreateItemsResult(ResultCode.Ok)
+                : _resultFactory.CreateItemsResult(ResultCode.DataBaseUndefinedException);
         }
 
         public ResultItemsModel AddItems(IEnumerable<ItemModel> items)
         {
             return _itemDal.MultiInsert(items)
-                ? _resultFactory.Create(ResultCode.Ok)
-                : _resultFactory.Create(ResultCode.DataBaseUndefinedException);
+                ? _resultFactory.CreateItemsResult(ResultCode.Ok)
+                : _resultFactory.CreateItemsResult(ResultCode.DataBaseUndefinedException);
         }
 
         public ResultItemsModel Search(string hint)
         { 
-            var x = _itemDal.Select().Where(i => i.Mess.Contains(Strings.Filter(hint.ToUpper())));
-            var baseList = new List<BaseObject>();
+            var x = _itemDal.Select().Where(i => i.Mess.Contains(Strings.Filter(hint)));
+            var baseList = new List<ItemModel>();
             x.ForEach(i=>baseList.Add(i));
             return
-                _resultFactory.Create(baseList);
+                _resultFactory.CreateItemsResult(baseList);
         }
-
-
     }
 }

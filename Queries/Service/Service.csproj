@@ -61,6 +61,7 @@
     <Compile Include="Dal\BaseDal.cs" />
     <Compile Include="Dal\Base\IDal.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WSDatabaseConfig.cs" />
   </ItemGroup>

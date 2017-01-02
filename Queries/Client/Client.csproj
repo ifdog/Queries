@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Bll\ItemBll.cs" />
     <Compile Include="Bll\UserBll.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="Dal\ItemDal.cs" />
     <Compile Include="Dal\UserDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

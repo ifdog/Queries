@@ -1,9 +1,8 @@
 ﻿using System;
 using Common.Static;
 using Common.Structure;
-using static Common.Static.Strings;
 
-namespace Service.Common.Factory
+namespace Common.Factory
 {
     public class ItemFactory
     {
@@ -22,8 +21,8 @@ namespace Service.Common.Factory
                 Remark = remark,
                 CreateDate = DateTime.Now,
                 Mess =
-                    Concat(ToPinyin(Filter(name)), ToShortPinyin(Filter(name)), Filter(model), Filter(brand),
-                        Filter(spec), Filter(supplier), Filter(remark))
+                    Strings.Concat(Strings.ToPinyin(Strings.Filter(name)), Strings.ToShortPinyin(Strings.Filter(name)), Strings.Filter(model), Strings.Filter(brand),
+                        Strings.Filter(spec), Strings.Filter(supplier), Strings.Filter(remark))
             };
         }
     }

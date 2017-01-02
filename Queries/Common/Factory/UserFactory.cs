@@ -1,7 +1,7 @@
 ﻿using System;
 using Common.Structure;
 
-namespace Service.Common.Factory
+namespace Common.Factory
 {
     public class UserFactory
     {

@@ -54,9 +54,6 @@
   <ItemGroup>
     <Compile Include="Bll\ItemBll.cs" />
     <Compile Include="Bll\UserBll.cs" />
-    <Compile Include="Common\Factory\ResultFactory.cs" />
-    <Compile Include="Common\Factory\ItemFactory.cs" />
-    <Compile Include="Common\Factory\UserFactory.cs" />
     <Compile Include="iBoxDB291.cs" />
     <Compile Include="Dal\BaseDal.cs" />
     <Compile Include="Dal\Base\IDal.cs" />

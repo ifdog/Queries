@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Common.Enums;
+using Common.Factory;
 using Common.Static;
 using Common.Structure;
 using Nancy;
 using Nancy.ModelBinding;
 using Service.Bll;
-using Service.Common.Factory;
 
 
 namespace Service

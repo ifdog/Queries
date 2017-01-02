@@ -1,31 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.Structure;
+﻿using Common.Structure;
 using RestSharp;
 
 namespace Client.Dal
 {
 	public class UserDal
 	{
-	    private string _serverDomain;
-	    private RestClient _restClient;
-	    private RestRequest _restRequest;
+	    private readonly RestClient _restClient;
 
 	    public UserDal(RestClient restClient)
         {
-            _restClient = restClient;
-            _restRequest = new RestRequest("v2/users/{action}");
-        }
+            _restClient = restClient;        }
 
-	    public ResultUserModel Register(UserModel userModel)
+	    public ResultUserModel Post(RequestUserModel requestUserModel)
 	    {
-	        _restRequest.AddUrlSegment("action", "register");
-            _restRequest.Method = Method.POST;
-	        _restRequest.AddJsonBody(userModel);
-	        return _restClient.Execute<ResultUserModel>(_restRequest).Data;
+	        var request = new RestRequest("v2/users/{Action}", Method.POST)
+	            {
+	                RequestFormat = DataFormat.Json
+	            }.AddUrlSegment("Action", requestUserModel.Action.ToLower())
+	            .AddJsonBody(requestUserModel);
+	        var response = _restClient.Execute<ResultUserModel>(request);
+	        return response.Data;
 	    }
+
 	}
 }

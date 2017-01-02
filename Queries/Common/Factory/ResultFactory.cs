@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Common.Enums;
 using Common.Structure;
-using Common.Structure.Base;
 
-namespace Service.Common.Factory
+namespace Common.Factory
 {
     public class ResultFactory
     {
@@ -56,8 +55,6 @@ namespace Service.Common.Factory
                 Items = result
             };
         }
-
-    
 
         public ResultItemsModel CreateItemsResult(ResultCode resultCode, List<ItemModel> result)
         {

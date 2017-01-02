@@ -1,38 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Client.Dal;
-using Client.Model;
-using Common.Enums;
+﻿using Client.Dal;
+using Common.Structure;
+using Common.Structure.Base;
+using RestSharp;
 
 namespace Client.Bll
 {
 	public class UserBll
 	{
-		private readonly RunContext _run;
 		private readonly UserDal _userDal;
-		public UserBll(RunContext run, UserDal userDal)
+		public UserBll(RestClient restClient)
 		{
-			this._run = run;
-			this._userDal = userDal;
+			this._userDal = new UserDal(restClient);
 		}
 
-		public ResultCode Login(string name, string password)
+		public BaseResult Login(UserModel userModel)
 		{
-			return _userDal.Login(name, password);
+            var rum = new RequestUserModel()
+            {
+                Action = "Login",
+                Parameter = string.Empty,
+                User = userModel
+            };
+		    return _userDal.Post(rum);
 		}
 
-		public ResultCode Register(string name, string password)
+		public BaseResult Register(UserModel userModel)
 		{
-			return _userDal.Register(name, password);
-		}
+            var rum = new RequestUserModel()
+            {
+                Action = "Register",
+                Parameter = string.Empty,
+                User = userModel
+            };
+            return _userDal.Post(rum);
+        }
 
-		public ResultCode UpdatePassword(string name, string password)
+		public BaseResult UpdatePassword(UserModel userModel)
 		{
-			return _userDal.UpdatePassword(name, password);
-		}
+            var rum = new RequestUserModel()
+            {
+                Action = "UpdatePassword",
+                Parameter = string.Empty,
+                User = userModel
+            };
+            return _userDal.Post(rum);
+        }
 
 	}
 }

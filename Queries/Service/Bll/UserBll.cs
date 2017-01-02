@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Common.Enums;
+using Common.Factory;
 using Common.Structure;
 using Common.Structure.Base;
-using Service.Common.Factory;
 using Service.Dal;
 using Service.Dal.Base;
 

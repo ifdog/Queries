@@ -2,9 +2,9 @@
 
 namespace Common.Structure.Base
 {
-	public class BaseResult
+	public abstract class BaseResult
 	{
-		public int ResultCode { get; set; }
-        public string Information { get; set; }
+		public abstract int ResultCode { get; set; }
+        public abstract string Information { get; set; }
     }
 }

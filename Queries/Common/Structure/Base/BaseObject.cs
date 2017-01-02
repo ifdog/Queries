@@ -1,7 +1,7 @@
 ﻿namespace Common.Structure.Base
 {
-	public class BaseObject
+	public abstract class BaseObject
 	{
-		public long Id { get; set; }
+		public abstract long Id { get; set; }
 	}
 }

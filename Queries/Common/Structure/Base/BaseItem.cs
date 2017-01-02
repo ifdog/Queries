@@ -2,19 +2,18 @@
 
 namespace Common.Structure.Base
 {
-    public class BaseItem:BaseObject
+    public abstract class BaseItem:BaseObject
     {
-        public string Name { get; set; }
-        public string Brand { get; set; }
-        public string Model { get; set; }
-        public string Spec { get; set; }
-        public string Supplier { get; set; }
-        public string Remark { get; set; }
-        public string Owner { get; set; }
-        public string Mess { get; set; }
-        public float Discount { get; set; }
-        public float OriginPrice { get; set; }
-        public DateTime CreateDate { get; set; }
-
+        public abstract string Name { get; set; }
+        public abstract string Brand { get; set; }
+        public abstract string Model { get; set; }
+        public abstract string Spec { get; set; }
+        public abstract string Supplier { get; set; }
+        public abstract string Remark { get; set; }
+        public abstract string Owner { get; set; }
+        public abstract string Mess { get; set; }
+        public abstract float Discount { get; set; }
+        public abstract float OriginPrice { get; set; }
+        public abstract DateTime CreateDate { get; set; }
     }
 }

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\SeenAttribute.cs" />
     <Compile Include="Enums\ResultCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Static\Base64.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Static\Token.cs" />
     <Compile Include="Static\UnixTimeStamp.cs" />
     <Compile Include="Structure\Base\BaseItem.cs" />
+    <Compile Include="Structure\Base\BaseStatus.cs" />
     <Compile Include="Structure\Base\BaseUser.cs" />
     <Compile Include="Structure\ItemModel.cs" />
     <Compile Include="Structure\Base\BaseObject.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Structure\RequestUserModel.cs" />
     <Compile Include="Structure\ResultItemsModel.cs" />
     <Compile Include="Structure\ResultUserModel.cs" />
+    <Compile Include="Structure\Status.cs" />
     <Compile Include="Structure\UserModel.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,9 +2,9 @@
 
 namespace Common.Structure.Base
 {
-    public class BaseRequest
+    public abstract class BaseRequest
     {
-        public string Action { get; set; }
-        public string Parameter { get; set; }
+        public abstract string Action { get; set; }
+        public abstract string Parameter { get; set; }
     }
 }

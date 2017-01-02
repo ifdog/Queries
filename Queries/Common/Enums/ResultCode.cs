@@ -16,6 +16,9 @@
 		InvalidUserNameOrPassword = 10103,
 		NotLoggedIn = 10104,
 		TokenExpired = 10105,
+        UserNameShouldNotBeWhiteSpace = 10106,
+        UserNameShouldNotBeEmpty = 10107,
+        PasswordShouldNotBeEmpty = 10108,
 
 		/// <summary>
 		/// Request Parameter

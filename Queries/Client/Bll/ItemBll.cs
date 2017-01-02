@@ -1,30 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Client.Dal;
+using Common.Enums;
+using Common.Factory;
+using Common.Static;
+using Common.Structure;
+using Common.Structure.Base;
+using RestSharp;
 
 namespace Client.Bll
 {
-	public class ItemBll
-	{
-		private RunContext _run;
-		private readonly ItemDal _itemDal;
-		public ItemBll(RunContext run, ItemDal itemDal)
-		{
-			_run = run;
-			_itemDal = itemDal;
-		}
+    public class ItemBll
+    {
+        private readonly ItemDal _itemDal;
+        private readonly ResultFactory _resultFactory = new ResultFactory();
 
-		public ResultCode Query(string hint, out List<ItemPostBody> itemList)
-		{
-			return _itemDal.Query(hint, out itemList);
-		}
+        public ItemBll(RestClient restClient)
+        {
+            _itemDal = new ItemDal(restClient);
+        }
 
-		public ResultCode AddItem(string name, string model, string spec, string brand,
-			string supplier, string remark, float discount, float originPrice)
-		{
-			return _itemDal.AddItem(name, model, spec, brand, supplier, remark, discount, originPrice);
-		}
-	}
+        public BaseResult Query(string query)
+        {
+            if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
+            {
+                return _resultFactory.CreateUserResult(ResultCode.InvalidParameter);
+            }
+            try
+            {
+                return _itemDal.Query(query);
+            }
+            catch (Exception e)
+            {
+                return _resultFactory.CreateItemsResult(e);
+            }
+        }
+
+        public BaseResult AddItem(List<ItemModel> itemModels)
+        {
+            var x = itemModels.Where(ModelCheck.Check).ToList();
+            var r = new RequestItemsModel()
+            {
+                Action = "Add",
+                Parameter = string.Empty,
+                Items = x
+            };
+            try
+            {
+                return _itemDal.Post(r);
+            }
+            catch (Exception e)
+            {
+                return _resultFactory.CreateItemsResult(e);
+            }
+        }
+    }
 }

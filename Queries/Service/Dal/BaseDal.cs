@@ -6,7 +6,7 @@ using Service.Dal.Base;
 
 namespace Service.Dal
 {
-	public class BaseDal<T> : IDal<T>, IDisposable where T : global::Common.Structure.Base.BaseObject, new()
+	public class BaseDal<T> : IDal<T>, IDisposable where T : Common.Structure.Base.BaseObject, new()
 	{
 		private readonly DB _databBase = new DB();
 		private readonly AutoBox _autoBox;

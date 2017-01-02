@@ -58,6 +58,7 @@
     <Compile Include="Static\Csv.cs" />
     <Compile Include="Static\Extension.cs" />
     <Compile Include="Static\Log.cs" />
+    <Compile Include="Static\ModelCheck.cs" />
     <Compile Include="Static\Strings.cs" />
     <Compile Include="Static\Token.cs" />
     <Compile Include="Static\UnixTimeStamp.cs" />

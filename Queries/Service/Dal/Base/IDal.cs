@@ -2,7 +2,7 @@
 
 namespace Service.Dal.Base
 {
-    public interface IDal<T> where T : global::Common.Structure.Base.BaseObject
+    public interface IDal<T> where T : Common.Structure.Base.BaseObject
     {
         bool Insert(T obj);
 	    bool MultiInsert(IEnumerable<T> objects);

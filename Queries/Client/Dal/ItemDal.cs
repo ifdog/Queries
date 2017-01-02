@@ -12,13 +12,13 @@ namespace Client.Dal
 	        this._restClient = restClient;
 	    }
 
-	    public ResultItemsModel Post(RequestItemModel requestItemModel)
+	    public ResultItemsModel Post(RequestItemsModel requestItemsModel)
 	    {
             var request = new RestRequest("v2/items/{Action}", Method.POST)
             {
                 RequestFormat = DataFormat.Json
-            }.AddUrlSegment("Action", requestItemModel.Action.ToLower())
-              .AddJsonBody(requestItemModel);
+            }.AddUrlSegment("Action", requestItemsModel.Action.ToLower())
+              .AddJsonBody(requestItemsModel);
             var response = _restClient.Execute<ResultItemsModel>(request);
             return response.Data;
         }

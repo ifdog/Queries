@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using Queries.ViewModel;
+
+
 
 namespace Queries.View
 {
@@ -24,7 +14,17 @@ namespace Queries.View
 		public LoginWindow()
 		{
 			InitializeComponent();
-			_loginVm = new LoginVm(this);
+			_loginVm = new LoginVm(this,new RegisterWindow(), new Client.Client("Http://localhost:88"));
+		}
+
+		private void Expander_Expanded(object sender, RoutedEventArgs e)
+		{
+			this.Height = 400;
+		}
+
+		private void Expander_Collapsed(object sender, RoutedEventArgs e)
+		{
+			this.Height = 260;
 		}
 	}
 }

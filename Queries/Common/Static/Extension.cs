@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Enums;
 
 namespace Common.Static
 {
@@ -12,5 +13,12 @@ namespace Common.Static
 				action.Invoke(item);
 			}
 		}
+
+		public static int ToInt(this ResultCode resultCode)
+		{
+			return (int) resultCode;
+		} 
 	}
+
+	
 }

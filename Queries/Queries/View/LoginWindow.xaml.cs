@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Queries.ViewModel;
 
 namespace Queries.View
 {
@@ -19,9 +20,11 @@ namespace Queries.View
 	/// </summary>
 	public partial class LoginWindow : Window
 	{
+		private LoginVm _loginVm;
 		public LoginWindow()
 		{
 			InitializeComponent();
+			_loginVm = new LoginVm(this);
 		}
 	}
 }

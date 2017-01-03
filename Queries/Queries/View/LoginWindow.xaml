@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Queries.View"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="300" Width="300">
-    <Grid>
-        
+        Title="LoginWindow" Height="310.374" Width="358.828">
+    <Grid Margin="0,0,0,0">
+        <TextBox x:Name="TextBoxUserName" HorizontalAlignment="Left" Height="30" Margin="177,21,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" FontSize="16"/>
+        <Button x:Name="ButtonOk" Content="确定" HorizontalAlignment="Left" Height="61" Margin="172,190,0,0" VerticalAlignment="Top" Width="75" Command="{Binding OkCommand}" FontSize="16"/>
+        <Button x:Name="ButtonCancel" Content="取消" HorizontalAlignment="Left" Height="61" Margin="252,190,0,0" VerticalAlignment="Top" Width="75" Command="{Binding CancelCommand}" FontSize="16"/>
+        <Label x:Name="LabelUserName" Content="用户名" HorizontalAlignment="Left" Height="30" Margin="100,21,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
+        <Label x:Name="LabelPassword" Content="密码" HorizontalAlignment="Left" Height="30" Margin="101,64,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
+        <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="177,64,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="16"/>
+        <Label x:Name="LabelDomain" Content="服务端" HorizontalAlignment="Left" Height="30" Margin="101,109,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
+        <Button x:Name="ButtonC" Content="C" HorizontalAlignment="Left" Height="81" Margin="10,10,0,0" VerticalAlignment="Top" Width="62" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontSize="16"/>
+        <Button x:Name="ButtonCs" Content="CS" HorizontalAlignment="Left" Height="81" Margin="10,90,0,0" VerticalAlignment="Top" Width="62" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontSize="16"/>
+        <Button x:Name="ButtonS" Content="S" HorizontalAlignment="Left" Height="81" Margin="10,170,0,0" VerticalAlignment="Top" Width="62" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontSize="16"/>
+        <ComboBox x:Name="ComboBoxDomain" HorizontalAlignment="Left" Height="30" Margin="177,109,0,0" VerticalAlignment="Top" Width="150" FontSize="16"/>
+        <Button x:Name="ButtonReg" Content="注册" HorizontalAlignment="Left" Height="61" Margin="92,190,0,0" VerticalAlignment="Top" Width="75" Command="{Binding OkCommand}" FontSize="16"/>
+        <TextBlock x:Name="TextBlockStatus" HorizontalAlignment="Left" Height="36" Margin="101,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226" FontSize="16"/>
+
     </Grid>
 </Window>

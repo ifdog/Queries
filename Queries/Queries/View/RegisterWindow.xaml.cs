@@ -23,5 +23,22 @@ namespace Queries
         {
             InitializeComponent();
         }
+
+        private void passwordBox1_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+            if (passwordBox != null) PwSend1.Text = passwordBox.Password;
+        }
+
+        private void passwordBox2_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var passwordBox = sender as PasswordBox;
+            if (passwordBox != null) PwSend2.Text = passwordBox.Password;
+        }
+
+        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
     }
 }

@@ -4,9 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Queries"
+        xmlns:b="clr-namespace:Queries.ViewModel"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="300" Width="300">
+        Title="RegisterWindow" Height="316.829" Width="323.893">
+    <Window.DataContext>
+        <b:RegisterViewModel/>
+    </Window.DataContext>
     <Grid>
-        
+        <Label x:Name="Label" Content="用户名" HorizontalAlignment="Left" Height="30" Margin="74,24,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
+        <TextBox x:Name="textBox"  HorizontalAlignment="Left" Height="30" Margin="139,23,0,0" TextWrapping="Wrap" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="113" FontSize="16"/>
+        <Label x:Name="Label1" Content="真实姓名" HorizontalAlignment="Left" Height="30" Margin="57,59,0,0" VerticalAlignment="Top" Width="77" FontSize="16"/>
+        <TextBox x:Name="textBox1"  HorizontalAlignment="Left" Height="30" Margin="139,59,0,0" TextWrapping="Wrap" Text="{Binding RealName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="113" FontSize="16"/>
+        <PasswordBox x:Name="passwordBox1"  HorizontalAlignment="Left" Height="30" Margin="139,94,0,0" VerticalAlignment="Top" Width="113" PasswordChanged="passwordBox1_PasswordChanged" FontSize="16"/>
+        <PasswordBox x:Name="passwordBox2" HorizontalAlignment="Left" Height="30" Margin="139,129,0,0" VerticalAlignment="Top" Width="113" PasswordChanged="passwordBox2_PasswordChanged" FontSize="16"/>
+        <Label x:Name="label2" Content="密码" HorizontalAlignment="Right" Height="30" Margin="0,99,183.6,0" VerticalAlignment="Top" Width="47" FontSize="16"/>
+        <Label x:Name="label3" Content="重复" HorizontalAlignment="Left" Height="30" Margin="87,129,0,0" VerticalAlignment="Top" Width="47" FontSize="16" RenderTransformOrigin="0.609,1.018"/>
+        <TextBlock x:Name="TextBlockStatus" HorizontalAlignment="Left" Height="29" Margin="57,183,0,0" TextWrapping="Wrap" Text="{Binding Status, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="195" FontSize="16" Foreground="Red"/>
+        <Button x:Name="ButtonOk" Content="注册" HorizontalAlignment="Left" Height="30" Margin="57,235,0,0" VerticalAlignment="Top" Width="86" Command="{Binding OkCommand}" FontSize="16"/>
+        <Button x:Name="ButtonCancel" Content="取消" HorizontalAlignment="Left" Height="30" Margin="166,235,0,0" VerticalAlignment="Top" Width="86" Click="ButtonCancel_Click" FontSize="16"/>
+        <TextBlock x:Name="PwSend1" HorizontalAlignment="Left" Height="0" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Password1,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="White" VerticalAlignment="Top" Width="0"/>
+        <TextBlock x:Name="PwSend2" HorizontalAlignment="Left" Height="0" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Password2,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Foreground="White" VerticalAlignment="Top" Width="0"/>
+
     </Grid>
 </Window>

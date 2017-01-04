@@ -67,19 +67,45 @@ namespace Queries.ViewModel
 			}
 		}
 
-		public RelayCommand OkCommand = new RelayCommand(MethodToExecute,CanExecuteEvaluator);
+        public RelayCommand OkCommand { get; set; }
 
-		private static bool CanExecuteEvaluator()
-		{
-			if (string.IsNullOrWhiteSpace(UserName))
-			{
-				
-			}
-		}
+	    public RegisterViewModel()
+	    {
+	        OkCommand = new RelayCommand(OkAction,OkCanExecute);
+	    }
 
-		private static void MethodToExecute()
-		{
-			throw new NotImplementedException();
-		}
+	    private bool OkCanExecute()
+	    {
+	        if (string.IsNullOrWhiteSpace(this.UserName))
+	        {
+	            this.Status = @"用户名不能为空";
+	            return false;
+	        }
+	        if (string.IsNullOrWhiteSpace(this.RealName))
+	        {
+	            this.Status = @"真实姓名不能为空";
+	            return false;
+	        }
+	        if (string.IsNullOrWhiteSpace(this.Password1))
+	        {
+	            this.Status = @"密码不能为空";
+	            return false;
+	        }
+	        if (!_password1.Equals(Password2))
+	        {
+	            this.Status = @"密码不匹配";
+	            return false;
+	        }
+	        this.Status = @"Ok";
+	        return true;
+	    }
+
+	    private void OkAction()
+	    {
+	        var r = RunContext.Get<Client.Client>().User.Register(
+	            UserFactory.CreateNew(
+	                this.UserName, this.Password1, this.RealName));
+	        this.Status = r.Information;
+	    }
 	}
 }

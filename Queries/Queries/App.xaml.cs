@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Common.Factory;
 using Queries.View;
 
 namespace Queries
@@ -10,8 +11,9 @@ namespace Queries
 	{
 		protected override void OnStartup(StartupEventArgs e)
 		{
+			InitManager.Init();
 			Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-			var dialogResult = new LoginWindow().ShowDialog();
+			var dialogResult = RunContext.Get<LoginWindow>().ShowDialog();
 			if (dialogResult.HasValue && dialogResult.Value)
 			{
 				base.OnStartup(e);

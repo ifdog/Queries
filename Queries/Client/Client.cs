@@ -15,14 +15,13 @@ namespace Client
         public UserBll User { get; private set; }
         public ItemBll Item { get; private set; }
 
-        public Client(string serviceDomain)
+        public Client(string requestPath,int requestPort)
         {
             _resourceManager = new ResourceManager("Client.Resources", typeof(Client).Assembly);
-            _restClient = new RestClient(serviceDomain)
+            _restClient = new RestClient($"http://{requestPath}:{requestPort}")
             {
                 CookieContainer = new CookieContainer(),
                 Encoding = Encoding.UTF8,
-                BaseUrl = new Uri(serviceDomain),
                 FollowRedirects = true,
                 UserAgent = _resourceManager.GetString("UserAgent"),
                 Timeout = 10000

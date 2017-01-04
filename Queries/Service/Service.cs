@@ -8,9 +8,9 @@ namespace Service
         private readonly NancyHost _host;
         public bool Started { get; private set; }
 
-        public Service(string hostingPath)
+        public Service(string hostingPath,int hostingPort)
         {
-            var uri = new Uri(hostingPath);
+            var uri = new Uri($"http://{hostingPath}:{hostingPort}");
             _host = new NancyHost(uri);
         }
 

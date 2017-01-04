@@ -1,6 +1,6 @@
 ﻿using Common.Structure;
 
-namespace Common.Manager
+namespace Common.Factory
 {
 	public class ConfigurationManager
 	{

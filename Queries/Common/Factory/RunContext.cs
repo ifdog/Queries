@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Common.Factory
 {
-	public class RunContextFactory
+	public class RunContext
 	{
 		private static readonly Dictionary<string, object> ObjectDict = new Dictionary<string, object>();
 		private const string KeyTemplate = @"__(Name):{0}__(Uid):{1}__";
@@ -24,6 +24,12 @@ namespace Common.Factory
 				return x as T;
 			}
 			throw new Exception($"No such object \"{actKey}\".");
+		}
+
+		public static bool Remove<T>(string key = "Default") where T : class
+		{
+			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
+			return ObjectDict.Remove(actKey);
 		}
 
 	}

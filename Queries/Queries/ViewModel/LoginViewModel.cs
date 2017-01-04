@@ -20,7 +20,6 @@ namespace Queries.ViewModel
 		private bool _isServerMode;
 		private string _statusText;
 		private readonly Client.Client _client;
-		private readonly LoginWindow _loginWindow;
 		private readonly RegisterWindow _registerWindow;
 		public string UserName { get; set; }
 		public string Password { get; set; }
@@ -76,9 +75,8 @@ namespace Queries.ViewModel
 		}
 		public LoginViewModel()
 		{
-			_client = RunContextFactory.Get<Client.Client>();
-			_loginWindow = RunContextFactory.Get<LoginWindow>();
-			_registerWindow = RunContextFactory.Get<RegisterWindow>();
+			_client = RunContext.Get<Client.Client>();
+			_registerWindow = RunContext.Get<RegisterWindow>();
 			this.IsClientMode = true;
 			OkCommand = new RelayCommand(() =>
 			{
@@ -93,13 +91,13 @@ namespace Queries.ViewModel
 					
 					return;
 				}
-				_loginWindow.DialogResult = true;
-				_loginWindow.Close();
+				//_loginWindow.DialogResult = true;
+				//_loginWindow.Close();
 			});
 			CancelCommand = new RelayCommand(() =>
 			{
-				_loginWindow.DialogResult = false;
-				_loginWindow.Close();
+			//	_loginWindow.DialogResult = false;
+				//_loginWindow.Close();
 			});
 			RegisterCommand = new RelayCommand(() =>
 			{

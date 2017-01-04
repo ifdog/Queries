@@ -7,7 +7,7 @@ namespace Common.Factory
 {
     public class ResultFactory
     {
-        public ResultUserModel CreateUserResult(ResultCode resultCode)
+        public static ResultUserModel CreateUserResult(ResultCode resultCode)
         {        
             return new ResultUserModel
             {
@@ -17,7 +17,7 @@ namespace Common.Factory
             };
         }
 
-        public ResultUserModel CreateUserResult(Exception e)
+        public static ResultUserModel CreateUserResult(Exception e)
         {
             return new ResultUserModel
             {
@@ -26,7 +26,7 @@ namespace Common.Factory
                 User = null
             };
         }
-        public ResultItemsModel CreateItemsResult(ResultCode resultCode)
+        public static ResultItemsModel CreateItemsResult(ResultCode resultCode)
         {
             return new ResultItemsModel
             {
@@ -36,7 +36,7 @@ namespace Common.Factory
             };
         }
 
-        public ResultItemsModel CreateItemsResult(Exception e)
+        public static ResultItemsModel CreateItemsResult(Exception e)
         {
             return new ResultItemsModel
             {
@@ -46,7 +46,7 @@ namespace Common.Factory
             };
         }
 
-        public ResultItemsModel CreateItemsResult(List<ItemModel> result)
+        public static ResultItemsModel CreateItemsResult(List<ItemModel> result)
         {
             return new ResultItemsModel
             {
@@ -56,7 +56,7 @@ namespace Common.Factory
             };
         }
 
-        public ResultItemsModel CreateItemsResult(ResultCode resultCode, List<ItemModel> result)
+        public static ResultItemsModel CreateItemsResult(ResultCode resultCode, List<ItemModel> result)
         {
             return new ResultItemsModel
             {

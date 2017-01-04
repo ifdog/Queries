@@ -6,7 +6,7 @@ namespace Common.Factory
 {
     public class ItemFactory
     {
-        public ItemModel Create(string name, string model, string brand, string spec, string supplier, float discount,
+        public static ItemModel Create(string name, string model, string brand, string spec, string supplier, float discount,
             float orignPrice, float discountedprice, string remark, long ownerId)
         {
             return new ItemModel

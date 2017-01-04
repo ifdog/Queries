@@ -17,15 +17,15 @@ namespace Service.Bll
         public ResultItemsModel AddItem(ItemModel item)
         {
             return _itemDal.Insert(item)
-                ? _resultFactory.CreateItemsResult(ResultCode.Ok)
-                : _resultFactory.CreateItemsResult(ResultCode.DataBaseUndefinedException);
+                ? ResultFactory.CreateItemsResult(ResultCode.Ok)
+                : ResultFactory.CreateItemsResult(ResultCode.DataBaseUndefinedException);
         }
 
         public ResultItemsModel AddItems(IEnumerable<ItemModel> items)
         {
             return _itemDal.MultiInsert(items)
-                ? _resultFactory.CreateItemsResult(ResultCode.Ok)
-                : _resultFactory.CreateItemsResult(ResultCode.DataBaseUndefinedException);
+                ? ResultFactory.CreateItemsResult(ResultCode.Ok)
+                : ResultFactory.CreateItemsResult(ResultCode.DataBaseUndefinedException);
         }
 
         public ResultItemsModel Search(string hint)
@@ -34,7 +34,7 @@ namespace Service.Bll
             var baseList = new List<ItemModel>();
             x.ForEach(i=>baseList.Add(i));
             return
-                _resultFactory.CreateItemsResult(baseList);
+				ResultFactory.CreateItemsResult(baseList);
         }
     }
 }

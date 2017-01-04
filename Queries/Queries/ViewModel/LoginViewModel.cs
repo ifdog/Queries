@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
+using System.ComponentModel;
 using Common.Enums;
+using Common.Factory;
 using Common.Static;
 using Common.Structure;
 using Queries.View;
@@ -9,7 +9,7 @@ using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
 {
-	public class LoginVm : ViewModelBase<LoginWindow>
+	public class LoginViewModel : BaseViewModel
 	{
 		private string _userName;
 		private string _password;
@@ -19,7 +19,9 @@ namespace Queries.ViewModel
 		private bool _isCsMode;
 		private bool _isServerMode;
 		private string _statusText;
-		private Client.Client _client;
+		private readonly Client.Client _client;
+		private readonly LoginWindow _loginWindow;
+		private readonly RegisterWindow _registerWindow;
 		public string UserName { get; set; }
 		public string Password { get; set; }
 		public RelayCommand OkCommand { get; set; }
@@ -32,7 +34,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_isClientMode = value;
-				RaisePropertyChanged("IsClientMode");
+				OnPropertyChanged("IsClientMode");
 			}
 		}
 		public bool IsCsMode
@@ -41,7 +43,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_isCsMode = value;
-				RaisePropertyChanged("IsCsMode");
+				OnPropertyChanged("IsCsMode");
 			}
 		}
 
@@ -51,7 +53,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_isServerMode = value;
-				RaisePropertyChanged("IsServerMode");
+				OnPropertyChanged("IsServerMode");
 			}
 		}
 		public List<string> Domain
@@ -60,7 +62,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_domains = value;
-				RaisePropertyChanged("Domain");
+				OnPropertyChanged("Domain");
 			}
 		}
 		public string StatusText
@@ -69,12 +71,14 @@ namespace Queries.ViewModel
 			set
 			{
 				_statusText = value;
-				RaisePropertyChanged("StatusText");
+				OnPropertyChanged("StatusText");
 			}
 		}
-		public LoginVm(LoginWindow loginWindow, Window registerWindow, Client.Client client) : base(loginWindow)
+		public LoginViewModel()
 		{
-			_client = client;
+			_client = RunContextFactory.Get<Client.Client>();
+			_loginWindow = RunContextFactory.Get<LoginWindow>();
+			_registerWindow = RunContextFactory.Get<RegisterWindow>();
 			this.IsClientMode = true;
 			OkCommand = new RelayCommand(() =>
 			{
@@ -89,18 +93,23 @@ namespace Queries.ViewModel
 					
 					return;
 				}
-				loginWindow.DialogResult = true;
-				loginWindow.Close();
+				_loginWindow.DialogResult = true;
+				_loginWindow.Close();
 			});
 			CancelCommand = new RelayCommand(() =>
 			{
-				loginWindow.DialogResult = false;
-				loginWindow.Close();
+				_loginWindow.DialogResult = false;
+				_loginWindow.Close();
 			});
-			RegisterCommand = new RelayCommand(registerWindow.Show);
+			RegisterCommand = new RelayCommand(() =>
+			{
+				_registerWindow.Show();
+			});
 
 
 			
 		}
+
+
 	}
 }

@@ -11,7 +11,7 @@ namespace Client.Bll
     public class UserBll
     {
         private readonly UserDal _userDal;
-        private readonly ResultFactory _resultFactory = new ResultFactory();
+        private readonly ResultFactory ResultFactory = new ResultFactory();
 
         public UserBll(RestClient restClient)
         {
@@ -22,15 +22,15 @@ namespace Client.Bll
         {
             if (string.IsNullOrWhiteSpace(userModel.UserName))
             {
-                return _resultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeWhiteSpace);
+                return ResultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeWhiteSpace);
             }
             if (string.IsNullOrEmpty(userModel.UserName))
             {
-                return _resultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeEmpty);
+                return ResultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeEmpty);
             }
             if (string.IsNullOrEmpty(userModel.Password))
             {
-                return _resultFactory.CreateUserResult(ResultCode.PasswordShouldNotBeEmpty);
+                return ResultFactory.CreateUserResult(ResultCode.PasswordShouldNotBeEmpty);
             }
             var rum = new RequestUserModel()
             {
@@ -44,7 +44,7 @@ namespace Client.Bll
             }
             catch (Exception e)
             {
-                return _resultFactory.CreateUserResult(e);
+                return ResultFactory.CreateUserResult(e);
             }
 		    
 		}
@@ -53,15 +53,15 @@ namespace Client.Bll
 		{
             if (string.IsNullOrWhiteSpace(userModel.UserName))
             {
-                return _resultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeWhiteSpace);
+                return ResultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeWhiteSpace);
             }
             if (string.IsNullOrEmpty(userModel.UserName))
             {
-                return _resultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeEmpty);
+                return ResultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeEmpty);
             }
             if (string.IsNullOrEmpty(userModel.Password))
             {
-                return _resultFactory.CreateUserResult(ResultCode.PasswordShouldNotBeEmpty);
+                return ResultFactory.CreateUserResult(ResultCode.PasswordShouldNotBeEmpty);
             }
             var rum = new RequestUserModel()
             {
@@ -75,7 +75,7 @@ namespace Client.Bll
             }
             catch (Exception e)
             {
-                return _resultFactory.CreateUserResult(e);
+                return ResultFactory.CreateUserResult(e);
             }
         }
 
@@ -83,15 +83,15 @@ namespace Client.Bll
 		{
             if (string.IsNullOrWhiteSpace(userModel.UserName))
             {
-                return _resultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeWhiteSpace);
+                return ResultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeWhiteSpace);
             }
             if (string.IsNullOrEmpty(userModel.UserName))
             {
-                return _resultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeEmpty);
+                return ResultFactory.CreateUserResult(ResultCode.UserNameShouldNotBeEmpty);
             }
             if (string.IsNullOrEmpty(userModel.Password))
             {
-                return _resultFactory.CreateUserResult(ResultCode.PasswordShouldNotBeEmpty);
+                return ResultFactory.CreateUserResult(ResultCode.PasswordShouldNotBeEmpty);
             }
             var rum = new RequestUserModel()
             {
@@ -105,7 +105,7 @@ namespace Client.Bll
             }
             catch (Exception e)
             {
-                return _resultFactory.CreateUserResult(e);
+                return ResultFactory.CreateUserResult(e);
             }
         }
 

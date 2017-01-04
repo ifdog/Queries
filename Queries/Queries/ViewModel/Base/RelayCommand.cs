@@ -31,11 +31,8 @@ namespace Queries.ViewModel.Base
             {
                 return true;
             }
-            else
-            {
-                var result = this._canExecuteEvaluator.Invoke();
-                return result;
-            }
+	        var result = this._canExecuteEvaluator.Invoke();
+	        return result;
         }
 
         public void Execute(object parameter)

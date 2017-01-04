@@ -4,8 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Queries.View"
+        xmlns:viewModel="clr-namespace:Queries.ViewModel"
         mc:Ignorable="d"
+        
         Title="Login" Height="260" Width="300" ResizeMode="NoResize">
+           
+    <Window.DataContext>
+       <viewModel:LoginViewModel/>
+    </Window.DataContext>
+    
     <Grid Margin="0,0,0,0">
         <TextBox x:Name="TextBoxUserName" HorizontalAlignment="Left" Height="30" Margin="106,9,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" FontSize="16"/>
         <Button x:Name="ButtonOk" Content="确定" HorizontalAlignment="Left" Height="44" Margin="30,144,0,0" VerticalAlignment="Top" Width="104" Command="{Binding OkCommand}" FontSize="16"/>

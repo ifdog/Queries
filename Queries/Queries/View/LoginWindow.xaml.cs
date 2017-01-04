@@ -10,11 +10,11 @@ namespace Queries.View
 	/// </summary>
 	public partial class LoginWindow : Window
 	{
-		private LoginVm _loginVm;
+		private LoginViewModel _loginVm;
 		public LoginWindow()
 		{
 			InitializeComponent();
-			_loginVm = new LoginVm(this,new RegisterWindow(), new Client.Client("Http://localhost:88"));
+			_loginVm = new LoginViewModel();
 		}
 
 		private void Expander_Expanded(object sender, RoutedEventArgs e)

@@ -15,7 +15,6 @@ namespace Service
     {
         private readonly UserBll _userBll = new UserBll();
         private readonly ItemBll _itemBll = new ItemBll();
-        private readonly ResultFactory _resultFactory = new ResultFactory();
 
         public ServiceModule() : base("v2")
         {
@@ -26,15 +25,15 @@ namespace Service
                     var model = this.Bind<RequestUserModel>();
                     if (model.User == null || model.Action == null)
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.JsonParseFail);
+                        return ResultFactory.CreateUserResult(ResultCode.JsonParseFail);
                     }
                     if (model.Action != "Register")
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.ActionNotCorresponding);
+                        return ResultFactory.CreateUserResult(ResultCode.ActionNotCorresponding);
                     }
                     if (string.IsNullOrEmpty(model.User.UserName) || string.IsNullOrEmpty(model.User.Password))
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.InvalidParameter);
+                        return ResultFactory.CreateUserResult(ResultCode.InvalidParameter);
                     }
                     try
                     {
@@ -42,7 +41,7 @@ namespace Service
                     }
                     catch (Exception e)
                     {
-                        return _resultFactory.CreateUserResult(e);
+                        return ResultFactory.CreateUserResult(e);
                     }
 			    });
 				return Response.AsJson(result);
@@ -55,15 +54,15 @@ namespace Service
                     var model = this.Bind<RequestUserModel>();
                     if (model.User == null || model.Action == null)
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.JsonParseFail);
+                        return ResultFactory.CreateUserResult(ResultCode.JsonParseFail);
                     }
                     if (model.Action != "Login")
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.ActionNotCorresponding);
+                        return ResultFactory.CreateUserResult(ResultCode.ActionNotCorresponding);
                     }
                     if (string.IsNullOrEmpty(model.User.UserName) || string.IsNullOrEmpty(model.User.Password))
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.InvalidParameter);
+                        return ResultFactory.CreateUserResult(ResultCode.InvalidParameter);
                     }
                     try
                     {
@@ -71,7 +70,7 @@ namespace Service
                     }
                     catch (Exception e)
                     {
-                        return _resultFactory.CreateUserResult(e);
+                        return ResultFactory.CreateUserResult(e);
                     }
                 });
                 return result.ResultCode == (int) ResultCode.Ok
@@ -87,21 +86,21 @@ namespace Service
                     var model = this.Bind<RequestUserModel>();
                     if (model.User == null || model.Action == null)
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.JsonParseFail);
+                        return ResultFactory.CreateUserResult(ResultCode.JsonParseFail);
                     }
                     string token;
                     Request.Cookies.TryGetValue("Token", out token);
                     if (token == null || !Token.Validate(token))
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.NotLoggedIn);
+                        return ResultFactory.CreateUserResult(ResultCode.NotLoggedIn);
                     }
                     if (model.Action != "UpdatePassword")
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.ActionNotCorresponding);
+                        return ResultFactory.CreateUserResult(ResultCode.ActionNotCorresponding);
                     }
                     if (string.IsNullOrEmpty(model.User.UserName) || string.IsNullOrEmpty(model.User.Password))
                     {
-                        return _resultFactory.CreateUserResult(ResultCode.InvalidParameter);
+                        return ResultFactory.CreateUserResult(ResultCode.InvalidParameter);
                     }
                     try
                     {
@@ -109,7 +108,7 @@ namespace Service
                     }
                     catch (Exception e)
                     {
-                        return _resultFactory.CreateUserResult(e);
+                        return ResultFactory.CreateUserResult(e);
                     }
                 });
                 return Response.AsJson(result);
@@ -123,11 +122,11 @@ namespace Service
                     Request.Cookies.TryGetValue("Token", out token);
                     if (token == null || !Token.Validate(token))
                     {
-                        return _resultFactory.CreateItemsResult(ResultCode.NotLoggedIn);
+                        return ResultFactory.CreateItemsResult(ResultCode.NotLoggedIn);
                     }
                     if (x.query==null)
                     {
-                        return _resultFactory.CreateItemsResult(ResultCode.InvalidParameter);
+                        return ResultFactory.CreateItemsResult(ResultCode.InvalidParameter);
                     }
                     try
                     {
@@ -135,7 +134,7 @@ namespace Service
                     }
                     catch (Exception e)
                     {
-                        return _resultFactory.CreateItemsResult(e);
+                        return ResultFactory.CreateItemsResult(e);
                     }
                 });
                 return Response.AsJson(result);
@@ -148,17 +147,17 @@ namespace Service
                     var model = this.Bind<RequestItemsModel>();
                     if (model.Items == null || model.Action == null)
                     {
-                        return _resultFactory.CreateItemsResult(ResultCode.JsonParseFail);
+                        return ResultFactory.CreateItemsResult(ResultCode.JsonParseFail);
                     }
                     string token;
                     Request.Cookies.TryGetValue("Token", out token);
                     if (token == null || !Token.Validate(token))
                     {
-                        return _resultFactory.CreateItemsResult(ResultCode.NotLoggedIn);
+                        return ResultFactory.CreateItemsResult(ResultCode.NotLoggedIn);
                     }
                     if (model.Action != "Add")
                     {
-                        return _resultFactory.CreateItemsResult(ResultCode.ActionNotCorresponding);
+                        return ResultFactory.CreateItemsResult(ResultCode.ActionNotCorresponding);
                     }
                     try
                     {
@@ -166,7 +165,7 @@ namespace Service
                     }
                     catch (Exception e)
                     {
-                        return _resultFactory.CreateItemsResult(e);
+                        return ResultFactory.CreateItemsResult(e);
                     }
                 });
                 return Response.AsJson(result);

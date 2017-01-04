@@ -14,7 +14,6 @@ namespace Client.Bll
     public class ItemBll
     {
         private readonly ItemDal _itemDal;
-        private readonly ResultFactory _resultFactory = new ResultFactory();
 
         public ItemBll(RestClient restClient)
         {
@@ -25,7 +24,7 @@ namespace Client.Bll
         {
             if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
             {
-                return _resultFactory.CreateUserResult(ResultCode.InvalidParameter);
+                return ResultFactory.CreateUserResult(ResultCode.InvalidParameter);
             }
             try
             {
@@ -33,7 +32,7 @@ namespace Client.Bll
             }
             catch (Exception e)
             {
-                return _resultFactory.CreateItemsResult(e);
+                return ResultFactory.CreateItemsResult(e);
             }
         }
 
@@ -52,7 +51,7 @@ namespace Client.Bll
             }
             catch (Exception e)
             {
-                return _resultFactory.CreateItemsResult(e);
+				return ResultFactory.CreateItemsResult(e);
             }
         }
     }

@@ -52,6 +52,7 @@
     <Compile Include="Enums\ResultCode.cs" />
     <Compile Include="Factory\ItemFactory.cs" />
     <Compile Include="Factory\ResultFactory.cs" />
+    <Compile Include="Factory\RunContextFactory.cs" />
     <Compile Include="Factory\UserFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Static\Base64.cs" />

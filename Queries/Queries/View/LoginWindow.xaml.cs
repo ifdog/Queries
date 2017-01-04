@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using Queries.View.Base;
 using Queries.ViewModel;
 
 
@@ -8,13 +10,17 @@ namespace Queries.View
 	/// <summary>
 	/// LoginWindow.xaml 的交互逻辑
 	/// </summary>
-	public partial class LoginWindow : Window
+	public partial class LoginWindow : Lwindow
 	{
-		private LoginViewModel _loginVm;
 		public LoginWindow()
 		{
 			InitializeComponent();
-			_loginVm = new LoginViewModel();
+		}
+
+		internal override void IsPassOnHandler(object sender, EventArgs eventArgs)
+		{
+			this.DialogResult = true;
+			this.Close();
 		}
 
 		private void Expander_Expanded(object sender, RoutedEventArgs e)

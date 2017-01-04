@@ -1,10 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
-using Common.Enums;
 using Common.Factory;
-using Common.Static;
-using Common.Structure;
-using Queries.View;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
@@ -18,14 +13,24 @@ namespace Queries.ViewModel
 		private bool _isClientMode;
 		private bool _isCsMode;
 		private bool _isServerMode;
+		private bool _isPassOn;
 		private string _statusText;
 		private readonly Client.Client _client;
 		private readonly RegisterWindow _registerWindow;
 		public string UserName { get; set; }
 		public string Password { get; set; }
 		public RelayCommand OkCommand { get; set; }
-		public RelayCommand CancelCommand { get; set; }
 		public RelayCommand RegisterCommand { get; set; }
+
+		public bool IsPassOn
+		{
+			get { return _isPassOn; }
+			set
+			{
+				_isPassOn = value;
+				OnPropertyChanged("IsPassOn");
+			}
+		}
 
 		public bool IsClientMode
 		{
@@ -80,24 +85,17 @@ namespace Queries.ViewModel
 			this.IsClientMode = true;
 			OkCommand = new RelayCommand(() =>
 			{
-				var result = _client.User.Login(new UserModel
-				{
-					UserName = this.UserName,
-					Password = this.Password
-				});
-				this.StatusText = result.Information;
-				if (result.ResultCode!=ResultCode.Ok.ToInt())
-				{
-					
-					return;
-				}
-				//_loginWindow.DialogResult = true;
-				//_loginWindow.Close();
-			});
-			CancelCommand = new RelayCommand(() =>
-			{
-			//	_loginWindow.DialogResult = false;
-				//_loginWindow.Close();
+				//var result = _client.User.Login(new UserModel
+				//{
+				//	UserName = this.UserName,
+				//	Password = this.Password
+				//});
+				//this.StatusText = result.Information;
+				//if (result.ResultCode!=ResultCode.Ok.ToInt())
+				//{
+
+				//	return;
+				IsPassOn = true;
 			});
 			RegisterCommand = new RelayCommand(() =>
 			{

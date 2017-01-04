@@ -28,7 +28,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_isPassOn = value;
-				OnPropertyChanged("IsPassOn");
+				OnPropertyChanged(nameof(IsPassOn));
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_isClientMode = value;
-				OnPropertyChanged("IsClientMode");
+				OnPropertyChanged(nameof(IsClientMode));
 			}
 		}
 		public bool IsCsMode
@@ -47,7 +47,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_isCsMode = value;
-				OnPropertyChanged("IsCsMode");
+				OnPropertyChanged(nameof(IsCsMode));
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_isServerMode = value;
-				OnPropertyChanged("IsServerMode");
+				OnPropertyChanged(nameof(IsServerMode));
 			}
 		}
 		public List<string> Domain
@@ -66,7 +66,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_domains = value;
-				OnPropertyChanged("Domain");
+				OnPropertyChanged(nameof(Domain));
 			}
 		}
 		public string StatusText
@@ -75,7 +75,7 @@ namespace Queries.ViewModel
 			set
 			{
 				_statusText = value;
-				OnPropertyChanged("StatusText");
+				OnPropertyChanged(nameof(StatusText));
 			}
 		}
 		public LoginViewModel()

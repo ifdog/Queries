@@ -24,6 +24,6 @@ namespace Queries.View.Base
 		}
 
 		public static readonly DependencyProperty IsPassOnProperty =
-			DependencyProperty.Register("IsPassOn", typeof(bool), typeof(Lwindow));
+			DependencyProperty.Register(nameof(IsPassOn), typeof(bool), typeof(Lwindow));
 	}
 }

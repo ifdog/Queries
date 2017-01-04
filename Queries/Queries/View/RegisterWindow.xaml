@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Queries"
         xmlns:b="clr-namespace:Queries.ViewModel"
         mc:Ignorable="d"
-        Title="RegisterWindow" Height="316.829" Width="323.893">
+        Title="注册" Height="316.829" Width="323.893">
     <Window.DataContext>
         <b:RegisterViewModel/>
     </Window.DataContext>

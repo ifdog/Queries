@@ -1,6 +1,4 @@
-﻿using System;
-using Common.Factory;
-using Common.Structure;
+﻿using Common.Factory;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel

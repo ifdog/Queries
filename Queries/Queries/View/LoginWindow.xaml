@@ -22,7 +22,7 @@
         <Label x:Name="LabelPassword" Content="密码" HorizontalAlignment="Left" Height="30" Margin="30,52,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
         <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="106,52,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="16" PasswordChanged="PasswordBox_PasswordChanged"/>
         <Label x:Name="LabelDomain" Content="服务端" HorizontalAlignment="Left" Height="30" Margin="30,97,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
-        <ComboBox x:Name="ComboBoxDomain" HorizontalAlignment="Left" Height="30" Margin="106,97,0,0" VerticalAlignment="Top" Width="150" FontSize="16"/>
+        <ComboBox x:Name="ComboBoxDomain" Text="{Binding Ips,Mode=OneWay}" HorizontalAlignment="Left" Height="30" Margin="106,97,0,0" VerticalAlignment="Top" Width="150" FontSize="16"/>
         <Expander x:Name="Expander" ExpandDirection="Down" Margin="0,193,0,0" IsExpanded="False" Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
             <Expander.Header>
                 <TextBlock x:Name="TextBlockStatus" Text="{Binding StatusText}" FontSize="10" Width="266"/>

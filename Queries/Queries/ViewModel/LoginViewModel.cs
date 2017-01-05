@@ -21,6 +21,7 @@ namespace Queries.ViewModel
 		private readonly Client.Client _client;
 		public string UserName { get; set; }
 		public string Password { get; set; }
+       
 		public RelayCommand OkCommand { get; set; }
 		public RelayCommand RegisterCommand { get; set; }
 
@@ -83,6 +84,14 @@ namespace Queries.ViewModel
 				OnPropertyChanged(nameof(StatusText));
 			}
 		}
+
+	    private string[] _ips = Net.GetIpAddresses();
+
+	    public string[] Ips
+	    {
+	        get { return _ips; }
+            set { _ips = value; }
+	    }
 
 		public LoginViewModel()
 		{

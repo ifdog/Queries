@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Common.DataBase;
 using Common.Enums;
 using Common.Factory;
 using Common.Static;
 using Common.Structure;
+using Service.Dal;
 
 namespace Service.Bll
 {

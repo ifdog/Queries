@@ -3,13 +3,14 @@ using System.Linq;
 using Common.Enums;
 using Common.Factory;
 using Common.Structure;
+using Service.Dal;
 
 
 namespace Service.Bll
 {
     public class UserBll
     {
-	    readonly Common.DataBase.LiteDal<UserModel> _userDal = new Common.DataBase.LiteDal<UserModel>("UserName");
+	    readonly LiteDal<UserModel> _userDal = new LiteDal<UserModel>("UserName");
 
 	    public ResultUserModel Register(UserModel user)
 	    {

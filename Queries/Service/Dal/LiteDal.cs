@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using LiteDB;
-using Common.DataBase.Base;
+using Service.Dal.Base;
 
-namespace Common.DataBase
+namespace Service.Dal
 {
-	public class LiteDal<T> : IDal<T>,IDisposable where T : Structure.Base.BaseObject, new()
+	public class LiteDal<T> : IDal<T>,IDisposable where T : Common.Structure.Base.BaseObject, new()
 	{
 		private readonly LiteDatabase _database;
 		private readonly LiteCollection<T> _collection;

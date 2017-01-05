@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiteDB, Version=2.0.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.2.0.4\lib\net35\LiteDB.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
       <Private>True</Private>
@@ -50,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Bll\ItemBll.cs" />
     <Compile Include="Bll\UserBll.cs" />
+    <Compile Include="Dal\Base\IDal.cs" />
+    <Compile Include="Dal\LiteDal.cs" />
     <Compile Include="iBoxDB291.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="ServiceModule.cs" />

@@ -6,23 +6,32 @@ namespace Common.Factory
 	public class RunContext
 	{
 		private static readonly Dictionary<string, object> ObjectDict = new Dictionary<string, object>();
+		private static readonly Dictionary<string, Delegate> Delegates = new Dictionary<string, Delegate>(); 
 		private const string KeyTemplate = @"__(Name):{0}__(Uid):{1}__";
-
-		public static void Add<T>(T obj, string key = "Default") where T : class
+		public static void Add<T>(Func<T> func, string key = "Default") where T : class
 		{
 			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
-			ObjectDict.Add(actKey, obj);
+			Delegates.Add(actKey,func);
 		}
 
 		public static T Get<T>(string key = "Default") where T : class
 		{
-			object x;
 			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
-			if (ObjectDict.TryGetValue(actKey, out x))
-			{
-				return x as T;
-			}
-			throw new Exception($"No such object \"{actKey}\".");
+			if (ObjectDict.ContainsKey(actKey)) return ObjectDict[actKey] as T;
+			var obj = GetNew<T>();
+			return obj;
+		}
+
+		public static T GetNew<T>(string key = "Default") where T : class
+		{
+			Delegate x;
+			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
+			if (!Delegates.TryGetValue(actKey, out x)) throw new Exception($"No such Func \"{actKey}\".");
+			var func = x as Func<T>;
+			if (func == null) throw new Exception($"No such Func \"{actKey}\".");
+			var obj = func.Invoke();
+			ObjectDict[actKey] = obj;
+			return obj;
 		}
 
 		public static bool Remove<T>(string key = "Default") where T : class

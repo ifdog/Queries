@@ -38,7 +38,7 @@ namespace Queries
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
+            this.Close();
         }
     }
 }

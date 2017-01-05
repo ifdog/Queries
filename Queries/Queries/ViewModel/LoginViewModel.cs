@@ -19,7 +19,6 @@ namespace Queries.ViewModel
 		private bool _isPassOn;
 		private string _statusText;
 		private readonly Client.Client _client;
-		private readonly RegisterWindow _registerWindow;
 		public string UserName { get; set; }
 		public string Password { get; set; }
 		public RelayCommand OkCommand { get; set; }
@@ -88,7 +87,6 @@ namespace Queries.ViewModel
 		public LoginViewModel()
 		{
 			_client = RunContext.Get<Client.Client>();
-			_registerWindow = RunContext.Get<RegisterWindow>();
 			this.IsClientMode = true;
 			OkCommand = new RelayCommand(() =>
 			{
@@ -106,7 +104,7 @@ namespace Queries.ViewModel
 
 			RegisterCommand = new RelayCommand(() =>
 			{
-				_registerWindow.Show();
+				RunContext.GetNew<RegisterWindow>().Show();
 			});
 		}
 	}

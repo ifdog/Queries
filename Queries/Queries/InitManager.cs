@@ -1,4 +1,6 @@
-﻿using Common.Factory;
+﻿using System;
+using Common.Factory;
+using Common.Structure;
 using Queries.View;
 
 namespace Queries
@@ -7,36 +9,31 @@ namespace Queries
 	{
 		public static void Init()
 		{
-			var configurationManager = new ConfigurationManager();
-			RunContext.Add(configurationManager);
-			var configuration = configurationManager.Parse();
-			RunContext.Add(configuration);
+			RunContext.Add(() => new ConfigurationManager());
+			RunContext.Add(()=> RunContext.Get<ConfigurationManager>().Parse());
+			var configuration = RunContext.Get<Configuration>();
 			if ((configuration.RunMode >> 1 & 1) == 1)
 			{
-				var service = new Service.Service(configuration.ServerPath, configuration.ServerPort);
-				service.StartHosting();
-				RunContext.Add(service);
+				RunContext.Add(() =>
+				{
+					var service = new Service.Service(configuration.ServerPath, configuration.ServerPort);
+					service.StartHosting();
+					return service;
+				});
+				RunContext.Get<Service.Service>();
 			}
 			if ((configuration.RunMode & 1) == 1)
 			{
-				var client = new Client.Client(configuration.RequestPath, configuration.RequestPort);
-				RunContext.Add(client);
+				RunContext.Add(() => new Client.Client(configuration.RequestPath, configuration.RequestPort));
+				RunContext.Get<Client.Client>();
 			}
-
-			var registerView = new RegisterWindow();
-			RunContext.Add(registerView);
-			var loginView = new LoginWindow();
-			RunContext.Add(loginView);
-			var updatePasswordView = new UpdatePasswordWindow();
-			RunContext.Add(updatePasswordView);
-			var queryView = new QueryWindow();
-			RunContext.Add(queryView);
-			var addItemView = new AddItemWindow();
-			RunContext.Add(addItemView);
-			var importItemsView = new ImportItemsWindow();
-			RunContext.Add(importItemsView);
-			var updateItemView = new UpdateItemWindow();
-			RunContext.Add(updateItemView);
+			RunContext.Add(()=> new RegisterWindow());
+			RunContext.Add(()=>new LoginWindow());
+			RunContext.Add(()=> new UpdatePasswordWindow());
+			RunContext.Add(()=> new QueryWindow());
+			RunContext.Add(()=>new AddItemWindow());
+			RunContext.Add(()=> new ImportItemsWindow());
+			RunContext.Add(()=> new UpdateItemWindow());
 		}
 	}
 }

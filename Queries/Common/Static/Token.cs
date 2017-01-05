@@ -29,7 +29,7 @@ namespace Common.Static
 			return false;
 		}
 
-		public static string ParseId(string token)
+		public static string ParseName(string token)
 		{
 			var o = Base64.Decode(token).Split('|');
 			if (o.Length != 2) return null;

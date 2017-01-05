@@ -8,7 +8,6 @@ namespace Common.Factory
 		private static readonly Dictionary<string, object> ObjectDict = new Dictionary<string, object>();
 		private const string KeyTemplate = @"__(Name):{0}__(Uid):{1}__";
 
-
 		public static void Add<T>(T obj, string key = "Default") where T : class
 		{
 			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);

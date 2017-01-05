@@ -103,6 +103,7 @@ namespace Queries.ViewModel
 					IsPassOn = true;
 				}
 			});
+
 			RegisterCommand = new RelayCommand(() =>
 			{
 				_registerWindow.Show();

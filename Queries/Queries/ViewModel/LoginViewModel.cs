@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using Common.Enums;
 using Common.Factory;
+using Common.Static;
+using Common.Structure;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
@@ -41,6 +44,7 @@ namespace Queries.ViewModel
 				OnPropertyChanged(nameof(IsClientMode));
 			}
 		}
+
 		public bool IsCsMode
 		{
 			get { return _isCsMode; }
@@ -60,6 +64,7 @@ namespace Queries.ViewModel
 				OnPropertyChanged(nameof(IsServerMode));
 			}
 		}
+
 		public List<string> Domain
 		{
 			get { return _domains; }
@@ -69,6 +74,7 @@ namespace Queries.ViewModel
 				OnPropertyChanged(nameof(Domain));
 			}
 		}
+
 		public string StatusText
 		{
 			get { return _statusText; }
@@ -78,6 +84,7 @@ namespace Queries.ViewModel
 				OnPropertyChanged(nameof(StatusText));
 			}
 		}
+
 		public LoginViewModel()
 		{
 			_client = RunContext.Get<Client.Client>();
@@ -85,27 +92,21 @@ namespace Queries.ViewModel
 			this.IsClientMode = true;
 			OkCommand = new RelayCommand(() =>
 			{
-				//var result = _client.User.Login(new UserModel
-				//{
-				//	UserName = this.UserName,
-				//	Password = this.Password
-				//});
-				//this.StatusText = result.Information;
-				//if (result.ResultCode!=ResultCode.Ok.ToInt())
-				//{
-
-				//	return;
-				IsPassOn = true;
+				var result = _client.User.Login(new UserModel
+				{
+					UserName = this.UserName,
+					Password = this.Password
+				});
+				this.StatusText = result.Information;
+				if (result.ResultCode == ResultCode.Ok.ToInt())
+				{
+					IsPassOn = true;
+				}
 			});
 			RegisterCommand = new RelayCommand(() =>
 			{
 				_registerWindow.Show();
 			});
-
-
-			
 		}
-
-
 	}
 }

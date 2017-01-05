@@ -15,7 +15,7 @@
     </base:Lwindow.DataContext>
     
     <Grid Margin="0,0,0,0">
-        <TextBox x:Name="TextBoxUserName" HorizontalAlignment="Left" Height="30" Margin="106,9,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" FontSize="16"/>
+        <TextBox x:Name="TextBoxUserName" Text="{Binding UserName}" HorizontalAlignment="Left" Height="30" Margin="106,9,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" FontSize="16"/>
         <Button x:Name="ButtonOk" Content="确定" HorizontalAlignment="Left" Height="44" Margin="30,144,0,0" VerticalAlignment="Top" Width="104" Command="{Binding OkCommand}" FontSize="16"/>
         <Button x:Name="ButtonCancel" Content="取消" HorizontalAlignment="Left" Height="44" Margin="155,144,0,0" VerticalAlignment="Top" Width="101" IsCancel="True"  FontSize="16"/>
         <Label x:Name="LabelUserName" Content="用户名" HorizontalAlignment="Left" Height="30" Margin="29,9,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
@@ -25,7 +25,7 @@
         <ComboBox x:Name="ComboBoxDomain" HorizontalAlignment="Left" Height="30" Margin="106,97,0,0" VerticalAlignment="Top" Width="150" FontSize="16"/>
         <Expander x:Name="Expander" ExpandDirection="Down" Margin="0,193,0,0" IsExpanded="False" Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
             <Expander.Header>
-                <TextBlock x:Name="TextBlockStatus" Text="runnning" FontSize="16" Width="266"/>
+                <TextBlock x:Name="TextBlockStatus" Text="{Binding StatusText}" FontSize="10" Width="266"/>
             </Expander.Header>
             <Grid Height="104" Margin="0,0,-2,0">
                 <RadioButton x:Name="RadioButtonClient" Content="Client Mode"  IsChecked="{Binding IsClientMode}" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" FontSize="16"/>

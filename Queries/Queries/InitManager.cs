@@ -14,6 +14,7 @@ namespace Queries
 			if ((configuration.RunMode >> 1 & 1) == 1)
 			{
 				var service = new Service.Service(configuration.ServerPath, configuration.ServerPort);
+				service.StartHosting();
 				RunContext.Add(service);
 			}
 			if ((configuration.RunMode & 1) == 1)

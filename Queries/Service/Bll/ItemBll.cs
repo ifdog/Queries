@@ -11,8 +11,7 @@ namespace Service.Bll
 {
     public class ItemBll
     {
-        private readonly IDal<ItemModel> _itemDal = new BaseDal<ItemModel>();
-        private readonly ResultFactory _resultFactory = new ResultFactory();
+        private readonly IDal<ItemModel> _itemDal = new BaseDal<ItemModel>("Item");
 
         public ResultItemsModel AddItem(ItemModel item)
         {

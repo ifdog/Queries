@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Common.Static;
 using iBoxDB.LocalServer;
+using iBoxDB.LocalServer.IO;
 using Service.Dal.Base;
 
 namespace Service.Dal
@@ -15,7 +17,16 @@ namespace Service.Dal
 		public BaseDal(string dbPath = "data")
 		{
 			_itemName = typeof(T).Name;
-			DB.Root($"/{dbPath}/");
+			DB.Root($"./{dbPath}/");
+			if (!Directory.Exists($"./{dbPath}/"))
+			{
+				Directory.CreateDirectory($"./{dbPath}/");
+			}
+			if (!File.Exists($"./{dbPath}/db1.box"))
+			{
+				var x =File.Create($"./{dbPath}/db1.box");
+				x.Close();
+			}
 			_databBase.GetConfig().EnsureTable<T>(_itemName, "Id");
 			_autoBox = _databBase.Open();
 		}

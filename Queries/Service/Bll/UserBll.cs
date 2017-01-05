@@ -11,8 +11,7 @@ namespace Service.Bll
 {
     public class UserBll
     {
-        private readonly IDal<UserModel> _userDal = new BaseDal<UserModel>();
-        private readonly ResultFactory ResultFactory = new ResultFactory();
+        private readonly IDal<UserModel> _userDal = new BaseDal<UserModel>("User");
 
         public ResultUserModel Register(UserModel user)
         {

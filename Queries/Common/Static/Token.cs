@@ -8,9 +8,9 @@ namespace Common.Static
 {
 	public static class Token
 	{
-		public static string Create(long id, TimeSpan timeSpan)
+		public static string Create(string userName, TimeSpan timeSpan)
 		{
-			return Base64.Encode($"{id}|{UnixTimeStamp.ToUnixTimaStamp(DateTime.Now + timeSpan)}");
+			return Base64.Encode($"{userName}|{UnixTimeStamp.ToUnixTimaStamp(DateTime.Now + timeSpan)}");
 		}
 
 		public static bool Validate(string token)
@@ -29,17 +29,17 @@ namespace Common.Static
 			return false;
 		}
 
-		public static long ParseId(string token)
+		public static string ParseId(string token)
 		{
 			var o = Base64.Decode(token).Split('|');
-			if (o.Length != 2) return -1;
+			if (o.Length != 2) return null;
 			try
 			{
-				return Convert.ToInt64(o[0]);
+				return o[0];
 			}
 			catch (Exception)
 			{
-				return -1;
+				return null;
 			}
 		}
 

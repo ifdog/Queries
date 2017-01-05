@@ -6,7 +6,7 @@ namespace Common.Structure
 {
     public class ItemModel : BaseItem
     {
-        public override long Id { get; set; }
+        public override byte[] Id { get; set; }
 
         [Seen(@"名称", 1)]
         public override string Name { get; set; }

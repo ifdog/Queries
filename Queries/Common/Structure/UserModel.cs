@@ -6,7 +6,7 @@ namespace Common.Structure
 {
     public class UserModel : BaseUser
     {
-        public override long Id { get; set; }
+        public override byte[] Id { get; set; }
 
         [Seen(@"用户名", 1)]
         public override string UserName { get; set; }

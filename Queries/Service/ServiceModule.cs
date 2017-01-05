@@ -57,16 +57,16 @@ namespace Service
 		        {
 			        return Response.AsJson(ResultFactory.CreateUserResult(ResultCode.InvalidParameter));
 		        }
-		        try
+		        //try
 		        {
 			        var x = _userBll.Login(model.User);
 					return Response.AsJson(x)
-					  .WithCookie("Token", Token.Create(model.User.Id, new TimeSpan(1, 0, 0, 0)));
+					  .WithCookie("Token", Token.Create(model.User.UserName, new TimeSpan(1, 0, 0, 0)));
 				}
-		        catch (Exception e)
-		        {
-			        return Response.AsJson(ResultFactory.CreateUserResult(e));
-		        }
+		        //catch (Exception e)
+		        //{
+			       // return Response.AsJson(ResultFactory.CreateUserResult(e));
+		        //}
 	        };
 
 			Post["/users/updatepassword"] = _ =>

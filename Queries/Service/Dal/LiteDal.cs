@@ -19,6 +19,7 @@ namespace Service.Dal
 
 		public void Insert(T obj)
 		{
+			obj.Id = ObjectId.NewObjectId().ToByteArray();
 			_collection.Insert(obj);
 		}
 

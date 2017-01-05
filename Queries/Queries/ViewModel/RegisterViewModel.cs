@@ -94,7 +94,6 @@ namespace Queries.ViewModel
 	            this.Status = @"密码不匹配";
 	            return false;
 	        }
-	        this.Status = @"Ok";
 	        return true;
 	    }
 

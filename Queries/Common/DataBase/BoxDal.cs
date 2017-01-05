@@ -7,7 +7,7 @@ using Service.Dal.Base;
 
 namespace Common.DataBase
 {
-	public class BaseDal<T> : IDal<T>, IDisposable where T : Common.Structure.Base.BaseObject, new()
+	public class BoxDal<T> : IDal<T>, IDisposable where T : Common.Structure.Base.BaseObject, new()
 	{
 		private readonly DB _databBase = new DB();
 		private readonly AutoBox _autoBox;

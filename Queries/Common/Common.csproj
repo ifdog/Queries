@@ -38,6 +38,10 @@
       <HintPath>..\packages\iBoxDB.2.9.1\lib\net45\iBoxDB.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="LiteDB, Version=2.0.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.2.0.4\lib\net35\LiteDB.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SimplifiedChinesePinYinConversion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimplifiedChinesePinYinConversion.1.0.0\lib\net46\SimplifiedChinesePinYinConversion.dll</HintPath>
       <Private>True</Private>
@@ -53,10 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute\SeenAttribute.cs" />
-    <Compile Include="DataBase\BaseDal.cs" />
+    <Compile Include="DataBase\BoxDal.cs" />
     <Compile Include="DataBase\Base\IDal.cs" />
-    <Compile Include="DataBase\ItemDb.cs" />
-    <Compile Include="DataBase\UserDb.cs" />
+    <Compile Include="DataBase\LiteDal.cs" />
     <Compile Include="Enums\ResultCode.cs" />
     <Compile Include="Factory\ItemFactory.cs" />
     <Compile Include="Factory\ResultFactory.cs" />

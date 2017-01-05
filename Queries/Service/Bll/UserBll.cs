@@ -6,12 +6,12 @@ using Common.Structure;
 using Common.Structure.Base;
 using Service.Dal;
 using Service.Dal.Base;
+using _userDal = Common.DataBase.UserDb;
 
 namespace Service.Bll
 {
     public class UserBll
     {
-        private readonly IDal<UserModel> _userDal = new BaseDal<UserModel>("User");
 
         public ResultUserModel Register(UserModel user)
         {

@@ -34,6 +34,10 @@
       <HintPath>..\packages\ChnCharInfo.1.0.0\lib\net\ChnCharInfo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="iBoxDB, Version=2.9.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\iBoxDB.2.9.1\lib\net45\iBoxDB.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SimplifiedChinesePinYinConversion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimplifiedChinesePinYinConversion.1.0.0\lib\net46\SimplifiedChinesePinYinConversion.dll</HintPath>
       <Private>True</Private>
@@ -49,12 +53,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute\SeenAttribute.cs" />
+    <Compile Include="DataBase\BaseDal.cs" />
+    <Compile Include="DataBase\Base\IDal.cs" />
+    <Compile Include="DataBase\ItemDb.cs" />
+    <Compile Include="DataBase\UserDb.cs" />
     <Compile Include="Enums\ResultCode.cs" />
     <Compile Include="Factory\ItemFactory.cs" />
     <Compile Include="Factory\ResultFactory.cs" />
     <Compile Include="Factory\RunContext.cs" />
     <Compile Include="Factory\UserFactory.cs" />
     <Compile Include="Factory\ConfigurationManager.cs" />
+    <Compile Include="iBoxDB291.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Static\Base64.cs" />
     <Compile Include="Static\Csv.cs" />
@@ -79,6 +88,7 @@
     <Compile Include="Structure\ResultUserModel.cs" />
     <Compile Include="Structure\Status.cs" />
     <Compile Include="Structure\UserModel.cs" />
+    <Compile Include="WSDatabaseConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ChnCharInfo.XML" />

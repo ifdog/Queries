@@ -34,10 +34,16 @@ namespace Common.Factory
 			return obj;
 		}
 
-		public static bool Remove<T>(string key = "Default") where T : class
+		public static bool RemoveCache<T>(string key = "Default") where T : class
 		{
 			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
 			return ObjectDict.Remove(actKey);
+		}
+
+		public static bool RemoveFunc<T>(string key = "Default") where T : class
+		{
+			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
+			return Delegates.Remove(actKey);
 		}
 
 	}

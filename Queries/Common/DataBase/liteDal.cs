@@ -1,61 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 using LiteDB;
-using Service.Dal.Base;
+using Common.DataBase.Base;
 
 namespace Common.DataBase
 {
-	public class LiteDal<T> : IDal<T> where T : Common.Structure.Base.BaseObject, new()
+	public class LiteDal<T> : IDal<T>,IDisposable where T : Structure.Base.BaseObject, new()
 	{
-		private LiteDatabase _database;
-		private LiteCollection<T> _collection;
-		public LiteDal()
+		private readonly LiteDatabase _database;
+		private readonly LiteCollection<T> _collection;
+		public LiteDal(string indexProperty)
 		{
 			_database = new LiteDatabase($"{typeof(T).Name}.db");
 			_collection = _database.GetCollection<T>(typeof(T).Name);
+			_collection.EnsureIndex(indexProperty);
 		}
 
-		public bool BackUp(string path)
-		{
-			throw new NotImplementedException();
-		}
-
-		public bool Delete(T obj)
-		{
-			throw new NotImplementedException();
-		}
-
-		public bool Insert(T obj)
+		public void Insert(T obj)
 		{
 			_collection.Insert(obj);
 		}
 
-		public bool MultiDelete(IEnumerable<T> objects)
+		public IEnumerable<T> Find(Expression<Func<T,bool>> pridecate,int skip=0,int max = 9999999)
+		{
+			return _collection.Find(pridecate, skip, max);
+		}
+
+		public void Update(T obj)
+		{
+			 _collection.Update(obj);
+		}
+
+		public void Delete(T obj)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool MultiInsert(IEnumerable<T> objects)
+		public void BackUp(string path)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool MultiUpdate(IEnumerable<T> objects)
+		public void Dispose()
 		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<T> Select()
-		{
-			throw new NotImplementedException();
-		}
-
-		public bool Update(T obj)
-		{
-			_collection.Update(obj);
+			_database.Dispose();
 		}
 	}
 }

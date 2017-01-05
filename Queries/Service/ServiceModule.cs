@@ -55,13 +55,14 @@ namespace Service
 		        }
 		        if (string.IsNullOrEmpty(model.User.UserName) || string.IsNullOrEmpty(model.User.Password))
 		        {
-			        return Response.AsJson(ResultFactory.CreateUserResult(ResultCode.InvalidParameter))
-				        .WithCookie("Token", Token.Create(model.User.Id, new TimeSpan(1, 0, 0, 0)));
+			        return Response.AsJson(ResultFactory.CreateUserResult(ResultCode.InvalidParameter));
 		        }
 		        try
 		        {
-			        return _userBll.Login(model.User);
-		        }
+			        var x = _userBll.Login(model.User);
+					return Response.AsJson(x)
+					  .WithCookie("Token", Token.Create(model.User.Id, new TimeSpan(1, 0, 0, 0)));
+				}
 		        catch (Exception e)
 		        {
 			        return Response.AsJson(ResultFactory.CreateUserResult(e));

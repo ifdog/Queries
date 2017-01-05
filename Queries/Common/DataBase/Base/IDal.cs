@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
-namespace Service.Dal.Base
+namespace Common.DataBase.Base
 {
-    public interface IDal<T> where T : Common.Structure.Base.BaseObject
-    {
-        bool Insert(T obj);
-	    bool MultiInsert(IEnumerable<T> objects);
-        IEnumerable<T> Select();
-        bool Update(T obj);
-	    bool MultiUpdate(IEnumerable<T> objects);
-        bool Delete(T obj);
-	    bool MultiDelete(IEnumerable<T> objects);
-	    bool BackUp(string path);
-    }
+	public interface IDal<T> where T : Structure.Base.BaseObject
+	{
+		void Insert(T obj);
+		IEnumerable<T> Find(Expression<Func<T, bool>> pridecate, int skip, int max);
+		void Update(T obj);
+		void Delete(T obj);
+		void BackUp(string path);
+	}
 }

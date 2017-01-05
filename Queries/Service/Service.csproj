@@ -56,7 +56,6 @@
     <Compile Include="Bll\UserBll.cs" />
     <Compile Include="Dal\Base\IDal.cs" />
     <Compile Include="Dal\LiteDal.cs" />
-    <Compile Include="iBoxDB291.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

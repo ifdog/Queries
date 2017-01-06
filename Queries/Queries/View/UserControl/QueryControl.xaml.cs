@@ -10,18 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Queries
+namespace Queries.View.UserControl
 {
-    /// <summary>
-    /// Interaction logic for QueryWindow.xaml
-    /// </summary>
-    public partial class QueryWindow : Window
-    {
-        public QueryWindow()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// QueryControl.xaml 的交互逻辑
+	/// </summary>
+	public partial class QueryControl : System.Windows.Controls.UserControl
+	{
+		public QueryControl()
+		{
+			InitializeComponent();
+		}
+	}
 }

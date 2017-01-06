@@ -29,11 +29,6 @@ namespace Queries
 			}
 			RunContext.Add(()=> new RegisterWindow());
 			RunContext.Add(()=>new LoginWindow());
-			RunContext.Add(()=> new UpdatePasswordWindow());
-			RunContext.Add(()=> new QueryWindow());
-			RunContext.Add(()=>new AddItemWindow());
-			RunContext.Add(()=> new ImportItemsWindow());
-			RunContext.Add(()=> new UpdateItemWindow());
 		}
 	}
 }

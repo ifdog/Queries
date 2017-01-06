@@ -1,0 +1,20 @@
+﻿<Window x:Class="Queries.QueriesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Queries"
+        xmlns:base="clr-namespace:Queries.View.UserControl"
+        mc:Ignorable="d"
+        Title="Queries" Height="600" Width="800" MinWidth="400" MinHeight="300">
+    <Grid Margin="0,0,0,0" Background="White">
+        <TreeView x:Name="TreeView" HorizontalAlignment="Left" Margin="10,10,0,35" Width="100" Background="Honeydew"/>
+        <Grid x:Name="DynGrid" Margin="115,10,10,35" Background="Honeydew">
+            <base:QueryControl></base:QueryControl>
+        </Grid>
+        
+            <StatusBar Margin="10,0,10,5" Height="25" VerticalAlignment="Bottom" Background="Honeydew">
+            <TextBlock x:Name="StatusTextBlock"  Text="TextBlock" Margin="0,0,0,0" Height="25" Width="400" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        </StatusBar>
+    </Grid>
+</Window>

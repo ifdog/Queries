@@ -9,9 +9,9 @@ namespace Common.Factory
 			return new Configuration
 			{
 				RunMode = 3,
-				ServerPath = "192.168.1.100",
+				ServerPath = "192.168.1.4",
 				ServerPort = 88,
-				RequestPath = "192.168.1.100",
+				RequestPath = "192.168.1.4",
 				RequestPort = 88,
 				UserName = "ifdog",
 				Password = "123456"

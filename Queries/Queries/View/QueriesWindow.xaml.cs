@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Queries
 {
     /// <summary>
-    /// Interaction logic for UpdateItemWindow.xaml
+    /// Interaction logic for QueryWindow.xaml
     /// </summary>
-    public partial class UpdateItemWindow : Window
+    public partial class QueriesWindow : Window
     {
-        public UpdateItemWindow()
+        public QueriesWindow()
         {
             InitializeComponent();
         }

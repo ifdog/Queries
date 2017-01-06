@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace Queries.View.Converter
+namespace Queries.ViewModel.Converter
 {
     public class RunModeConverter:IValueConverter
     {

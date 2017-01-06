@@ -14,18 +14,24 @@ namespace Service
             _host = new NancyHost(uri);
         }
 
-        public void StartHosting()
+        public Service StartHosting()
         {
-            if (this.Started) return;
-            _host.Start();
-            this.Started = true;
+            if (!this.Started)
+            {
+                _host.Start();
+                this.Started = true;
+            }
+            return this;
         }
 
-        public void StopHosting()
+        public Service StopHosting()
         {
-            if (!this.Started) return;
-            _host.Stop();
-            this.Started = false;
+            if (this.Started)
+            {
+                _host.Stop();
+                this.Started = false;
+            }
+            return this;
         }
 
         public void Dispose()

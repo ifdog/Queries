@@ -63,6 +63,7 @@
     <Compile Include="ViewModel\QueriesViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="View\Base\Lwindow.cs" />
+    <Compile Include="View\Converter\RunModeConverter.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>

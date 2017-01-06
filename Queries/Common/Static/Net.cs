@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +12,13 @@ namespace Common.Static
     {
         public static string[] GetIpAddresses()
         {
-            return Dns.GetHostEntry(Dns.GetHostName()).AddressList.Select(i => i.ToString()).ToArray();
+            var l = Dns.GetHostEntry(Dns.GetHostName())
+                .AddressList
+                .Where(i => i.AddressFamily == AddressFamily.InterNetwork)
+                .Select(i => i.ToString())
+                .ToList();
+            l.Add("localhost");
+            return l.ToArray();
         }
     }
 }

@@ -1,31 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Common.Enums;
 using Common.Factory;
 using Common.Static;
 using Common.Structure;
+using Common.Structure.Base;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
 {
 	public class LoginViewModel : BaseViewModel
 	{
-		private string _userName;
-		private string _password;
-		private string _selectedDomain;
-		private List<string> _domains;
-		private bool _isClientMode;
-		private bool _isCsMode;
-		private bool _isServerMode;
-		private bool _isPassOn;
-		private string _statusText;
-		private readonly Client.Client _client;
 		public string UserName { get; set; }
 		public string Password { get; set; }
-       
-		public RelayCommand OkCommand { get; set; }
+	    public string[] RunModes { get; set; } = {"Client Only", "Server Only", "Client/Server"};
+        public RelayCommand OkCommand { get; set; }
 		public RelayCommand RegisterCommand { get; set; }
 
-		public bool IsPassOn
+        private bool _isPassOn;
+
+        public bool IsPassOn
 		{
 			get { return _isPassOn; }
 			set
@@ -35,47 +29,9 @@ namespace Queries.ViewModel
 			}
 		}
 
-		public bool IsClientMode
-		{
-			get { return _isClientMode; }
-			set
-			{
-				_isClientMode = value;
-				OnPropertyChanged(nameof(IsClientMode));
-			}
-		}
+        private string _statusText;
 
-		public bool IsCsMode
-		{
-			get { return _isCsMode; }
-			set
-			{
-				_isCsMode = value;
-				OnPropertyChanged(nameof(IsCsMode));
-			}
-		}
-
-		public bool IsServerMode
-		{
-			get { return _isServerMode; }
-			set
-			{
-				_isServerMode = value;
-				OnPropertyChanged(nameof(IsServerMode));
-			}
-		}
-
-		public List<string> Domain
-		{
-			get { return _domains; }
-			set
-			{
-				_domains = value;
-				OnPropertyChanged(nameof(Domain));
-			}
-		}
-
-		public string StatusText
+        public string StatusText
 		{
 			get { return _statusText; }
 			set
@@ -90,16 +46,62 @@ namespace Queries.ViewModel
 	    public string[] Ips
 	    {
 	        get { return _ips; }
-            set { _ips = value; }
+	        set
+	        {
+	            _ips = value; 
+	            OnPropertyChanged(nameof(Ips));
+	        }
 	    }
 
-		public LoginViewModel()
+	    private string _selectIp;
+
+	    public string SelectIp
+	    {
+	        get { return _selectIp; }
+	        set
+	        {
+	            _selectIp = value;
+	            OnPropertyChanged(nameof(SelectIp));
+	        }
+	    }
+
+	    private string _serverIp;
+
+	    public string ServerIp
+	    {
+	        get { return _serverIp; }
+	        set
+	        {
+	            _serverIp = value; 
+	            OnPropertyChanged(nameof(ServerIp));
+	        }
+	    }
+
+	    private int _runMode;
+        
+	    public int RunMode
+	    {
+	        get { return _runMode; }
+	        set
+	        {
+	            _runMode = value;
+	            OnPropertyChanged(nameof(RunMode));
+	        }
+	    }
+
+        public LoginViewModel()
 		{
-			_client = RunContext.Get<Client.Client>();
-			this.IsClientMode = true;
+		    var config = RunContext.Get<Configuration>();
+		    this.RunMode = config.RunMode;
+		    this.ServerIp = config.ServerPath;
+		    var reqPort = config.RequestPort;
+		    var svrPort = config.ServerPort;
+
 			OkCommand = new RelayCommand(() =>
 			{
-				var result = _client.User.Login(new UserModel
+                StartService(ServerIp,svrPort,ServerIp,reqPort);
+				var result = RunContext.Get<Client.Client>()
+                .User.Login(new UserModel
 				{
 					UserName = this.UserName,
 					Password = this.Password
@@ -113,8 +115,29 @@ namespace Queries.ViewModel
 
 			RegisterCommand = new RelayCommand(() =>
 			{
-				RunContext.GetNew<RegisterWindow>().Show();
+                StartService(ServerIp, svrPort, ServerIp, reqPort);
+                RunContext.GetNew<RegisterWindow>().Show();
 			});
 		}
+
+	    public void StartService(string serverPath, int serverPort,string requestPath,int requestPort)
+	    {
+	        switch (RunMode)
+	        {
+                case 1:
+                    
+                    RunContext.TryAdd(() => new Client.Client(requestPath, requestPort));
+                    break;
+                case 2:
+	                RunContext.TryAdd(() => new Service.Service(serverPath, serverPort));
+	                RunContext.Get<Service.Service>().StartHosting();
+                    break;
+                case 3:
+                    RunContext.TryAdd(() => new Client.Client(requestPath, requestPort));
+                    RunContext.TryAdd(() => new Service.Service(serverPath, serverPort));
+                    RunContext.Get<Service.Service>().StartHosting();
+                    break;
+	        }
+	    }
 	}
 }

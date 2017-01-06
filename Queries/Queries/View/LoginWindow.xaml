@@ -6,38 +6,37 @@
         xmlns:local="clr-namespace:Queries.View"
         xmlns:viewModel="clr-namespace:Queries.ViewModel"
         xmlns:base="clr-namespace:Queries.View.Base"
+        xmlns:converter="clr-namespace:Queries.View.Converter"
         mc:Ignorable="d"
         IsPassOn="{Binding IsPassOn}"
-        Title="Login" Height="260" Width="300" ResizeMode="NoResize">
-          
+        Title="登录" Height="280" Width="300" ResizeMode="NoResize">
+
     <base:Lwindow.DataContext>
-       <viewModel:LoginViewModel/>
+        <viewModel:LoginViewModel/>
     </base:Lwindow.DataContext>
+
+   <base:Lwindow.Resources>
+       <converter:RunModeConverter x:Key="RunModeConverter"/>
+   </base:Lwindow.Resources>
     
     <Grid Margin="0,0,0,0">
         <TextBox x:Name="TextBoxUserName" Text="{Binding UserName}" HorizontalAlignment="Left" Height="30" Margin="106,9,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="150" FontSize="16"/>
-        <Button x:Name="ButtonOk" Content="确定" HorizontalAlignment="Left" Height="44" Margin="30,144,0,0" VerticalAlignment="Top" Width="104" Command="{Binding OkCommand}" FontSize="16"/>
-        <Button x:Name="ButtonCancel" Content="取消" HorizontalAlignment="Left" Height="44" Margin="155,144,0,0" VerticalAlignment="Top" Width="101" IsCancel="True"  FontSize="16"/>
+        <Button x:Name="ButtonOk" Content="确定" HorizontalAlignment="Left" Height="30" Margin="30,193,0,0" VerticalAlignment="Top" Width="104" Command="{Binding OkCommand}" FontSize="16"/>
+        <Button x:Name="ButtonCancel" Content="取消" HorizontalAlignment="Left" Height="30" Margin="150,193,0,0" VerticalAlignment="Top" Width="101" IsCancel="True"  FontSize="16"/>
         <Label x:Name="LabelUserName" Content="用户名" HorizontalAlignment="Left" Height="30" Margin="29,9,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
         <Label x:Name="LabelPassword" Content="密码" HorizontalAlignment="Left" Height="30" Margin="30,52,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
         <PasswordBox x:Name="PasswordBox" HorizontalAlignment="Left" Margin="106,52,0,0" VerticalAlignment="Top" Width="150" Height="30" FontSize="16" PasswordChanged="PasswordBox_PasswordChanged"/>
         <Label x:Name="LabelDomain" Content="服务端" HorizontalAlignment="Left" Height="30" Margin="30,97,0,0" VerticalAlignment="Top" Width="60" FontSize="16"/>
-        <ComboBox x:Name="ComboBoxDomain" Text="{Binding Ips,Mode=OneWay}" HorizontalAlignment="Left" Height="30" Margin="106,97,0,0" VerticalAlignment="Top" Width="150" FontSize="16"/>
-        <Expander x:Name="Expander" ExpandDirection="Down" Margin="0,193,0,0" IsExpanded="False" Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
-            <Expander.Header>
-                <TextBlock x:Name="TextBlockStatus" Text="{Binding StatusText}" FontSize="10" Width="266"/>
-            </Expander.Header>
-            <Grid Height="104" Margin="0,0,-2,0">
-                <RadioButton x:Name="RadioButtonClient" Content="Client Mode"  IsChecked="{Binding IsClientMode}" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top" FontSize="16"/>
-                <RadioButton x:Name="RadioButtonCs" Content="C/S Mode" IsChecked="{Binding IsCsMode}" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" FontSize="16"/>
-                <RadioButton x:Name="RadioButtonServer" Content="Server Mode" IsChecked="{Binding IsServerMode}" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" FontSize="16"/>
-                <Button x:Name="ButtonReg" Content="注册" Margin="171,20,34,23" Command="{Binding RegisterCommand}" FontSize="16"/>
-            </Grid>
-        </Expander>
+        <ComboBox x:Name="ComboBoxDomain" Text ="{Binding ServerIp}" ItemsSource="{Binding Ips}" SelectedItem="{Binding SelectIp}" SelectedIndex ="0" IsEditable="True" 
+                  HorizontalAlignment="Left" Height="30" Margin="106,97,0,0" VerticalAlignment="Top" Width="150" FontSize="16"/>
+        <Button x:Name="ButtonReg" Content="注册" Margin="150,150,0,0" Command="{Binding RegisterCommand}" FontSize="16" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="101"/>
         <TextBlock x:Name="PwSend" HorizontalAlignment="Left" Height="0" Margin="0,0,0,0" TextWrapping="Wrap" Text="{Binding Password,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="0"/>
+        <TextBlock x:Name="TextBlockStatus" Text="{Binding StatusText}" FontSize="10" Margin="32,225,42.6,0.4"/>
+        <ComboBox x:Name="ComboBox" Height="30" HorizontalAlignment="Left" Margin="30,150,0,0" VerticalAlignment="Top" Width="104" ItemsSource="{Binding RunModes}" 
+                  SelectedIndex="{Binding RunMode,Converter={StaticResource RunModeConverter}}" VerticalContentAlignment="Center" />
 
     </Grid>
-    
+
 </base:Lwindow>
 
 

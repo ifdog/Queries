@@ -14,7 +14,26 @@ namespace Common.Factory
 			Delegates.Add(actKey,func);
 		}
 
-		public static T Get<T>(string key = "Default") where T : class
+        public static void TryAdd<T>(Func<T> func, string key = "Default") where T : class
+        {
+            if (ExistFun<T>(key)) return;
+            var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
+            Delegates.Add(actKey, func);
+        }
+
+        public static bool ExistObj<T>(string key = "Default") where T : class
+        {
+            var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
+            return ObjectDict.ContainsKey(actKey);
+        }
+
+        public static bool ExistFun<T>(string key = "Default") where T : class
+        {
+            var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
+            return Delegates.ContainsKey(actKey);
+        }
+
+        public static T Get<T>(string key = "Default") where T : class
 		{
 			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);
 			if (ObjectDict.ContainsKey(actKey)) return ObjectDict[actKey] as T;
@@ -22,7 +41,7 @@ namespace Common.Factory
 			return obj;
 		}
 
-		public static T GetNew<T>(string key = "Default") where T : class
+        public static T GetNew<T>(string key = "Default") where T : class
 		{
 			Delegate x;
 			var actKey = string.Format(KeyTemplate, typeof(T).FullName, key);

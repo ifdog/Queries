@@ -65,7 +65,8 @@
     <Compile Include="InitManager.cs" />
     <Compile Include="ViewModel\Base\BaseViewModel.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
-    <Compile Include="ViewModel\Base\TreeNode.cs" />
+    <Compile Include="ViewModel\Base\Function.cs" />
+    <Compile Include="ViewModel\Converter\FunctionConverter.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\QueriesViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
@@ -80,6 +81,12 @@
     </Compile>
     <Compile Include="View\RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControl\ItemsImportControl.xaml.cs">
+      <DependentUpon>ItemsImportControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControl\NotFoundControl.xaml.cs">
+      <DependentUpon>NotFoundControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControl\QueryControl.xaml.cs">
       <DependentUpon>QueryControl.xaml</DependentUpon>
@@ -97,6 +104,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RegisterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControl\ItemsImportControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControl\NotFoundControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

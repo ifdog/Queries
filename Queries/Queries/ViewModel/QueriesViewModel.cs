@@ -10,17 +10,31 @@ namespace Queries.ViewModel
 {
     public class QueriesViewModel:BaseViewModel
     {
-	    private ObservableCollection<TreeNode> _treeNodes;
+        public QueriesViewModel()
+        {
+            this.Pages.Add(new Function
+            {
+                Name = "查询",
+                ViewId = "Query"
+            });
+            this.Pages.Add(new Function
+            {
+                Name = "导入",
+                ViewId = "ItemsImport"
+            });
+        }
 
-	    public ObservableCollection<TreeNode> TreeNodes
-	    {
-			get { return _treeNodes; }
-		    set
-		    {
-			    _treeNodes = value;
-			    OnPropertyChanged(nameof(TreeNodes));
-		    }
-		    
-	    }
+	    private List<Function> _pages = new List<Function>();
+
+        public List<Function> Pages
+        {
+            get { return _pages; }
+            set
+            {
+                _pages = value; 
+                OnPropertyChanged(nameof(Pages));
+            }
+
+        }
     }
 }

@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="Queries.View.UserControl.ItemsImportControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Queries.View.UserControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="524" d:DesignWidth="667">
+    <Grid>
+        <ProgressBar HorizontalAlignment="Left" Height="40" Margin="62,316,0,0" VerticalAlignment="Top" Width="524"/>
+        <TextBlock x:Name="textBlock" FontSize="16" TextAlignment="Center" Margin="220,398,206.2,102" TextWrapping="Wrap" Text="TextBlock"/>
+        <TextBox x:Name="textBox" FontSize="16" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="68,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="359"/>
+        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="30" Margin="494,253,0,0" VerticalAlignment="Top" Width="98"/>
+        <Button x:Name="button1" Content="Button" HorizontalAlignment="Left" Height="30" Margin="494,392,0,0" VerticalAlignment="Top" Width="98"/>
+
+    </Grid>
+</UserControl>

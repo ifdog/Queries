@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace Queries.View.UserControl
 {
@@ -23,6 +24,22 @@ namespace Queries.View.UserControl
         public ItemsImportControl()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog()
+            {
+                Multiselect = false,
+                DefaultExt = ".csv",
+                Filter = "CSV file|*.csv"
+
+            };
+            var r = fileDialog.ShowDialog();
+            if (r.HasValue && r.Value)
+            {
+                TextBox.Text = fileDialog.FileName;
+            }
         }
     }
 }

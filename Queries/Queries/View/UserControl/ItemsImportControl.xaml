@@ -4,14 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Queries.View.UserControl"
+             xmlns:viewmodel="clr-namespace:Queries.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="524" d:DesignWidth="667">
+    <UserControl.DataContext>
+        <viewmodel:ItemsImportviewModel/>
+    </UserControl.DataContext>
     <Grid>
-        <ProgressBar HorizontalAlignment="Left" Height="40" Margin="62,316,0,0" VerticalAlignment="Top" Width="524"/>
-        <TextBlock x:Name="textBlock" FontSize="16" TextAlignment="Center" Margin="220,398,206.2,102" TextWrapping="Wrap" Text="TextBlock"/>
-        <TextBox x:Name="textBox" FontSize="16" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="68,253,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="359"/>
-        <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="30" Margin="494,253,0,0" VerticalAlignment="Top" Width="98"/>
-        <Button x:Name="button1" Content="Button" HorizontalAlignment="Left" Height="30" Margin="494,392,0,0" VerticalAlignment="Top" Width="98"/>
+        <ProgressBar HorizontalAlignment="Left" Height="40" Margin="62,316,0,0" VerticalAlignment="Top" Width="530" Value="{Binding Percent}" />
+        <TextBlock x:Name="TextBlock" FontSize="16" TextAlignment="Center" Margin="220,398,206.2,102" TextWrapping="Wrap" Text="{Binding Status}"/>
+        <TextBox x:Name="TextBox" FontSize="12" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="30" Margin="68,253,0,0" 
+                 TextWrapping="Wrap" Text= "{Binding FilePath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="421"/>
+        <Button x:Name="Button" Content="打开CSV" HorizontalAlignment="Left" Height="30" Margin="494,253,0,0" VerticalAlignment="Top" Width="98" Click="Button_Click"/>
+        <Button x:Name="Button1" Command="{Binding CommitCommand}" Content="开始" HorizontalAlignment="Left" Height="30" Margin="494,392,0,0" VerticalAlignment="Top" Width="98" />
 
     </Grid>
 </UserControl>

@@ -25,7 +25,7 @@ namespace Client.Dal
 
 	    public ResultItemsModel Query(string query)
 	    {
-	        var request = new RestRequest("v2/items/{Query}", Method.GET)
+	        var request = new RestRequest("v2/items/get/{Query}", Method.GET)
 	            .AddUrlSegment("Query", query);
 	        var response = _restClient.Execute<ResultItemsModel>(request);
 	        return response.Data;

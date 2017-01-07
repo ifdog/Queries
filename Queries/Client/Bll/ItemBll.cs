@@ -20,11 +20,11 @@ namespace Client.Bll
             _itemDal = new ItemDal(restClient);
         }
 
-        public BaseResult Query(string query)
+        public ResultItemsModel Query(string query)
         {
             if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
             {
-                return ResultFactory.CreateUserResult(ResultCode.InvalidParameter);
+                return ResultFactory.CreateItemsResult(ResultCode.InvalidParameter);
             }
             try
             {

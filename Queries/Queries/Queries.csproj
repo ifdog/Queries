@@ -67,8 +67,10 @@
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\Base\Function.cs" />
     <Compile Include="ViewModel\Converter\FunctionConverter.cs" />
+    <Compile Include="ViewModel\ItemsImportviewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\QueriesViewModel.cs" />
+    <Compile Include="ViewModel\QueryViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="RunContext.cs" />
     <Compile Include="View\Base\Lwindow.cs" />

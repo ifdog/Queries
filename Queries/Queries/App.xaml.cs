@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Common.Factory;
 using Queries.View;
+using RunContext = Queries.RunContext;
 
 namespace Queries
 {

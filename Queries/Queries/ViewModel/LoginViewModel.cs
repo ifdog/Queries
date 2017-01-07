@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using Common.Enums;
-using Common.Factory;
+﻿using Common.Enums;
 using Common.Static;
 using Common.Structure;
-using Common.Structure.Base;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel

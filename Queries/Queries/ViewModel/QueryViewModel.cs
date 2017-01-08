@@ -22,7 +22,7 @@ namespace Queries.ViewModel
         {
             if (!e.PropertyName.Equals(nameof(Query))) return;
             var x = _client.Item.Query(_query);
-            if (x!= null&&x.Items.Count>0)
+            if (x?.Items != null && x.Items.Count>0)
             {
                 var data = new DataTable();
                 x.Items[0].ForEach(i=>data.Columns.Add(i,typeof(string)));

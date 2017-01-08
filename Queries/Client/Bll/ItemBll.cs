@@ -22,18 +22,26 @@ namespace Client.Bll
 
         public DisplayModel Query(string query)
         {
-            //if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
-            //{
-            //    return ResultFactory.CreateItemsResult();
-            //}
-            //try
+            if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
+            {
+                return new DisplayModel
+                {
+                    ResultCode = (int)ResultCode.InvalidParameter,
+                    Information = ResultCode.InvalidParameter.ToString()
+                };
+            }
+            try
             {
                 return _itemDal.Query(query);
             }
-            //catch (Exception e)
-            //{
-            //    //return ResultFactory.CreateItemsResult(e);
-            //}
+            catch (Exception e)
+            {
+                return new DisplayModel
+                {
+                    ResultCode = (int)ResultCode.ClientSideUndefinedException,
+                    Information = e.Message
+                };
+            }
         }
 
         public BaseResult AddItem(List<ItemModel> itemModels)

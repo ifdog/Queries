@@ -7,7 +7,7 @@ using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
 {
-    public class QueryViewModel:BaseViewModel
+    public class QueryViewModel : BaseViewModel
     {
         private string _query;
         private readonly Client.Client _client;
@@ -21,11 +21,12 @@ namespace Queries.ViewModel
         private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (!e.PropertyName.Equals(nameof(Query))) return;
+            if (string.IsNullOrWhiteSpace(Query)) return;
             var x = _client.Item.Query(_query);
-            if (x?.Items != null && x.Items.Count>0)
+            if (x?.Items != null && x.Items.Count > 0)
             {
                 var data = new DataTable();
-                x.Items[0].ForEach(i=>data.Columns.Add(i,typeof(string)));
+                x.Items[0].ForEach(i => data.Columns.Add(i, typeof(string)));
                 var c = x.Items[0].Length;
                 x.Items.Skip(1).ForEach(i =>
                 {
@@ -50,7 +51,6 @@ namespace Queries.ViewModel
                 OnPropertyChanged(nameof(Query));
             }
         }
-
         public DataView Items { get; set; }
     }
 }

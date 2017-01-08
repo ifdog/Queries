@@ -112,15 +112,15 @@ namespace Service
                     {
                         return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.InvalidParameter));
                     }
-                    //try
-                    {
+                try
+                {
 	                    DisplayModel x = _itemBll.Search(paramerters.query);
 						return Response.AsJson(x);
 					}
-                    //catch (Exception e)
-                    //{
-                    //    return Response.AsJson(ResultFactory.CreateItemsResult(e));
-                    //}
+                catch (Exception e)
+                {
+                    return Response.AsJson(ResultFactory.CreateItemsResult(e));
+                }
             };
 
 			Post["/items/add/"] = _ =>

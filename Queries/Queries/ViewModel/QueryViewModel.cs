@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Common.Static;
 using Common.Structure;
 using Queries.ViewModel.Base;
 
@@ -7,7 +10,6 @@ namespace Queries.ViewModel
     public class QueryViewModel:BaseViewModel
     {
         private string _query;
-        private List<string[]> _items;
         private readonly Client.Client _client;
 
         public QueryViewModel()
@@ -18,14 +20,25 @@ namespace Queries.ViewModel
 
         private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals(nameof(Query)))
+            if (!e.PropertyName.Equals(nameof(Query))) return;
+            var x = _client.Item.Query(_query);
+            if (x!= null&&x.Items.Count>0)
             {
-                var x = _client.Item.Query(_query);
-                if (x!= null)
+                var data = new DataTable();
+                x.Items[0].ForEach(i=>data.Columns.Add(i,typeof(string)));
+                var c = x.Items[0].Length;
+                x.Items.Skip(1).ForEach(i =>
                 {
-                    Items = x.Items;
-                }
+                    var r = data.NewRow();
+                    for (int j = 0; j < c; j++)
+                    {
+                        r[x.Items[0][j]] = i[j];
+                    }
+                    data.Rows.Add(r);
+                });
+                Items = data.DefaultView;
             }
+            OnPropertyChanged(nameof(Items));
         }
 
         public string Query
@@ -38,14 +51,6 @@ namespace Queries.ViewModel
             }
         }
 
-        public List<string[]> Items
-        {
-            get { return _items; }
-            set
-            {
-                _items = value;
-                OnPropertyChanged(nameof(Items));
-            }
-        }
+        public DataView Items { get; set; }
     }
 }

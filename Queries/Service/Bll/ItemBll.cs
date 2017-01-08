@@ -14,19 +14,20 @@ namespace Service.Bll
 
 	    public ResultItemsModel AddItem(ItemModel item)
 	    {
+	        item.Mess = Strings.Filter(Strings.Concat(item.Name, item.Model, item.Spec, item.Remark).ToUpper());
 		    _itemDal.Insert(item);
 		    return ResultFactory.CreateItemsResult(ResultCode.Ok);
 	    }
 
 	    public ResultItemsModel AddItems(IEnumerable<ItemModel> items)
 	    {
-		    items.ForEach(i => _itemDal.Insert(i));
+		    items.ForEach(i => AddItem(i));
 		    return ResultFactory.CreateItemsResult(ResultCode.Ok);
 	    }
 
 	    public DisplayModel Search(string hint)
 	    {
-		    var x = _itemDal.Find(i=>i.OriginPrice>1);
+		    var x = _itemDal.Find(i=>i.Mess.Contains(hint.ToUpper()));
             return new DisplayModel
             {
                 ResultCode = (int)ResultCode.Ok,

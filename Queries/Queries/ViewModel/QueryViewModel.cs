@@ -7,7 +7,7 @@ namespace Queries.ViewModel
     public class QueryViewModel:BaseViewModel
     {
         private string _query;
-        private List<ItemModel> _items;
+        private List<string[]> _items;
         private readonly Client.Client _client;
 
         public QueryViewModel()
@@ -38,7 +38,7 @@ namespace Queries.ViewModel
             }
         }
 
-        public List<ItemModel> Items
+        public List<string[]> Items
         {
             get { return _items; }
             set

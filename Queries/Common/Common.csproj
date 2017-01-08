@@ -34,6 +34,10 @@
       <HintPath>..\packages\ChnCharInfo.1.0.0\lib\net\ChnCharInfo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SimplifiedChinesePinYinConversion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimplifiedChinesePinYinConversion.1.0.0\lib\net46\SimplifiedChinesePinYinConversion.dll</HintPath>
       <Private>True</Private>
@@ -59,6 +63,8 @@
     <Compile Include="Static\Base64.cs" />
     <Compile Include="Static\Csv.cs" />
     <Compile Include="Static\Extension.cs" />
+    <Compile Include="Static\ItemMapping.cs" />
+    <Compile Include="Static\Json.cs" />
     <Compile Include="Static\Log.cs" />
     <Compile Include="Static\ModelCheck.cs" />
     <Compile Include="Static\Net.cs" />
@@ -69,6 +75,7 @@
     <Compile Include="Structure\Base\BaseStatus.cs" />
     <Compile Include="Structure\Base\BaseUser.cs" />
     <Compile Include="Structure\Configuration.cs" />
+    <Compile Include="Structure\DisplayModel.cs" />
     <Compile Include="Structure\ItemModel.cs" />
     <Compile Include="Structure\Base\BaseObject.cs" />
     <Compile Include="Structure\Base\BaseRequest.cs" />

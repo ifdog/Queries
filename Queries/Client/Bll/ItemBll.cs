@@ -20,20 +20,20 @@ namespace Client.Bll
             _itemDal = new ItemDal(restClient);
         }
 
-        public ResultItemsModel Query(string query)
+        public DisplayModel Query(string query)
         {
-            if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
-            {
-                return ResultFactory.CreateItemsResult(ResultCode.InvalidParameter);
-            }
-            try
+            //if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
+            //{
+            //    return ResultFactory.CreateItemsResult();
+            //}
+            //try
             {
                 return _itemDal.Query(query);
             }
-            catch (Exception e)
-            {
-                return ResultFactory.CreateItemsResult(e);
-            }
+            //catch (Exception e)
+            //{
+            //    //return ResultFactory.CreateItemsResult(e);
+            //}
         }
 
         public BaseResult AddItem(List<ItemModel> itemModels)

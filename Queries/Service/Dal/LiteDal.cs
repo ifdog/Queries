@@ -23,7 +23,7 @@ namespace Service.Dal
 			_collection.Insert(obj);
 		}
 
-		public IEnumerable<T> Find(Expression<Func<T,bool>> pridecate,int skip=0,int max = 9999999)
+		public IEnumerable<T> Find(Expression<Func<T,bool>> pridecate,int skip=0,int max = 100)
 		{
 			return _collection.Find(pridecate, skip, max);
 		}

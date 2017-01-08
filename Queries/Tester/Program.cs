@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.Static;
+using Common.Structure;
 
 namespace Tester
 {
@@ -11,7 +12,7 @@ namespace Tester
     {
         static void Main(string[] args)
         {
-            var x = Net.GetIpAddresses();
+            var x = ItemMapping.Map<ItemModel>(new List<ItemModel>());
 
         }
     }

@@ -108,19 +108,19 @@ namespace Service
                     {
                         return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.NotLoggedIn));
                     }
-                    if (paramerters.query)
+                    if (string.IsNullOrWhiteSpace(paramerters.query))
                     {
                         return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.InvalidParameter));
                     }
-                    try
+                    //try
                     {
-	                    ResultItemsModel x = _itemBll.Search(paramerters.query);
+	                    DisplayModel x = _itemBll.Search(paramerters.query);
 						return Response.AsJson(x);
 					}
-                    catch (Exception e)
-                    {
-                        return Response.AsJson(ResultFactory.CreateItemsResult(e));
-                    }
+                    //catch (Exception e)
+                    //{
+                    //    return Response.AsJson(ResultFactory.CreateItemsResult(e));
+                    //}
             };
 
 			Post["/items/add/"] = _ =>
@@ -149,6 +149,8 @@ namespace Service
                         return Response.AsJson(ResultFactory.CreateItemsResult(e));
                     }
             };
+
+            Get["/test/"] = _ => "done";
         }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Common.Enums;
 using Common.Factory;
 using Common.Static;
@@ -23,13 +24,15 @@ namespace Service.Bll
 		    return ResultFactory.CreateItemsResult(ResultCode.Ok);
 	    }
 
-	    public ResultItemsModel Search(string hint)
+	    public DisplayModel Search(string hint)
 	    {
-		    var x = _itemDal.Find(i => i.Mess.Contains(Strings.Filter(hint)));
-            var baseList = new List<ItemModel>();
-            x.ForEach(i=>baseList.Add(i));
-            return
-				ResultFactory.CreateItemsResult(baseList);
+		    var x = _itemDal.Find(i=>i.OriginPrice>1);
+            return new DisplayModel
+            {
+                ResultCode = (int)ResultCode.Ok,
+                Information = ResultCode.Ok.ToString(),
+                Items = ItemMapping.Map(x)
+            };
         }
     }
 }

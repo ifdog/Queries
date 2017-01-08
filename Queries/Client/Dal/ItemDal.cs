@@ -1,4 +1,5 @@
-﻿using Common.Structure;
+﻿using Common.Static;
+using Common.Structure;
 using RestSharp;
 
 namespace Client.Dal
@@ -23,12 +24,12 @@ namespace Client.Dal
             return response.Data;
         }
 
-	    public ResultItemsModel Query(string query)
+	    public DisplayModel Query(string query)
 	    {
 	        var request = new RestRequest("v2/items/get/{Query}", Method.GET)
 	            .AddUrlSegment("Query", query);
-	        var response = _restClient.Execute<ResultItemsModel>(request);
-	        return response.Data;
+	        var response = _restClient.Execute(request);
+            return Json.ToObject<DisplayModel>(response.Content);
 	    }
 	}
 }

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using Common.Static;
 using Common.Structure;
 
+
 namespace Tester
 {
     class Program
     {
         static void Main(string[] args)
         {
-            var x = ItemMapping.Map<ItemModel>(new List<ItemModel>());
-
+            Excel.GetInstance();
         }
     }
 }

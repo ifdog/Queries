@@ -13,7 +13,7 @@ namespace Tester
     {
         static void Main(string[] args)
         {
-            Excel.GetInstance();
+            Csv.Parse("‪C:\\Users\\ifdog\\Desktop\\b.csv");
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Common.Static;
 using Common.Structure;
 using Queries.ViewModel.Base;
@@ -14,6 +16,7 @@ namespace Queries.ViewModel
         private readonly BackgroundWorker _backgroundWorker = new BackgroundWorker();
         private string _filePath;
         private double _percent;
+	    private int _progress;
         private string _status;
         public RelayCommand CommitCommand { get; set; }
 
@@ -24,54 +27,59 @@ namespace Queries.ViewModel
             _backgroundWorker.DoWork += (sender, args) =>
             {
                 var client = RunContext.Get<Client.Client>();
-                var d = File.ReadAllLines(FilePath);
-                var stop = d.Length / Step;
-                for (int i = 0; i < d.Length / Step; i++)
-                {
-                    var x = d.Skip(i * Step)
-                        .Take(Step)
-                        .Select(Csv.ParseLine)
-                        .Where(item => item.Length >= 8)
-                        .Where(item => !string.IsNullOrWhiteSpace(item[6]) && !string.IsNullOrEmpty(item[7]))
-                        .Select(item =>
-                        {
-                            float discount, origin;
-                            try
-                            {
-                                discount = Convert.ToSingle(item[6]);
-                                origin = Convert.ToSingle(item[7]);
-                            }
-                            catch (Exception)
-                            {
-                                discount = 0;
-                                origin = 0;
-                            }
-                            return new ItemModel
-                            {
-                                Name = item[0],
-                                Model = item[1],
-                                Spec = item[2],
-                                Brand = item[3],
-                                Supplier = item[4],
-                                Remark = item[5],
-                                Discount = discount,
-                                OriginPrice = origin,
-                                CreateDate = DateTime.Now
-                            };
-                        });
-                    client.Item.AddItem(x.ToList());
-                    var p = (i + 1) / (float)stop * 100.0;
-                    _backgroundWorker.ReportProgress((int)p);
-                }
+	            var items = Csv.Parse(FilePath)
+				.Select(item =>
+				{
+					float discount, origin;
+					try
+					{
+						discount = Convert.ToSingle(item.Discount);
+						origin = Convert.ToSingle(item.OriginPrice);
+					}
+					catch (Exception)
+					{
+						discount = 0;
+						origin = 0;
+					}
+					return new ItemModel
+					{
+						Name = item.Name,
+						Model = item.Model,
+						Spec = item.Spec,
+						Brand = item.Brand,
+						Supplier = item.Supplier,
+						Remark = item.Remark,
+						Discount = discount,
+						OriginPrice = origin,
+						DiscountedPrice = discount * origin,
+						CreateDate = DateTime.Now
+					};
+				}).ToList();
+
+	            var gp = new List<List<ItemModel>>();
+	            for (int i = 0; i <= items.Count/Step; i ++)
+	            {
+		            gp.Add(items.Skip(Step*i).Take(Step).ToList());
+	            }
+
+	            gp.ForEach(i =>
+				{
+					client.Item.AddItem(i);
+					Interlocked.Increment(ref _progress);
+					this.Status = $"{_progress} / {gp.Count}";
+					var c = Convert.ToDouble(_progress)/Convert.ToDouble(gp.Count)*100.0;
+					_backgroundWorker.ReportProgress((int)c);
+				});
             };
-            _backgroundWorker.ProgressChanged += (sender, args) =>
-            {
-                Percent = args.ProgressPercentage;
-                Status = $"已导入{Percent * Step}个记录";
-            };
+			_backgroundWorker.ProgressChanged += _backgroundWorker_ProgressChanged;
         }
 
-        private void CommitCommandAction()
+		private void _backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			this.Percent = e.ProgressPercentage;
+		}
+
+		private void CommitCommandAction()
         {
 
             if (!File.Exists(FilePath)) return;

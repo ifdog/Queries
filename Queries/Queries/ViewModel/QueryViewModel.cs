@@ -11,8 +11,9 @@ namespace Queries.ViewModel
     {
         private string _query;
         private readonly Client.Client _client;
+		private DataTable data = new DataTable();
 
-        public QueryViewModel()
+		public QueryViewModel()
         {
             _client = RunContext.Get<Client.Client>();
             this.PropertyChanged += QueryViewModel_PropertyChanged;
@@ -22,10 +23,12 @@ namespace Queries.ViewModel
         {
             if (!e.PropertyName.Equals(nameof(Query))) return;
             if (string.IsNullOrWhiteSpace(Query)) return;
+			data.Clear();
+			data.Columns.Clear();
             var x = _client.Item.Query(_query);
             if (x?.Items != null && x.Items.Count > 0)
             {
-                var data = new DataTable();
+                
                 x.Items[0].ForEach(i => data.Columns.Add(i, typeof(string)));
                 var c = x.Items[0].Length;
                 x.Items.Skip(1).ForEach(i =>

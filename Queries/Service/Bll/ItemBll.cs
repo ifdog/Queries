@@ -14,7 +14,14 @@ namespace Service.Bll
 
 	    public ResultItemsModel AddItem(ItemModel item)
 	    {
-	        item.Mess = Strings.Filter(
+		    if (item.Name == null) item.Name = "无";
+			if (item.Model == null) item.Model= "无";
+			if (item.Brand == null) item.Brand = "无";
+			if (item.Supplier == null) item.Supplier = "无";
+			if (item.Spec == null) item.Spec = "无";
+			if (item.Remark == null) item.Remark = "无";
+
+			item.Mess = Strings.Filter(
                 Strings.Concat(
                     item.Name, 
                     item.Model, 
@@ -46,15 +53,15 @@ namespace Service.Bll
 
 	    public DisplayModel Search(string hint)
 	    {
-
-	        var q = hint.Split(' ').Where(i => !string.IsNullOrWhiteSpace(i));
-	        var x = _itemDal.Find(i => q.All(j => i.Mess.Contains(j)));
-            return new DisplayModel
-            {
-                ResultCode = (int)ResultCode.Ok,
-                Information = ResultCode.Ok.ToString(),
-                Items = ItemMapping.Map(x)
-            };
-        }
+		    var q = hint.Split(' ').Where(i => !string.IsNullOrEmpty(i)).Select(Strings.Filter).ToArray();
+		    var items = _itemDal.Find(i => i.Mess.Contains(q[0]));
+		    if (q.Length > 1) items = items.Where(i => q.Skip(1).All(j => i.Mess.Contains(j)));
+		    return new DisplayModel
+		    {
+			    ResultCode = (int) ResultCode.Ok,
+			    Information = ResultCode.Ok.ToString(),
+			    Items = ItemMapping.Map(items)
+		    };
+	    }
     }
 }

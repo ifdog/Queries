@@ -140,15 +140,15 @@ namespace Service
                     {
                         return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.ActionNotCorresponding));
                     }
-                    try
-                    {
+				try
+				{
                         return Response.AsJson(_itemBll.AddItems(model.Items));
-                    }
-                    catch (Exception e)
-                    {
-                        return Response.AsJson(ResultFactory.CreateItemsResult(e));
-                    }
-            };
+				}
+				catch (Exception e)
+				{
+					return Response.AsJson(ResultFactory.CreateItemsResult(e));
+				}
+			};
 
             Get["/test/"] = _ => "done";
         }

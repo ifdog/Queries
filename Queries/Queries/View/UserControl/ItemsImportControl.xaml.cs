@@ -31,8 +31,8 @@ namespace Queries.View.UserControl
             OpenFileDialog fileDialog = new OpenFileDialog()
             {
                 Multiselect = false,
-                DefaultExt = ".csv",
-                Filter = "CSV file|*.csv"
+                DefaultExt = ".xlsx",
+                Filter = "xls|*.xls|xlsx|*.xlsx"
 
             };
             var r = fileDialog.ShowDialog();

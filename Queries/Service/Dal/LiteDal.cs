@@ -23,9 +23,9 @@ namespace Service.Dal
 			_collection.Insert(obj);
 		}
 
-		public IEnumerable<T> Find(Expression<Func<T,bool>> pridecate,int skip=0,int max = 30)
+		public IEnumerable<T> Find(Expression<Func<T,bool>> pridecate,int skip=0,int max = 50)
 		{
-			return _collection.Find(pridecate, skip, max);
+			return _collection.Find(pridecate, skip*max, max);
 		}
 
 		public void Update(T obj)

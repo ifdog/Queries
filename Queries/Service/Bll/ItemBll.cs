@@ -14,7 +14,26 @@ namespace Service.Bll
 
 	    public ResultItemsModel AddItem(ItemModel item)
 	    {
-	        item.Mess = Strings.Filter(Strings.Concat(item.Name, item.Model, item.Spec, item.Remark).ToUpper());
+	        item.Mess = Strings.Filter(
+                Strings.Concat(
+                    item.Name, 
+                    item.Model, 
+                    item.Spec, 
+                    item.Brand,
+                    item.Supplier,
+                    item.Remark,
+                    Strings.ToPinyin(item.Name),
+                    Strings.ToShortPinyin(item.Name),
+                    Strings.ToPinyin(item.Brand),
+                    Strings.ToShortPinyin(item.Brand),
+                    Strings.ToPinyin(item.Supplier),
+                    Strings.ToPinyin(item.Supplier),
+                    Strings.ToPinyin(item.Spec),
+                    Strings.ToShortPinyin(item.Spec),
+                    Strings.ToPinyin(item.Remark),
+                    Strings.ToShortPinyin(item.Remark)
+                    )
+                    .ToUpper());
 		    _itemDal.Insert(item);
 		    return ResultFactory.CreateItemsResult(ResultCode.Ok);
 	    }
@@ -27,7 +46,9 @@ namespace Service.Bll
 
 	    public DisplayModel Search(string hint)
 	    {
-		    var x = _itemDal.Find(i=>i.Mess.Contains(hint.ToUpper()));
+
+	        var q = hint.Split(' ').Where(i => !string.IsNullOrWhiteSpace(i));
+	        var x = _itemDal.Find(i => q.All(j => i.Mess.Contains(j)));
             return new DisplayModel
             {
                 ResultCode = (int)ResultCode.Ok,

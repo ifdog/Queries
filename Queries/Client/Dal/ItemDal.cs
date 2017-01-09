@@ -1,4 +1,5 @@
-﻿using Common.Static;
+﻿using System.Linq;
+using Common.Static;
 using Common.Structure;
 using RestSharp;
 

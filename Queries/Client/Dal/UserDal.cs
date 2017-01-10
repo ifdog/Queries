@@ -9,7 +9,9 @@ namespace Client.Dal
 
 	    public UserDal(RestClient restClient)
         {
-            _restClient = restClient;        }
+            _restClient = restClient;
+		    _restClient.Proxy = null;
+        }
 
 	    public ResultUserModel Post(RequestUserModel requestUserModel)
 	    {

@@ -12,6 +12,7 @@ namespace Client.Dal
 	    public ItemDal(RestClient restClient)
 	    {
 	        this._restClient = restClient;
+		    _restClient.Proxy = null;
 	    }
 
 	    public ResultItemsModel Post(RequestItemsModel requestItemsModel)

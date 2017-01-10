@@ -81,6 +81,7 @@
     <Compile Include="Factory\ItemFactory.cs" />
     <Compile Include="Factory\ResultFactory.cs" />
     <Compile Include="Factory\RunContext.cs" />
+    <Compile Include="Factory\ServiceAfter.cs" />
     <Compile Include="Factory\UserFactory.cs" />
     <Compile Include="Factory\ConfigurationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

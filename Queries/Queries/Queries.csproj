@@ -160,6 +160,10 @@
       <Project>{d1b44700-0b1e-4c05-b1f5-01b0ee704770}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ServiceConsole\ServiceConsole.csproj">
+      <Project>{c23ff97e-0e57-47ca-914c-762936a39c49}</Project>
+      <Name>ServiceConsole</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Service\Service.csproj">
       <Project>{e7df9e48-4794-4835-ae91-344021779e83}</Project>
       <Name>Service</Name>

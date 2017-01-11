@@ -1,51 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using NPOI.HPSF;
 
 namespace Common.Factory
 {
     public class ServiceAfter
     {
-        private BackgroundWorker _backgroundWorker;
-        private Socket socket;
-        private string path;
-        private int port;
-        private int socketPort = 10088;
-        private byte[] bytes = {1};
-        ProcessStartInfo start ;
+        private readonly BackgroundWorker _backgroundWorker;
+        private readonly Socket _socket;
+        private readonly string _path;
+        private readonly int _port;
+	    private const int SocketPort = 10088;
+	    private readonly byte[] _bytes = {1};
+	    private ProcessStartInfo _start ;
 
         public ServiceAfter(string path, int port)
         {
-            this.path = path;
-            this.port = port;
-            socket = new Socket(SocketType.Stream,ProtocolType.Tcp);
-            _backgroundWorker = new BackgroundWorker();
-            _backgroundWorker.WorkerSupportsCancellation = true;
-            _backgroundWorker.DoWork += _backgroundWorker_DoWork;
-            
-            
+            this._path = path;
+            this._port = port;
+            _socket = new Socket(SocketType.Stream,ProtocolType.Tcp);
+	        _backgroundWorker = new BackgroundWorker {WorkerSupportsCancellation = true};
+	        _backgroundWorker.DoWork += _backgroundWorker_DoWork;
         }
 
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            socket.Connect(new IPEndPoint(IPAddress.Loopback, socketPort));
+            _socket.Connect(new IPEndPoint(IPAddress.Loopback, SocketPort));
             while (true)
             {
 	            try
 	            {
-					socket.Send(bytes);
+					_socket.Send(_bytes);
 				}
-				catch (SocketException ex)
+				catch (SocketException)
 	            {
-					socket.Connect(new IPEndPoint(IPAddress.Loopback, socketPort));
+					_socket.Connect(new IPEndPoint(IPAddress.Loopback, SocketPort));
 	            }
                 Thread.Sleep(2000);
                 if (_backgroundWorker.CancellationPending)
@@ -57,15 +49,15 @@ namespace Common.Factory
 
         public void Run()
         {
-            start = new ProcessStartInfo
+            _start = new ProcessStartInfo
             {
                 UseShellExecute = true,
                 WorkingDirectory = Environment.CurrentDirectory,
                 FileName = "ServiceConsole.exe",
-                Arguments = $"{path} {port}",
+                Arguments = $"{_path} {_port}",
                 Verb = "runas"
             };
-            Process.Start(start);
+            Process.Start(_start);
             _backgroundWorker.RunWorkerAsync();
         }
     }

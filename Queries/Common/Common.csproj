@@ -68,16 +68,26 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Trustsoft.WideHotkeys, Version=0.1.0.0, Culture=neutral, PublicKeyToken=324032335e959b35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Trustsoft.WideHotkeys.0.1.0\lib\NET45\Trustsoft.WideHotkeys.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Trustsoft.WideHotkeys.Wpf, Version=0.1.0.0, Culture=neutral, PublicKeyToken=324032335e959b35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Trustsoft.WideHotkeys.Wpf.0.1.0\lib\NET45\Trustsoft.WideHotkeys.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute\SeenAttribute.cs" />
     <Compile Include="Enums\ResultCode.cs" />
+    <Compile Include="Factory\Hotkey.cs" />
     <Compile Include="Factory\ItemFactory.cs" />
     <Compile Include="Factory\ResultFactory.cs" />
     <Compile Include="Factory\RunContext.cs" />

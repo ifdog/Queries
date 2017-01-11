@@ -53,6 +53,14 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="Trustsoft.WideHotkeys, Version=0.1.0.0, Culture=neutral, PublicKeyToken=324032335e959b35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Trustsoft.WideHotkeys.0.1.0\lib\NET45\Trustsoft.WideHotkeys.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Trustsoft.WideHotkeys.Wpf, Version=0.1.0.0, Culture=neutral, PublicKeyToken=324032335e959b35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Trustsoft.WideHotkeys.Wpf.0.1.0\lib\NET45\Trustsoft.WideHotkeys.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -85,6 +93,9 @@
     <Compile Include="View\RegisterWindow.xaml.cs">
       <DependentUpon>RegisterWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Tiny.xaml.cs">
+      <DependentUpon>Tiny.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControl\ItemsImportControl.xaml.cs">
       <DependentUpon>ItemsImportControl.xaml</DependentUpon>
     </Compile>
@@ -107,6 +118,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\RegisterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Tiny.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,6 +157,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

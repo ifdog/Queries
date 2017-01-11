@@ -35,13 +35,13 @@ namespace ServiceConsole
 	            try
 	            {
 		            accept.Receive(b);
-		            Console.WriteLine("Tick.");
+		            //Console.WriteLine("Tick.");
 	            }
-	            catch (TimeoutException e)
+	            catch (TimeoutException)
 	            {
 		            break;
 	            }
-	            catch (SocketException e)
+	            catch (SocketException)
 	            {
 		            break;
 	            }

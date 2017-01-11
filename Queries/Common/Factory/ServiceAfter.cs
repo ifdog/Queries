@@ -54,7 +54,7 @@ namespace Common.Factory
                 UseShellExecute = true,
                 WorkingDirectory = Environment.CurrentDirectory,
                 FileName = "ServiceConsole.exe",
-                Arguments = $"{_path} {_port}",
+                Arguments = $"{_path} {_port} {SocketPort}",
                 Verb = "runas"
             };
             Process.Start(_start);

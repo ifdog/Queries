@@ -32,14 +32,20 @@ namespace ServiceConsole
             while (true)
             {
                 var b = new byte[10];
-                try
-                {
-                    accept.Receive(b);
-                }
-                catch (TimeoutException e)
-                {
-                    break;
-                }
+	            try
+	            {
+		            accept.Receive(b);
+		            Console.WriteLine("Tick.");
+	            }
+	            catch (TimeoutException e)
+	            {
+		            break;
+	            }
+	            catch (SocketException e)
+	            {
+		            break;
+	            }
+				
 			}
 		}
 	}

@@ -18,7 +18,7 @@ namespace Common.Factory
         private Socket socket;
         private string path;
         private int port;
-        private int socketPort;
+        private int socketPort = 10088;
         private byte[] bytes = {1};
         ProcessStartInfo start ;
 
@@ -36,10 +36,17 @@ namespace Common.Factory
 
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            socket.Connect(IPAddress.Parse("127.0.0.1"),socketPort);
+            socket.Connect(new IPEndPoint(IPAddress.Loopback, socketPort));
             while (true)
             {
-                socket.Send(bytes);
+	            try
+	            {
+					socket.Send(bytes);
+				}
+				catch (SocketException ex)
+	            {
+					socket.Connect(new IPEndPoint(IPAddress.Loopback, socketPort));
+	            }
                 Thread.Sleep(2000);
                 if (_backgroundWorker.CancellationPending)
                 {

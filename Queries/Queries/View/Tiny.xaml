@@ -4,9 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Queries.View"
+        xmlns:viewmodel="clr-namespace:Queries.ViewModel"
         mc:Ignorable="d"
-        Title="Tiny" Height="275.862" Width="186.207">
+        Title="Tiny" Height="275.862" Width="186.207" AllowsTransparency="True" WindowStyle="None">
+    <Window.Background>
+        <SolidColorBrush Color="White" Opacity="0.5"/>
+    </Window.Background>
+    <Window.DataContext>
+        <viewmodel:TinyViewModel/>
+    </Window.DataContext>
     <Grid>
-
+        <ListBox x:Name="ListBox" Margin="10" Opacity="0"/>
     </Grid>
 </Window>

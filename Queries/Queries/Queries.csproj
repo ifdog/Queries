@@ -82,6 +82,7 @@
     <Compile Include="ViewModel\QueryViewModel.cs" />
     <Compile Include="ViewModel\RegisterViewModel.cs" />
     <Compile Include="RunContext.cs" />
+    <Compile Include="ViewModel\TinyViewModel.cs" />
     <Compile Include="View\Base\Lwindow.cs" />
     <Compile Include="ViewModel\Converter\RunModeConverter.cs" />
     <Compile Include="View\LoginWindow.xaml.cs">

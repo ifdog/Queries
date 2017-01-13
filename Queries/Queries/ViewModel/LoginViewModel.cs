@@ -2,6 +2,7 @@
 using Common.Factory;
 using Common.Static;
 using Common.Structure;
+using Queries.View;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel

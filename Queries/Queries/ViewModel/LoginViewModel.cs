@@ -126,15 +126,11 @@ namespace Queries.ViewModel
                     RunContext.TryAdd(() => new Client.Client(requestPath, requestPort));
                     break;
                 case 2:
-	                //RunContext.TryAdd(() => new Service.Service(serverPath, serverPorct));
                     RunContext.TryAdd(()=>new ServiceAfter(serverPath,serverPort));
                     RunContext.Get<ServiceAfter>().Run();
-	                //RunContext.Get<Service.Service>().StartHosting();
                     break;
                 case 3:
                     RunContext.TryAdd(() => new Client.Client(requestPath, requestPort));
-                    //RunContext.TryAdd(() => new Service.Service(serverPath, serverPort));
-                    //RunContext.Get<Service.Service>().StartHosting();
                     RunContext.TryAdd(() => new ServiceAfter(serverPath, serverPort));
                     RunContext.Get<ServiceAfter>().Run();
                     break;

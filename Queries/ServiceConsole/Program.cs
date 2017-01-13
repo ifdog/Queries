@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using Nancy.Hosting.Self;
@@ -8,6 +9,7 @@ namespace ServiceConsole
     class Program
     {
         private static string[] _args;
+		private static readonly Stopwatch Stopwatch = new Stopwatch();
 
         static void Main(string[] args)
         {
@@ -31,21 +33,17 @@ namespace ServiceConsole
             accept.ReceiveTimeout = 5000;
             while (true)
             {
+				Stopwatch.Restart();
                 var b = new byte[10];
 	            try
 	            {
 		            accept.Receive(b);
-		            //Console.WriteLine("Tick.");
+		           // Console.WriteLine($"Tick. {_stopwatch.ElapsedMilliseconds}");
 	            }
-	            catch (TimeoutException)
+	            catch (Exception)
 	            {
 		            break;
 	            }
-	            catch (SocketException)
-	            {
-		            break;
-	            }
-				
 			}
 		}
 	}

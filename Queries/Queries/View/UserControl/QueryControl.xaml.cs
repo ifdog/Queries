@@ -16,5 +16,5 @@ namespace Queries.View.UserControl
         {
             this.TextBox.Text = Excel.GetInstance();
         }
-    }
+	}
 }

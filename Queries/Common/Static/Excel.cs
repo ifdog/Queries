@@ -13,7 +13,7 @@ namespace Common.Static
         public static string GetInstance()
         {
             var xx = Marshal.GetActiveObject("Excel.Application") as Application;
-            return xx.ActiveCell.Value;
+            return xx.ActiveCell.Value.ToString();
         }
     }
 }

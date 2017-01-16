@@ -55,5 +55,16 @@ namespace Queries.ViewModel
             }
         }
         public DataView Items { get; set; }
+
+	    public RelayCommand Get
+	    {
+		    get
+		    {
+			    return new RelayCommand(() =>
+			    {
+				    this.Query = Excel.GetInstance();
+			    });
+		    } 
+	    }
     }
 }

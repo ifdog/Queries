@@ -1,13 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Data;
+using Queries.Structure;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
 {
 	public class TinyViewModel:BaseViewModel
 	{
-		private Dictionary<string,string> _content = new Dictionary<string, string>();
+		public TinyViewModel()
+		{
+			var x = new ObservableCollection<TinyShowItem>
+			{
+				new TinyShowItem
+				{
+					Name = "aaaa",
+					Detail = "bbbb"
+				},
+				new TinyShowItem
+				{
+					Name = "axxx",
+					Detail = "bxxb"
+				},
+				new TinyShowItem
+				{
+					Name = "asss",
+					Detail = "bbsb"
+				}
+			};
+			Content = x;
+		}
 
-		public Dictionary<string, string> Content
+		private ObservableCollection<TinyShowItem> _content = new ObservableCollection<TinyShowItem>();
+		public ObservableCollection<TinyShowItem> Content
 		{
 			get { return _content; }
 			set

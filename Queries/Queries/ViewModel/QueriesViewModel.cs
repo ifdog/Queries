@@ -22,6 +22,11 @@ namespace Queries.ViewModel
                 Name = "导入",
                 ViewId = "ItemsImport"
             });
+			this.Pages.Add(new Function
+			{
+				Name = "测试",
+				ViewId = "ForTesting"
+			});
         }
 
 	    private List<Function> _pages = new List<Function>();

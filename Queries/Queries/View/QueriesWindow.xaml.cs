@@ -32,5 +32,10 @@ namespace Queries
                     Type.GetType($"Queries.View.UserControl.NotFoundControl");
             this.DynGrid.Children.Add(Activator.CreateInstance(t) as UIElement);
         }
-    }
+
+		private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			DragMove();
+		}
+	}
 }

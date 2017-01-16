@@ -71,6 +71,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="InitManager.cs" />
+    <Compile Include="Structure\TinyShowItem.cs" />
     <Compile Include="ViewModel\Base\BaseViewModel.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\Base\Function.cs" />
@@ -96,6 +97,9 @@
     </Compile>
     <Compile Include="View\Tiny.xaml.cs">
       <DependentUpon>Tiny.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControl\ForTestingControl.xaml.cs">
+      <DependentUpon>ForTestingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControl\ItemsImportControl.xaml.cs">
       <DependentUpon>ItemsImportControl.xaml</DependentUpon>
@@ -123,6 +127,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Tiny.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControl\ForTestingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

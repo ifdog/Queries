@@ -6,14 +6,12 @@
         xmlns:local="clr-namespace:Queries.View"
         xmlns:viewmodel="clr-namespace:Queries.ViewModel"
         mc:Ignorable="d"
-        Title="Tiny" Height="275.862" Width="186.207" AllowsTransparency="True" WindowStyle="None">
+        Title="Tiny" Height="295" Width="498"
+        >
     <Window.Background>
-        <SolidColorBrush Color="White" Opacity="0.5"/>
+        <SolidColorBrush Color="White"/>
     </Window.Background>
     <Window.DataContext>
         <viewmodel:TinyViewModel/>
     </Window.DataContext>
-    <Grid>
-        <ListBox x:Name="ListBox" Margin="10" Opacity="0"/>
-    </Grid>
 </Window>

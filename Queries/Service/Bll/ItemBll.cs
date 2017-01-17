@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Common.Attribute;
 using Common.Enums;
 using Common.Factory;
 using Common.Static;
@@ -11,36 +13,14 @@ namespace Service.Bll
     public class ItemBll
     {
 		private readonly LiteDal<ItemModel> _itemDal = new LiteDal<ItemModel>("Mess");
+	    private readonly string[] _itemPropertyNames = AttributeReader.GetProperty<SaveToDbAttribute>(new ItemModel()).Select(i=>i.Name).ToArray();
+
 
 	    public ResultItemsModel AddItem(ItemModel item)
 	    {
-		    if (item.Name == null) item.Name = "无";
-			if (item.Model == null) item.Model= "无";
-			if (item.Brand == null) item.Brand = "无";
-			if (item.Supplier == null) item.Supplier = "无";
-			if (item.Spec == null) item.Spec = "无";
-			if (item.Remark == null) item.Remark = "无";
-
-			item.Mess = Strings.Filter(
-                Strings.Concat(
-                    item.Name, 
-                    item.Model, 
-                    item.Spec, 
-                    item.Brand,
-                    item.Supplier,
-                    item.Remark,
-                    Strings.ToPinyin(item.Name),
-                    Strings.ToShortPinyin(item.Name),
-                    Strings.ToPinyin(item.Brand),
-                    Strings.ToShortPinyin(item.Brand),
-                    Strings.ToPinyin(item.Supplier),
-                    Strings.ToPinyin(item.Supplier),
-                    Strings.ToPinyin(item.Spec),
-                    Strings.ToShortPinyin(item.Spec),
-                    Strings.ToPinyin(item.Remark),
-                    Strings.ToShortPinyin(item.Remark)
-                    )
-                    .ToUpper());
+		    item.Flat.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
+			    .Where(i => i.PropertyType == typeof(string) && _itemPropertyNames.Contains(i.Name))
+			    .ForEach(i => i.SetValue(item.Flat, Strings.Flatten(item.GetType().GetProperty(i.Name).GetValue(item) as string)));
 		    _itemDal.Insert(item);
 		    return ResultFactory.CreateItemsResult(ResultCode.Ok);
 	    }

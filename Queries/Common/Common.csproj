@@ -90,6 +90,7 @@
     <Compile Include="Attribute\ToFlatAttribute.cs" />
     <Compile Include="Attribute\TransportAttribute.cs" />
     <Compile Include="Enums\ResultCode.cs" />
+    <Compile Include="Static\AttributeHelper.cs" />
     <Compile Include="Factory\Hotkey.cs" />
     <Compile Include="Factory\ItemFactory.cs" />
     <Compile Include="Factory\ResultFactory.cs" />

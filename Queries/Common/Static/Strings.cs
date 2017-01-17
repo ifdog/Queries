@@ -15,7 +15,7 @@ namespace Common.Static
 
 		public static string Concat(params string[] strings)
 		{
-			return string.Join(string.Empty, strings);
+			return string.Join("|", strings);
 		}
 
 		public static string Filter(string s)
@@ -27,13 +27,18 @@ namespace Common.Static
 
 	    public static string ToPinyin(string s)
 	    {
-	        return s.ToPinYin();
+	        return s.ToPinYin().ToUpper();
 	    }
 
 	    public static string ToShortPinyin(string s)
 	    {
-	        return s.ToPinYinAbbr();
+	        return s.ToPinYinAbbr().ToUpper();
 	    }
+
+		public static string Flatten(string s)
+		{
+			return Concat(Filter(s), ToPinyin(Filter(s)), ToShortPinyin(Filter(s)));
+		}
 
 		public static string GetWarp(string s, int warp = 15)
 		{

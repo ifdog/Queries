@@ -8,7 +8,7 @@ namespace Common.Structure
     {
 		[Transport(false,false)]
 		[SaveToDb]
-        public override byte[] Id { get; set; }
+        public override long Id { get; set; }
 
         [SeenFromUi(@"名称", 1)]
 		[Transport(true,true)]
@@ -75,9 +75,5 @@ namespace Common.Structure
 		[Transport(false,false)]
 		[SaveToDb]
         public string Tag { get; set; }
-
-		[Transport(false,false)]
-		[SaveToDb]
-		public BaseItem Flat { get; set; }
     }
 }

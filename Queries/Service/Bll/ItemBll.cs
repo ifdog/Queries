@@ -33,6 +33,10 @@ namespace Service.Bll
 
 	    public DisplayModel Search(string hint)
 	    {
+			//Name:xxx,Spec:yyy,Brand:zzz		Search in detail
+			//xxx,yyy,zzz						Search.And
+			//xxx yyy zzz						Search.And
+			//xxx|yyy|zzz						Search.Or
 		    var q = hint.Split(' ').Where(i => !string.IsNullOrEmpty(i)).Select(Strings.Filter).ToArray();
 		    var items = _itemDal.Find(i => i.Mess.Contains(q[0]));
 		    if (q.Length > 1) items = items.Where(i => q.Skip(1).All(j => i.Mess.Contains(j)));

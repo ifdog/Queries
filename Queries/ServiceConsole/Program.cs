@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using Nancy.Hosting.Self;
@@ -38,7 +39,10 @@ namespace ServiceConsole
 	            try
 	            {
 		            accept.Receive(b);
-		           // Console.WriteLine($"Tick. {_stopwatch.ElapsedMilliseconds}");
+		            if (b.All(i => i == 0))
+		            {
+			            break;
+		            }
 	            }
 	            catch (Exception)
 	            {

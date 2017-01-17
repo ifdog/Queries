@@ -8,22 +8,22 @@ namespace Common.Structure
     {
         public override byte[] Id { get; set; }
 
-        [Seen(@"用户名", 1)]
+        [SeenFromUi(@"用户名", 1)]
         public override string UserName { get; set; }
 
-        [Seen(@"密码", 1)]
+        [SeenFromUi(@"密码", 1)]
         public override string Password { get; set; }
 
-        [Seen(@"实名", 1)]
+        [SeenFromUi(@"实名", 1)]
         public override string RealName { get; set; }
 
-        [Seen(@"权限", 1)]
+        [SeenFromUi(@"权限", 1)]
         public override long Power { get; set; }
 
-        [Seen(@"注册日期", 1)]
+        [SeenFromUi(@"注册日期", 1)]
         public override DateTime RegDate { get; set; }
 
-        [Seen(@"最近访问", 1)]
+        [SeenFromUi(@"最近访问", 1)]
         public override DateTime LastAccess { get; set; }
 
         public string Tag { get; set; }

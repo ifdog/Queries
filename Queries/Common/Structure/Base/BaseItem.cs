@@ -11,7 +11,6 @@ namespace Common.Structure.Base
         public abstract string Supplier { get; set; }
         public abstract string Remark { get; set; }
         public abstract string Owner { get; set; }
-        public abstract string Mess { get; set; }
         public abstract float Discount { get; set; }
         public abstract float OriginPrice { get; set; }
         public abstract DateTime CreateDate { get; set; }

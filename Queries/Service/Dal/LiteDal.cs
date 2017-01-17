@@ -38,10 +38,6 @@ namespace Service.Dal
 			throw new NotImplementedException();
 		}
 
-		public void BackUp(string path)
-		{
-			throw new NotImplementedException();
-		}
 
 		public void Dispose()
 		{

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Common.Structure;
+﻿using Common.Structure;
+using LiteDB;
 
 namespace Service.Structure
 {
@@ -11,6 +7,8 @@ namespace Service.Structure
 	{
 		public byte[] Id { get; set; }
 		public ItemModel Item { get; set; }
+		[BsonIndex]
+		[BsonField("Flat")]
 		public ItemModel FlatItem { get; set; }
 	}
 }

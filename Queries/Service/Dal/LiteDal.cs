@@ -6,26 +6,19 @@ using Service.Dal.Base;
 
 namespace Service.Dal
 {
-	public class LiteDal<T> : IDal<T>,IDisposable where T : Common.Structure.Base.BaseObject, new()
+	public class LiteDal<T> : IDal<T>,IDisposable where T :  new()
 	{
 		private readonly LiteDatabase _database;
 		private readonly LiteCollection<T> _collection;
-		public LiteDal(string indexProperty)
+		public LiteDal()
 		{
-			_database = new LiteDatabase($"{typeof(T).Name}.db");
+			_database = new LiteDatabase($"{typeof(T).Name}s.db");
 			_collection = _database.GetCollection<T>(typeof(T).Name);
-			_collection.EnsureIndex(indexProperty);
 		}
 
 		public void Insert(T obj)
 		{
-			obj.Id = ObjectId.NewObjectId().ToByteArray();
 			_collection.Insert(obj);
-		}
-
-		public IEnumerable<T> Find(Expression<Func<T,bool>> pridecate,int skip=0,int max = 50)
-		{
-			return _collection.Find(pridecate, skip*max, max);
 		}
 
 		public void Update(T obj)
@@ -34,6 +27,11 @@ namespace Service.Dal
 		}
 
 		public void Delete(T obj)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<T> Find(string query, int page, int length)
 		{
 			throw new NotImplementedException();
 		}

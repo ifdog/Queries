@@ -7,12 +7,13 @@ using Common.Factory;
 using Common.Static;
 using Common.Structure;
 using Service.Dal;
+using Service.Structure;
 
 namespace Service.Bll
 {
     public class ItemBll
     {
-		private readonly LiteDal<ItemModel> _itemDal = new LiteDal<ItemModel>("Mess");
+		private readonly LiteDal<ItemDbModel> _itemDal = new LiteDal<ItemDbModel>();
 	    private readonly string[] _itemPropertyNames = AttributeReader.GetProperty<SaveToDbAttribute>(new ItemModel()).Select(i=>i.Name).ToArray();
 
 

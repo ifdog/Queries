@@ -4,13 +4,14 @@ using Common.Enums;
 using Common.Factory;
 using Common.Structure;
 using Service.Dal;
+using Service.Structure;
 
 
 namespace Service.Bll
 {
     public class UserBll
     {
-	    readonly LiteDal<UserModel> _userDal = new LiteDal<UserModel>("UserName");
+	    readonly LiteDal<UserDbModel> _userDal = new LiteDal<UserDbModel>();
 
 	    public ResultUserModel Register(UserModel user)
 	    {

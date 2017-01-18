@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Common.Enums;
 using Common.Structure;
 
@@ -46,13 +47,13 @@ namespace Common.Factory
             };
         }
 
-        public static ResultItemsModel CreateItemsResult(List<ItemModel> result)
+        public static ResultItemsModel CreateItemsResult(IEnumerable<ItemModel> result)
         {
             return new ResultItemsModel
             {
                 ResultCode = (int)ResultCode.Ok,
                 Information = ResultCode.Ok.ToString(),
-                Items = result
+                Items = result.ToList()
             };
         }
 

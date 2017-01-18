@@ -15,7 +15,7 @@ namespace Queries.ViewModel
 		public string[] RunModes { get; set; } = {"Client Only", "Server Only", "Client/Server"};
 		public RelayCommand OkCommand { get; set; }
 		public RelayCommand RegisterCommand { get; set; }
-		public bool ServerStartMode { get; private set; }
+		public bool StartEmbeded { get; private set; }
 
 		private bool _isPassOn;
 
@@ -93,7 +93,7 @@ namespace Queries.ViewModel
 		{
 			var config = RunContext.Get<Configuration>();
 			this.RunMode = config.RunMode;
-			this.ServerStartMode = config.ServiceStartMode;
+			this.StartEmbeded = config.ServiceStartMode;
 			this.ServerIp = config.ServerPath;
 			var reqPort = config.RequestPort;
 			var svrPort = config.ServerPort;
@@ -130,12 +130,12 @@ namespace Queries.ViewModel
 					RunContext.TryAdd(() => new Client.Client(requestPath, requestPort));
 					break;
 				case 2:
-					RunContext.TryAdd(() => new ServiceAfter(ServerStartMode, serverPath, serverPort));
+					RunContext.TryAdd(() => new ServiceAfter(StartEmbeded, serverPath, serverPort));
 					RunContext.Get<ServiceAfter>().Run();
 					break;
 				case 3:
 					RunContext.TryAdd(() => new Client.Client(requestPath, requestPort));
-					RunContext.TryAdd(() => new ServiceAfter(ServerStartMode, serverPath, serverPort));
+					RunContext.TryAdd(() => new ServiceAfter(StartEmbeded, serverPath, serverPort));
 					RunContext.Get<ServiceAfter>().Run();
 					break;
 			}

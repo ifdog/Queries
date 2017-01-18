@@ -30,7 +30,6 @@ namespace Queries.Helpers
 	        if (embeded)
 	        {
 		        _hosting = new Service.Service(path, port);
-		        _hosting.StartHosting();
 	        }
 	        else
 	        {
@@ -63,16 +62,23 @@ namespace Queries.Helpers
 
         public void Run()
         {
-            _start = new ProcessStartInfo
-            {
-                UseShellExecute = true,
-                WorkingDirectory = Environment.CurrentDirectory,
-                FileName = "ServiceConsole.exe",
-                Arguments = $"{_path} {_port} {SocketPort}",
-                Verb = "runas"
-            };
-            Process.Start(_start);
-            _backgroundWorker.RunWorkerAsync();
+	        if (_runEmbeded)
+	        {
+		        _hosting.StartHosting();
+	        }
+	        else
+	        {
+				_start = new ProcessStartInfo
+				{
+					UseShellExecute = true,
+					WorkingDirectory = Environment.CurrentDirectory,
+					FileName = "ServiceConsole.exe",
+					Arguments = $"{_path} {_port} {SocketPort}",
+					Verb = "runas"
+				};
+				Process.Start(_start);
+				_backgroundWorker.RunWorkerAsync();
+			}
         }
 
 		private static void KillProcessExists()
@@ -88,7 +94,14 @@ namespace Queries.Helpers
 
 	    public void Stop()
 	    {
-		    _backgroundWorker.CancelAsync();
+		    if (_runEmbeded)
+		    {
+			    _hosting.StopHosting();
+		    }
+		    else
+		    {
+				_backgroundWorker.CancelAsync();
+			}
 	    }
 
 	    public void Dispose()

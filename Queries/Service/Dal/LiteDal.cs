@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using LiteDB;
 using Service.Dal.Base;
 
@@ -36,8 +35,8 @@ namespace Service.Dal
 			throw new NotImplementedException();
 		}
 
-		//Each@Name:xxx,Spec:yyy,Brand:zzz		Search.And
-		//Any @Name:xxx,Spec:yyy,Brand:zzz		Search.Or
+		//All@Name:xxx,Spec:yyy,Brand:zzz		Search.And
+		//Any@Name:xxx,Spec:yyy,Brand:zzz		Search.Or
 		public IEnumerable<T> Find(string query, int page = 0, int length = 50)
 		{
 			var w = query.Split(_splitAt, StringSplitOptions.RemoveEmptyEntries);
@@ -52,7 +51,7 @@ namespace Service.Dal
 				var z = y.Skip(1).ToArray();
 				switch (w[0])
 				{
-					case "Each":
+					case "All":
 						q = z.Aggregate(q, (current, sx) => Query.And(current, Query.Where(sx[0], i => i.AsString.Contains(sx[1]))));
 						break;
 					case "Any":

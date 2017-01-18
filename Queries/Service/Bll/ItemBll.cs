@@ -21,7 +21,6 @@ namespace Service.Bll
 
 		private readonly Type _itemType = typeof(ItemModel);
 
-
 		public ResultItemsModel AddItem(ItemModel item, string user = "Default")
 		{
 			var dbModel = new ItemDbModel

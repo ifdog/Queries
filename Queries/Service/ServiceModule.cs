@@ -59,11 +59,11 @@ namespace Service
 		        }
 				try
 				{
-			        var x = _userBll.Login(model.User);
+					var x = _userBll.Login(model.User);
 					return Response.AsJson(x)
 					  .WithCookie("Token", Token.Create(model.User.UserName, new TimeSpan(1, 0, 0, 0)));
 				}
-				catch (Exception e)
+					catch (Exception e)
 				{
 					return Response.AsJson(ResultFactory.CreateUserResult(e));
 				}

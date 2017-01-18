@@ -21,5 +21,10 @@ namespace Common.Structure
 		public int RequestPort { get; set; }
 		public string UserName { get; set; }
 		public string Password { get; set; }
+		/// <summary>
+		/// true:Embeded
+		/// false:Process.Start
+		/// </summary>
+		public bool ServiceStartMode { get; set; }
 	}
 }

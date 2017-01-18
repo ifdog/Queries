@@ -34,8 +34,10 @@ namespace Service.Bll
 	    public ResultUserModel Login(UserModel user)
 	    {
 		    if (!_userDal.Find($"Exa@User.UserName:{user.UserName}").Any())
+		    {
 			    return ResultFactory.CreateUserResult(ResultCode.UserNotExist);
-		    var u = _userDal.Find($"Exa@User.UserName:{user.UserName}").FirstOrDefault();
+			}
+			var u = _userDal.Find($"Exa@User.UserName:{user.UserName}").FirstOrDefault();
 		    if (u == null || !u.User.Password.Equals(user.Password))
 			    return ResultFactory.CreateUserResult(ResultCode.InvalidUserNameOrPassword);
 		    u.User.LastAccess = DateTime.Now;

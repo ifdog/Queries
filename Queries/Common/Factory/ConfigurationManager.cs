@@ -14,7 +14,9 @@ namespace Common.Factory
 				RequestPath = "192.168.1.100",
 				RequestPort = 88,
 				UserName = "ifdog",
-				Password = "123456"
+				Password = "123456",
+				ServiceStartMode = true
+				
 			};
 		}
 	}

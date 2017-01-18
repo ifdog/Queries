@@ -11,7 +11,7 @@ namespace Queries
 			RunContext.Add(() => RunContext.Get<ConfigurationManager>().Parse());
 			RunContext.Add(() => new RegisterWindow());
 			RunContext.Add(() => new LoginWindow());
-			RunContext.Add(()=>new Tiny());
+			RunContext.Add(() => new Tiny());
 		}
 	}
 }

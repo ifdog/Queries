@@ -7,9 +7,9 @@ using System.Net.Sockets;
 using System.Threading;
 using Common.Static;
 
-namespace Common.Factory
+namespace Queries.Helpers
 {
-    public class ServiceAfter
+    public class ServiceAfter:IDisposable
     {
         private readonly BackgroundWorker _backgroundWorker;
         private readonly Socket _socket;
@@ -19,17 +19,26 @@ namespace Common.Factory
 	    private readonly byte[] _1Bytes = {1};
 	    private readonly byte[] _0Bytes = {0};
 	    private ProcessStartInfo _start ;
+	    private readonly bool _runEmbeded;
+	    private readonly Service.Service _hosting;
 
         public ServiceAfter(bool embeded, string path, int port)
         {
+	        this._runEmbeded = embeded;
             this._path = path;
             this._port = port;
-            _socket = new Socket(SocketType.Stream,ProtocolType.Tcp);
-	        _backgroundWorker = new BackgroundWorker {WorkerSupportsCancellation = true};
-	        _backgroundWorker.DoWork += _backgroundWorker_DoWork;
+	        if (embeded)
+	        {
+		        _hosting = new Service.Service(path, port);
+		        _hosting.StartHosting();
+	        }
+	        else
+	        {
+				_socket = new Socket(SocketType.Stream, ProtocolType.Tcp);
+				_backgroundWorker = new BackgroundWorker { WorkerSupportsCancellation = true };
+				_backgroundWorker.DoWork += _backgroundWorker_DoWork;
+			}
 		}
-
-
 
         private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
@@ -82,5 +91,16 @@ namespace Common.Factory
 		    _backgroundWorker.CancelAsync();
 	    }
 
+	    public void Dispose()
+	    {
+		    if (_runEmbeded)
+		    {
+			    _hosting.StopHosting();
+		    }
+		    else
+		    {
+			    KillProcessExists();
+		    }
+	    }
     }
 }

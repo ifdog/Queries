@@ -16,9 +16,7 @@ namespace Queries.ViewModel
 	    private readonly List<string> _titles;
 
 		public RelayCommand Previous { get; private set; }
-		public RelayCommand Next { get; private set; };
-
-
+		public RelayCommand Next { get; private set; }
 
 	    public QueryViewModel()
 	    {
@@ -70,7 +68,7 @@ namespace Queries.ViewModel
             }
         }
 
-	    private int _page;
+	    private int _page = 0;
 
 	    public int Page
 	    {
@@ -82,7 +80,7 @@ namespace Queries.ViewModel
 		    }
 	    }
 
-	    private int _pageLength;
+	    private int _pageLength = 50;
 
 	    public int PageLength
 	    {

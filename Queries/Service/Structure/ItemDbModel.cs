@@ -3,9 +3,8 @@ using LiteDB;
 
 namespace Service.Structure
 {
-	public class ItemDbModel
+	public class ItemDbModel:DbModel
 	{
-		public byte[] Id { get; set; }
 		public ItemModel Item { get; set; }
 		[BsonIndex]
 		[BsonField("Flat")]

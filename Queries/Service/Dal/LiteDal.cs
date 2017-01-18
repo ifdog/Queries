@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using LiteDB;
 using Service.Dal.Base;
+using Service.Structure;
 
 namespace Service.Dal
 {
-	public class LiteDal<T> : IDal<T>, IDisposable where T : new()
+	public class LiteDal<T> : IDal<T>, IDisposable where T : DbModel, new()
 	{
 		private readonly LiteDatabase _database;
 		private readonly LiteCollection<T> _collection;
@@ -22,6 +23,8 @@ namespace Service.Dal
 
 		public void Insert(T obj)
 		{
+			obj.Id = \\
+			TODO;
 			_collection.Insert(obj);
 		}
 
@@ -56,8 +59,10 @@ namespace Service.Dal
 					return _collection.Find(
 						y.Aggregate(Query.All(), (current, sx) => Query.Or(current, Query.Contains(sx[0], sx[1]))), page*length, length);
 				case "Exa":
-					return _collection.Find(
-						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.EQ(sx[0], sx[1]))), page*length, length);
+					var aa = _collection.Find(
+						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.EQ(sx[0], sx[1]))), page * length, length);
+					var bb = _collection.Find(Query.Where("User.UserName",i=>i.AsString.Contains("t")));
+					return aa;
 				default:
 					return null;
 			}

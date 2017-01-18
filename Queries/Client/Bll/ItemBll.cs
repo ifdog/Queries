@@ -20,27 +20,19 @@ namespace Client.Bll
             _itemDal = new ItemDal(restClient);
         }
 
-        public DisplayModel Query(string query)
+        public ResultItemsModel Query(string query,int page, int length)
         {
             if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
             {
-                return new DisplayModel
-                {
-                    ResultCode = (int)ResultCode.InvalidParameter,
-                    Information = ResultCode.InvalidParameter.ToString()
-                };
+	            return ResultFactory.CreateItemsResult(ResultCode.InvalidParameter);
             }
             try
             {
-                return _itemDal.Query(query);
+                return _itemDal.Query(query,page,length);
             }
             catch (Exception e)
             {
-                return new DisplayModel
-                {
-                    ResultCode = (int)ResultCode.ClientSideUndefinedException,
-                    Information = e.Message
-                };
+	            return ResultFactory.CreateItemsResult(e);
             }
         }
 

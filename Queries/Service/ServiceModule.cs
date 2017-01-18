@@ -119,7 +119,7 @@ namespace Service
 		        }
 		        try
 		        {
-			        DisplayModel x = _itemBll.Search(paramerters.query, page, length);
+			        ResultItemsModel x = _itemBll.Search(paramerters.query, page, length);
 			        return Response.AsJson(x);
 		        }
 		        catch (Exception e)

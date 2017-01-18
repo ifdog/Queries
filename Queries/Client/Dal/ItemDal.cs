@@ -26,12 +26,14 @@ namespace Client.Dal
             return response.Data;
         }
 
-	    public DisplayModel Query(string query)
+	    public ResultItemsModel Query(string query,int page,int length)
 	    {
 	        var request = new RestRequest("v2/items/get/{Query}", Method.GET)
-	            .AddUrlSegment("Query", query);
+	            .AddUrlSegment("Query", query)
+				.AddQueryParameter("Page",page.ToString())
+				.AddQueryParameter("Length",length.ToString());
 	        var response = _restClient.Execute(request);
-            return Json.ToObject<DisplayModel>(response.Content);
+            return Json.ToObject<ResultItemsModel>(response.Content);
 	    }
 	}
 }

@@ -3,7 +3,6 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Common.Attribute;
-using Common.Static;
 using Common.Structure;
 using Queries.ViewModel.Base;
 
@@ -12,54 +11,54 @@ namespace Queries.ViewModel
     public class QueryViewModel : BaseViewModel
     {
         private readonly Client.Client _client;
-		private readonly DataTable _data = new DataTable();
 
 	    private readonly List<PropertyInfo> _modelProperties;
 	    private readonly List<string> _titles;
 
+		public RelayCommand Previous { get; private set; }
+		public RelayCommand Next { get; private set; };
 
 
-		public DataView Items { get; set; }
 
-		public QueryViewModel()
-        {
-            _client = RunContext.Get<Client.Client>();
-            this.PropertyChanged += QueryViewModel_PropertyChanged;
-			this._modelProperties = typeof(ItemModel)
-			.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-			.Where(i => i.GetCustomAttribute<SeenFromUiAttribute>() != null)
-			.OrderBy(i => i.GetCustomAttribute<SeenFromUiAttribute>().Squence)
-			.ToList();
-			this._titles = this._modelProperties
-				.Select(i => i.GetCustomAttribute<SeenFromUiAttribute>().Description)
-				.ToList();
-			_titles.ForEach(i => _data.Columns.Add(i, typeof(string)));
-		}
+	    public QueryViewModel()
+	    {
+		    _client = RunContext.Get<Client.Client>();
+		    this.PropertyChanged += QueryViewModel_PropertyChanged;
+		    this._modelProperties = typeof(ItemModel)
+			    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+			    .Where(i => i.GetCustomAttribute<SeenFromUiAttribute>() != null)
+			    .OrderBy(i => i.GetCustomAttribute<SeenFromUiAttribute>().Squence)
+			    .ToList();
+		    this._titles = this._modelProperties
+			    .Select(i => i.GetCustomAttribute<SeenFromUiAttribute>().Description)
+			    .ToList();
+		    _titles.ForEach(i => _data.Columns.Add(i, typeof(string)));
+		    this.Previous = new RelayCommand(() =>
+		    {
+			    if (Page > 0) Page--;
+		    });
+		    this.Next = new RelayCommand(() => Page++);
+	    }
 
-		private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (!e.PropertyName.Equals(nameof(Query))) return;
-            if (string.IsNullOrWhiteSpace(Query)) return;
-			_data.Clear();
-	        var x = _client.Item.Query(_query, Page, PageLength);
-            if (x?.Items != null && x.Items.Count > 0)
-            {
-	            var c = _titles.Count;
-                x.Items.ForEach(i =>
-                {
-                    var r = _data.NewRow();
-                    for (int j = 0; j < c; j++)
-                    {
-                        r[_titles[j]] = _modelProperties[j].GetValue(i).ToString();
-                    }
-                    _data.Rows.Add(r);
-                });
-                Items = _data.DefaultView;
-            }
-            OnPropertyChanged(nameof(Items));
-        }
+	    private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+	    {
+		    if (!e.PropertyName.Equals(nameof(Query)) || !e.PropertyName.Equals(nameof(Page))) return;
+		    if (string.IsNullOrWhiteSpace(Query)) return;
+		    var x = _client.Item.Query(_query, Page, PageLength);
+		    _data.Clear();
+		    if (x?.Items == null || x.Items.Count <= 0) return;
+		    x.Items.ForEach(i =>
+		    {
+			    var r = _data.NewRow();
+			    for (var j = 0; j < _titles.Count; j++)
+			    {
+				    r[_titles[j]] = _modelProperties[j].GetValue(i).ToString();
+			    }
+			    _data.Rows.Add(r);
+		    });
+	    }
 
-		private string _query;
+	    private string _query;
 
 		public string Query
         {
@@ -95,15 +94,28 @@ namespace Queries.ViewModel
 		    }
 	    }
 
-	    public RelayCommand Get
+	    private string _status;
+
+	    public string Status
 	    {
-		    get
+		    get { return _status; }
+		    set
 		    {
-			    return new RelayCommand(() =>
-			    {
-				    this.Query = Excel.GetInstance();
-			    });
-		    } 
+			    _status = value;
+			    OnPropertyChanged(nameof(Status));
+		    }
 	    }
+
+		private  DataTable _data = new DataTable();
+
+	    public DataTable Data
+	    {
+		    get { return _data; }
+		    set
+		    {
+			    _data = value; 
+			    OnPropertyChanged(nameof(Data));
+		    }
+	    }		
     }
 }

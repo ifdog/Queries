@@ -1,4 +1,5 @@
-﻿using Common.Static;
+﻿using System.Windows.Input;
+using Common.Static;
 
 namespace Queries.View.UserControl
 {
@@ -16,5 +17,15 @@ namespace Queries.View.UserControl
         {
             this.TextBox.Text = Excel.GetInstance();
         }
+
+		private void TextBox_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if(e.ChangedButton == MouseButton.Middle) this.TextBox.Clear();
+		}
+
+		private void DataGrid_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			
+		}
 	}
 }

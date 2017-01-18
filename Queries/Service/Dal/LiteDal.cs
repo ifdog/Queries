@@ -37,6 +37,7 @@ namespace Service.Dal
 
 		//All@Name:xxx,Spec:yyy,Brand:zzz		Search.And
 		//Any@Name:xxx,Spec:yyy,Brand:zzz		Search.Or
+		//Exa@Name:xxx,Spec:yyy,Brand:zzz		Search.Exactly
 		public IEnumerable<T> Find(string query, int page = 0, int length = 50)
 		{
 			var w = query.Split(_splitAt, StringSplitOptions.RemoveEmptyEntries);
@@ -45,21 +46,23 @@ namespace Service.Dal
 			if (x.Length == 0) return null;
 			if (!x.All(i => i.Contains(':'))) return null;
 			var y = x.Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries)).ToArray();
-			var q = Query.Where(y[0][0], i => i.AsString.Contains(y[0][1]));
-			if (y.Length > 1)
+			Query q;
+			switch (w[0])
 			{
-				var z = y.Skip(1).ToArray();
-				switch (w[0])
-				{
-					case "All":
-						q = z.Aggregate(q, (current, sx) => Query.And(current, Query.Where(sx[0], i => i.AsString.Contains(sx[1]))));
-						break;
-					case "Any":
-						q = z.Aggregate(q, (current, sx) => Query.Or(current, Query.Where(sx[0], i => i.AsString.Contains(sx[1]))));
-						break;
-					default:
-						return null;
-				}
+				case "All":
+					q = y.Aggregate(Query.Contains(y[0][0], y[0][1]),
+						(current, sx) => Query.And(current, Query.Contains(sx[0], sx[1])));
+					break;
+				case "Any":
+					q = y.Aggregate(Query.Contains(y[0][0], y[0][1]),
+						(current, sx) => Query.Or(current, Query.Contains(sx[0], sx[1])));
+					break;
+				case "Exa":
+					q = y.Aggregate(Query.EQ(y[0][0], y[0][1]),
+						(current, sx) => Query.And(current, Query.EQ(sx[0], sx[1])));
+					break;
+				default:
+					return null;
 			}
 			return _collection.Find(q, page*length, length);
 		}

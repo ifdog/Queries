@@ -6,11 +6,11 @@ using Service.Dal.Base;
 
 namespace Service.Dal
 {
-	public class LiteDal<T> : IDal<T>,IDisposable where T :  new()
+	public class LiteDal<T> : IDal<T>, IDisposable where T : new()
 	{
 		private readonly LiteDatabase _database;
 		private readonly LiteCollection<T> _collection;
-		private readonly char[] _splitAt =  {'@'};
+		private readonly char[] _splitAt = {'@'};
 		private readonly char[] _splitComma = {','};
 		private readonly char[] _splitColon = {':'};
 
@@ -27,7 +27,7 @@ namespace Service.Dal
 
 		public void Update(T obj)
 		{
-			 _collection.Update(obj);
+			_collection.Update(obj);
 		}
 
 		public void Delete(T obj)
@@ -46,29 +46,24 @@ namespace Service.Dal
 			if (x.Length == 0) return null;
 			if (!x.All(i => i.Contains(':'))) return null;
 			var y = x.Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries)).ToArray();
-			Query q;
+			if (y.Any(i => i.Length != 2)) return null;
 			switch (w[0])
 			{
 				case "All":
-					q = y.Aggregate(Query.Contains(y[0][0], y[0][1]),
-						(current, sx) => Query.And(current, Query.Contains(sx[0], sx[1])));
-					break;
+					return _collection.Find(
+						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.Contains(sx[0], sx[1]))), page*length, length);
 				case "Any":
-					q = y.Aggregate(Query.Contains(y[0][0], y[0][1]),
-						(current, sx) => Query.Or(current, Query.Contains(sx[0], sx[1])));
-					break;
+					return _collection.Find(
+						y.Aggregate(Query.All(), (current, sx) => Query.Or(current, Query.Contains(sx[0], sx[1]))), page*length, length);
 				case "Exa":
-					q = y.Aggregate(Query.EQ(y[0][0], y[0][1]),
-						(current, sx) => Query.And(current, Query.EQ(sx[0], sx[1])));
-					break;
+					return _collection.Find(
+						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.EQ(sx[0], sx[1]))), page*length, length);
 				default:
 					return null;
 			}
-			return _collection.Find(q, page*length, length);
 		}
 
-
-		public void Dispose()
+	public void Dispose()
 		{
 			_database.Dispose();
 		}

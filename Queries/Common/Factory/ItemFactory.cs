@@ -20,9 +20,7 @@ namespace Common.Factory
                 DiscountedPrice = discountedprice,
                 Remark = remark,
                 CreateDate = DateTime.Now,
-                Mess =
-                    Strings.Concat(Strings.ToPinyin(Strings.Filter(name)), Strings.ToShortPinyin(Strings.Filter(name)), Strings.Filter(model), Strings.Filter(brand),
-                        Strings.Filter(spec), Strings.Filter(supplier), Strings.Filter(remark))
+               
             };
         }
     }

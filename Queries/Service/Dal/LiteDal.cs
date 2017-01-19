@@ -4,6 +4,7 @@ using System.Linq;
 using LiteDB;
 using Service.Dal.Base;
 using Service.Structure;
+using Service.Structure.Base;
 
 namespace Service.Dal
 {
@@ -23,8 +24,7 @@ namespace Service.Dal
 
 		public void Insert(T obj)
 		{
-			obj.Id = \\
-			TODO;
+			obj.Id = ObjectId.NewObjectId().ToByteArray();
 			_collection.Insert(obj);
 		}
 
@@ -61,7 +61,6 @@ namespace Service.Dal
 				case "Exa":
 					var aa = _collection.Find(
 						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.EQ(sx[0], sx[1]))), page * length, length);
-					var bb = _collection.Find(Query.Where("User.UserName",i=>i.AsString.Contains("t")));
 					return aa;
 				default:
 					return null;

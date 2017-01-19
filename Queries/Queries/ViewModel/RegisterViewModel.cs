@@ -1,5 +1,8 @@
-﻿using Common.Factory;
+﻿using System.Windows.Input;
+using Common.Enums;
+using Common.Factory;
 using Queries.ViewModel.Base;
+using Common.Static;
 
 namespace Queries.ViewModel
 {
@@ -102,7 +105,7 @@ namespace Queries.ViewModel
 	        var r = RunContext.Get<Client.Client>().User.Register(
 	            UserFactory.CreateNew(
 	                this.UserName, this.Password1, this.RealName));
-	        this.Status = r.Information;
+		    this.Status = r.ToResultCode().GetDescription();
 	    }
 	}
 }

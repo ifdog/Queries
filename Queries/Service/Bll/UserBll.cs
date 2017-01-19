@@ -15,9 +15,9 @@ namespace Service.Bll
 
 	    public ResultUserModel Register(UserModel user)
 	    {
-			//if (_userDal.Find($"Exa@User.UserName:{user.UserName}").Any())
-			//	return ResultFactory.CreateUserResult(ResultCode.UserNameAlreadyExist);
-		    _userDal.Insert(new UserDbModel
+			if (_userDal.Find($"Exa@User.UserName:{user.UserName}").Any())
+				return ResultFactory.CreateUserResult(ResultCode.UserNameAlreadyExist);
+			_userDal.Insert(new UserDbModel
 		    {
 			    User = new UserModel
 			    {

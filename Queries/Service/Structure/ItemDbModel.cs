@@ -1,5 +1,6 @@
 ﻿using Common.Structure;
 using LiteDB;
+using Service.Structure.Base;
 
 namespace Service.Structure
 {

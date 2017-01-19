@@ -59,7 +59,7 @@
     <Compile Include="Service.cs" />
     <Compile Include="ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Structure\DbModel.cs" />
+    <Compile Include="Structure\Base\DbModel.cs" />
     <Compile Include="Structure\ItemDbModel.cs" />
     <Compile Include="Structure\UserDbModel.cs" />
   </ItemGroup>

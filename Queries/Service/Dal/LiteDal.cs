@@ -11,6 +11,11 @@ using Service.Structure.Base;
 
 namespace Service.Dal
 {
+	public class MyClass
+	{
+		 public string Name { get; set; }
+		public IEnumerable<PropertyInfo> Property { get; set; }
+	}
 	public class LiteDal<T> : IDal<T>, IDisposable where T : DbModel, new()
 	{
 		private readonly LiteDatabase _database;
@@ -26,12 +31,17 @@ namespace Service.Dal
 			_database = new LiteDatabase($"{typeof(T).Name}s.db");
 			_collection = _database.GetCollection<T>(typeof(T).Name);
 
+
 			var x = typeof(ItemDbModel).GetProperties()
-				.Where(i=>i.GetCustomAttribute<TypeIndexedAttribute>()!=null)
-				
-				.SelectMany(i => i.PropertyType.GetProperties())
-				.Where(i => i.GetCustomAttribute<IndexedAttribute>() != null)
-				
+				.Where(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).ToList()
+				.SelectMany(i =>
+				{
+					var p = i.GetCustomAttribute<BsonFieldAttribute>();
+					return i.PropertyType.GetProperties()
+						.Select(property => new {Name = p == null ? i.Name : p.Name, Property = property});
+				})
+				.Where(i => i.Property.GetCustomAttribute<IndexedAttribute>() != null)
+				.Select(i => $"{i.Name}.{i.Property.Name}")
 				.ToList();
 
 		}

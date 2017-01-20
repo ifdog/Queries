@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 
 
 namespace Common.Static
@@ -20,6 +16,7 @@ namespace Common.Static
 
 		public static string Filter(string s)
 		{
+			if (s == null) return string.Empty;
 			var a = Regex.Replace(s, @"[×|~|@|!|?|<|,|, |／|/|.|-|\s|#|$|\t|\n|#|\r|（|）|≤|、|(|)|℃|*]", string.Empty)
 				.ToUpper();
 			return a;

@@ -27,7 +27,7 @@ namespace Queries.View.UserControl
 
 		private void button_Click(object sender, RoutedEventArgs e)
 		{
-			RunContext.Get<Tiny>().Show();
+			
 		}
 	}
 }

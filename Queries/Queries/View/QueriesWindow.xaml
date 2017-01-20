@@ -10,7 +10,7 @@
         xmlns:base="clr-namespace:Queries.ViewModel.Base"
         mc:Ignorable="d"
         Title="Queries" Height="600" Width="800" MinWidth="400" MinHeight="300" WindowStartupLocation="CenterScreen"
-        WindowStyle="None">
+        >
     <Window.DataContext>
         <model:QueriesViewModel/>
     </Window.DataContext>

@@ -40,8 +40,10 @@ namespace Queries.ViewModel
 
 	    private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 	    {
-		    if (!e.PropertyName.Equals(nameof(Query)) || !e.PropertyName.Equals(nameof(Page))) return;
+		    if (!e.PropertyName.Equals(nameof(Query)) && !e.PropertyName.Equals(nameof(Page))) return;
 		    if (string.IsNullOrWhiteSpace(Query)) return;
+		    var prefix = Query.Contains(':') ? "All" : "Any";
+			
 		    var x = _client.Item.Query(_query, Page, PageLength);
 		    _data.Clear();
 		    if (x?.Items == null || x.Items.Count <= 0) return;
@@ -50,7 +52,7 @@ namespace Queries.ViewModel
 			    var r = _data.NewRow();
 			    for (var j = 0; j < _titles.Count; j++)
 			    {
-				    r[_titles[j]] = _modelProperties[j].GetValue(i).ToString();
+				    r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
 			    }
 			    _data.Rows.Add(r);
 		    });

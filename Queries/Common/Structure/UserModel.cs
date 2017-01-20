@@ -9,12 +9,14 @@ namespace Common.Structure
         public override long Id { get; set; }
 
         [SeenFromUi(@"用户名", 1)]
+		[Indexed]
         public override string UserName { get; set; }
 
         [SeenFromUi(@"密码", 1)]
         public override string Password { get; set; }
 
         [SeenFromUi(@"实名", 1)]
+		[Indexed]
         public override string RealName { get; set; }
 
         [SeenFromUi(@"权限", 1)]

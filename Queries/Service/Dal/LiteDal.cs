@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using Common.Attribute;
+using Common.Structure;
 using LiteDB;
 using Service.Dal.Base;
 using Service.Structure;
@@ -15,11 +18,22 @@ namespace Service.Dal
 		private readonly char[] _splitAt = {'@'};
 		private readonly char[] _splitComma = {','};
 		private readonly char[] _splitColon = {':'};
+		private readonly string _dbItemPrefix;
 
-		public LiteDal()
+		public LiteDal(string dbItemPrefix)
 		{
+			_dbItemPrefix = dbItemPrefix;
 			_database = new LiteDatabase($"{typeof(T).Name}s.db");
 			_collection = _database.GetCollection<T>(typeof(T).Name);
+
+			var x = typeof(ItemDbModel).GetProperties()
+				.Where(i=>i.GetCustomAttribute<TypeIndexedAttribute>()!=null)
+				.Select(i => new {i.Name, i.PropertyType })
+				.SelectMany(i => new {i.Name , i.PropertyType.GetProperties()})
+				.Where(i => i.GetCustomAttribute<IndexedAttribute>() != null)
+				
+				.ToList();
+
 		}
 
 		public void Insert(T obj)
@@ -44,30 +58,45 @@ namespace Service.Dal
 		public IEnumerable<T> Find(string query, int page = 0, int length = 50)
 		{
 			var w = query.Split(_splitAt, StringSplitOptions.RemoveEmptyEntries);
-			if (w.Length < 2) return null;
+			if (w.Length < 2) return new List<T>();
 			var x = w[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries);
-			if (x.Length == 0) return null;
-			if (!x.All(i => i.Contains(':'))) return null;
+			if (x.Length == 0) return new List<T>();
+			if (!x.All(i => i.Contains(':'))) return new List<T>();
 			var y = x.Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries)).ToArray();
-			if (y.Any(i => i.Length != 2)) return null;
+			if (y.Any(i => i.Length != 2)) return new List<T>();
 			switch (w[0])
 			{
 				case "All":
 					return _collection.Find(
-						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.Contains(sx[0], sx[1]))), page*length, length);
+						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.Contains($"{_dbItemPrefix}.{sx[0]}", sx[1]))),
+						page*length, length);
 				case "Any":
-					return _collection.Find(
-						y.Aggregate(Query.All(), (current, sx) => Query.Or(current, Query.Contains(sx[0], sx[1]))), page*length, length);
+					if (y.Length == 1)
+					{
+						var sx = _collection.Find(Query.Contains($"{_dbItemPrefix}.{y[0][0]}", y[0][1]), page * length, length).ToArray();
+						return sx;
+					}
+					var any = Query.Contains($"{_dbItemPrefix}.{y[0][0]}", y[0][1]);
+					foreach (var i in y.Skip(1))
+					{
+						any=Query.And(any,Query.Contains($"{_dbItemPrefix}.{i[0]}", i[1]));
+					}
+					return _collection.Find(any, page*length, length);
 				case "Exa":
-					var aa = _collection.Find(
-						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.EQ(sx[0], sx[1]))), page * length, length);
-					return aa;
+					if (y.Length == 1)
+						return _collection.Find(Query.EQ($"{_dbItemPrefix}.{y[0][0]}", y[0][1]), page * length, length).ToArray();
+					var exa = Query.EQ(y[0][0], y[0][1]);
+					foreach (var i in y.Skip(1))
+					{
+					exa = Query.And(exa, Query.Contains($"{_dbItemPrefix}.{i[0]}", i[1]));
+					}
+					return _collection.Find(exa, page * length, length);
 				default:
 					return null;
 			}
 		}
 
-	public void Dispose()
+		public void Dispose()
 		{
 			_database.Dispose();
 		}

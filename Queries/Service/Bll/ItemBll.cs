@@ -14,7 +14,7 @@ namespace Service.Bll
 {
 	public class ItemBll
 	{
-		private readonly LiteDal<ItemDbModel> _itemDal = new LiteDal<ItemDbModel>();
+		private readonly LiteDal<ItemDbModel> _itemDal = new LiteDal<ItemDbModel>("Flat");
 
 		private readonly string[] _itemPropertyNames = AttributeReader.GetProperty<SaveToDbAttribute>(new ItemModel())
 			.Select(i => i.Name).ToArray();

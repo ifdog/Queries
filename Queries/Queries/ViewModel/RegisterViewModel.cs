@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-using Common.Enums;
-using Common.Factory;
+﻿using Common.Factory;
 using Queries.ViewModel.Base;
 using Common.Static;
 
@@ -100,12 +98,11 @@ namespace Queries.ViewModel
 	        return true;
 	    }
 
-	    private void OkAction()
-	    {
-	        var r = RunContext.Get<Client.Client>().User.Register(
-	            UserFactory.CreateNew(
-	                this.UserName, this.Password1, this.RealName));
-		    this.Status = r.ToResultCode().GetDescription();
-	    }
+		private void OkAction()
+		{
+			var r =
+				RunContext.Get<Client.Client>().User.Register(UserFactory.CreateNew(this.UserName, this.Password1, this.RealName));
+			this.Status = r.ToResultCode().GetDescription();
+		}
 	}
 }

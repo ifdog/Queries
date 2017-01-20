@@ -3,11 +3,11 @@
 namespace Common.Attribute
 {
 	[AttributeUsage(AttributeTargets.Property)]
-	public class ToFlatAttribute:System.Attribute
+	public class IndexedAttribute:System.Attribute
 	{
 		public bool ToFlat { get; set; }
 
-		public ToFlatAttribute(bool toFlat = true)
+		public IndexedAttribute(bool toFlat = false)
 		{
 			this.ToFlat = toFlat;
 		}

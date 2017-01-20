@@ -1,4 +1,5 @@
-﻿using Common.Structure;
+﻿using Common.Attribute;
+using Common.Structure;
 using LiteDB;
 using Service.Structure.Base;
 
@@ -8,6 +9,7 @@ namespace Service.Structure
 	{
 		[BsonIndex]
 		[BsonField("User")]
+		[TypeIndexed]
 		public UserModel User { get; set; }
 	}
 }

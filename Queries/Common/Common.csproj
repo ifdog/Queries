@@ -88,8 +88,9 @@
     <Compile Include="Attribute\DescriptionAttribute.cs" />
     <Compile Include="Attribute\SaveToDbAttribute.cs" />
     <Compile Include="Attribute\SeenFromUiAttribute.cs" />
-    <Compile Include="Attribute\ToFlatAttribute.cs" />
+    <Compile Include="Attribute\IndexedAttribute.cs" />
     <Compile Include="Attribute\TransportAttribute.cs" />
+    <Compile Include="Attribute\TypeIndexedAttribute.cs" />
     <Compile Include="Enums\ResultCode.cs" />
     <Compile Include="Static\AttributeHelper.cs" />
     <Compile Include="Factory\Hotkey.cs" />

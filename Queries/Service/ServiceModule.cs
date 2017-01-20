@@ -117,16 +117,17 @@ namespace Service
 		        {
 			        return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.InvalidParameter));
 		        }
-		        try
-		        {
+				//try
+				{
 			        ResultItemsModel x = _itemBll.Search(paramerters.query, page, length);
 			        return Response.AsJson(x);
 		        }
-		        catch (Exception e)
-		        {
-			        return Response.AsJson(ResultFactory.CreateItemsResult(e));
-		        }
-	        };
+
+				//catch (Exception e)
+				//{
+				//	return Response.AsJson(ResultFactory.CreateItemsResult(e));
+				//}
+			};
 
 	        Post["/items/add/"] = _ =>
 	        {
@@ -145,13 +146,13 @@ namespace Service
 		        {
 			        return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.ActionNotCorresponding));
 		        }
-		        try
+		        //try
 		        {
 			        return Response.AsJson(_itemBll.AddItems(model.Items, Token.ParseName(token)));
 		        }
-		        catch (Exception e)
+		        //catch (Exception e)
 		        {
-			        return Response.AsJson(ResultFactory.CreateItemsResult(e));
+			        //return Response.AsJson(ResultFactory.CreateItemsResult(e));
 		        }
 	        };
 

@@ -28,8 +28,8 @@ namespace Service.Dal
 
 			var x = typeof(ItemDbModel).GetProperties()
 				.Where(i=>i.GetCustomAttribute<TypeIndexedAttribute>()!=null)
-				.Select(i => new {i.Name, i.PropertyType })
-				.SelectMany(i => new {i.Name , i.PropertyType.GetProperties()})
+				
+				.SelectMany(i => i.PropertyType.GetProperties())
 				.Where(i => i.GetCustomAttribute<IndexedAttribute>() != null)
 				
 				.ToList();

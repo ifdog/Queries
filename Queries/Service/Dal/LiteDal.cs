@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Common.Attribute;
+using Common.Static;
 using Common.Structure;
 using LiteDB;
 using Service.Dal.Base;
@@ -32,17 +33,17 @@ namespace Service.Dal
 			_collection = _database.GetCollection<T>(typeof(T).Name);
 
 
-			var x = typeof(ItemDbModel).GetProperties()
-				.Where(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).ToList()
-				.SelectMany(i =>
-				{
-					var p = i.GetCustomAttribute<BsonFieldAttribute>();
-					return i.PropertyType.GetProperties()
-						.Select(property => new {Name = p == null ? i.Name : p.Name, Property = property});
-				})
-				.Where(i => i.Property.GetCustomAttribute<IndexedAttribute>() != null)
-				.Select(i => $"{i.Name}.{i.Property.Name}")
-				.ToList();
+		     //typeof(T).GetProperties()
+		     //   .Where(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).ToList()
+		     //   .SelectMany(i =>
+		     //   {
+		     //       var p = i.GetCustomAttribute<BsonFieldAttribute>();
+		     //       return i.PropertyType.GetProperties()
+		     //           .Select(property => new {Name = p == null ? i.Name : p.Name, Property = property});
+		     //   })
+		     //   .Where(i => i.Property.GetCustomAttribute<IndexedAttribute>() != null)
+		     //   .Select(i => $"{i.Name}.{i.Property.Name}")
+		     //   .ForEach(i => _collection.EnsureIndex(i));
 
 		}
 
@@ -74,39 +75,47 @@ namespace Service.Dal
 			if (!x.All(i => i.Contains(':'))) return new List<T>();
 			var y = x.Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries)).ToArray();
 			if (y.Any(i => i.Length != 2)) return new List<T>();
+		    Func<T, bool> func;
 			switch (w[0])
 			{
 				case "All":
-					return _collection.Find(
-						y.Aggregate(Query.All(), (current, sx) => Query.And(current, Query.Contains($"{_dbItemPrefix}.{sx[0]}", sx[1]))),
-						page*length, length);
+			        func = y.Aggregate(_head, (current, i) => And(current, Contains(i[0], i[1])));
+                    break;
 				case "Any":
-					if (y.Length == 1)
-					{
-						var sx = _collection.Find(Query.Contains($"{_dbItemPrefix}.{y[0][0]}", y[0][1]), page * length, length).ToArray();
-						return sx;
-					}
-					var any = Query.Contains($"{_dbItemPrefix}.{y[0][0]}", y[0][1]);
-					foreach (var i in y.Skip(1))
-					{
-						any=Query.And(any,Query.Contains($"{_dbItemPrefix}.{i[0]}", i[1]));
-					}
-					return _collection.Find(any, page*length, length);
-				case "Exa":
-					if (y.Length == 1)
-						return _collection.Find(Query.EQ($"{_dbItemPrefix}.{y[0][0]}", y[0][1]), page * length, length).ToArray();
-					var exa = Query.EQ(y[0][0], y[0][1]);
-					foreach (var i in y.Skip(1))
-					{
-					exa = Query.And(exa, Query.Contains($"{_dbItemPrefix}.{i[0]}", i[1]));
-					}
-					return _collection.Find(exa, page * length, length);
-				default:
-					return null;
+			        func = y.Aggregate(_head, (current, i) => Or(current, Contains(i[0], i[1])));
+                    break;
+                case "Exa":
+			        func = y.Aggregate(_head, (current, i) => And(current, Equals(i[0], i[1])));
+                    break;
+                default:
+			        return null;
 			}
-		}
+            return _collection.FindAll().Where(func).Skip(page * length).Take(length);
+        }
 
-		public void Dispose()
+        private static Func<T, bool> And(Func<T, bool> funcA, Func<T, bool> funcB)
+	    {
+	        return arg => funcA(arg) && funcB(arg);
+	    }
+
+	    private static Func<T, bool> Or(Func<T, bool> funcA, Func<T, bool> funcB)
+	    {
+	        return arg => funcA(arg) || funcB(arg);
+	    }
+
+	    private static Func<T, bool> Contains(string source, string value)
+	    {
+	        return arg => arg.GetType().GetProperty(source).GetValue(arg).ToString().Contains(value);
+	    }
+
+	    private static Func<T, bool> Equals(string source, string value)
+	    {
+	        return arg => arg.GetType().GetProperty(source).GetValue(arg).ToString().Equals(value);
+	    }
+
+	    private readonly Func<T, bool> _head = arg => true;
+
+	    public void Dispose()
 		{
 			_database.Dispose();
 		}

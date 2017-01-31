@@ -2,21 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Common.Attribute;
-using Common.Static;
 using Common.Structure;
 using LiteDB;
+using NLog;
 using Service.Dal.Base;
 using Service.Structure;
 using Service.Structure.Base;
 
 namespace Service.Dal
 {
-	public class MyClass
-	{
-		 public string Name { get; set; }
-		public IEnumerable<PropertyInfo> Property { get; set; }
-	}
 	public class LiteDal<T> : IDal<T>, IDisposable where T : DbModel, new()
 	{
 		private readonly LiteDatabase _database;
@@ -25,6 +19,7 @@ namespace Service.Dal
 		private readonly char[] _splitComma = {','};
 		private readonly char[] _splitColon = {':'};
 		private readonly string _dbItemPrefix;
+	    private NLog.Logger _logger = LogManager.GetCurrentClassLogger();
 
 		public LiteDal(string dbItemPrefix)
 		{
@@ -76,20 +71,24 @@ namespace Service.Dal
 			var y = x.Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries)).ToArray();
 			if (y.Any(i => i.Length != 2)) return new List<T>();
 		    Func<T, bool> func;
-			switch (w[0])
-			{
-				case "All":
-			        func = y.Aggregate(_head, (current, i) => And(current, Contains(i[0], i[1])));
-                    break;
-				case "Any":
-			        func = y.Aggregate(_head, (current, i) => Or(current, Contains(i[0], i[1])));
-                    break;
-                case "Exa":
-			        func = y.Aggregate(_head, (current, i) => And(current, Equals(i[0], i[1])));
-                    break;
-                default:
-			        return null;
-			}
+
+		    switch (w[0])
+		    {
+		        case "All":
+		            func = y.Aggregate(_head,
+		                (current, i) => And(current, Contains(i[0].Split('.')[0], i[0].Split('.')[1], i[1])));
+		            break;
+		        case "Any":
+		            func = i => (i as ItemDbModel).FlatItem.Spec.Contains("101");
+		            break;
+		        case "Exa":
+		            func = y.Aggregate(_head,
+		                (current, i) => And(current, Equals(i[0].Split('.')[0], i[0].Split('.')[1], i[1])));
+		            break;
+		        default:
+		            return null;
+		    }
+
             return _collection.FindAll().Where(func).Skip(page * length).Take(length);
         }
 
@@ -103,15 +102,24 @@ namespace Service.Dal
 	        return arg => funcA(arg) || funcB(arg);
 	    }
 
-	    private static Func<T, bool> Contains(string source, string value)
+	    private static Func<T, bool> Contains(string className,string subName, string value)
 	    {
-	        return arg => arg.GetType().GetProperty(source).GetValue(arg).ToString().Contains(value);
+
+	        return arg =>
+	        {
+	            var subProperty = typeof(T).GetProperty(className).GetValue(arg);
+	            return subProperty.GetType().GetProperty(subName).GetValue(subProperty).ToString().Contains(value);
+	        };
 	    }
 
-	    private static Func<T, bool> Equals(string source, string value)
+	    private static Func<T, bool> Equals(string className, string subName, string value)
 	    {
-	        return arg => arg.GetType().GetProperty(source).GetValue(arg).ToString().Equals(value);
-	    }
+            return arg =>
+            {
+                var subProperty = typeof(T).GetProperty(className).GetValue(arg);
+                return subProperty.GetType().GetProperty(subName).GetValue(subProperty).ToString().Equals(value);
+            };
+        }
 
 	    private readonly Func<T, bool> _head = arg => true;
 

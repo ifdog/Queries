@@ -1,5 +1,8 @@
 ﻿using System;
 using Nancy.Hosting.Self;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 
 namespace Service
 {
@@ -12,6 +15,7 @@ namespace Service
         {
             var uri = new Uri($"http://{hostingPath}:{hostingPort}");
             _host = new NancyHost(uri);
+            NlogConfig();
         }
 
         public Service StartHosting()
@@ -32,6 +36,21 @@ namespace Service
                 this.Started = false;
             }
             return this;
+        }
+
+        public void NlogConfig()
+        {
+            var config = new LoggingConfiguration();
+            var consoleTarget = new DebuggerTarget();
+            var fileTarget = new FileTarget
+            {
+                FileName = "${basedir}/Service.log",
+            };
+            config.AddTarget("Console",consoleTarget);
+            config.AddTarget("File",fileTarget);
+            config.AddRule(LogLevel.Trace,LogLevel.Fatal,consoleTarget);
+            config.AddRule(LogLevel.Trace, LogLevel.Fatal, fileTarget);
+            LogManager.Configuration = config;
         }
 
         public void Dispose()

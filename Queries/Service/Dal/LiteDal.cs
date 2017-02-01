@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using Common.Attribute;
 using Common.Structure;
 using LiteDB;
 using NLog;
@@ -75,55 +77,46 @@ namespace Service.Dal
 		    switch (w[0])
 		    {
 		        case "All":
-		            func = y.Aggregate(_head,
-		                (current, i) => And(current, Contains(i[0].Split('.')[0], i[0].Split('.')[1], i[1])));
-		            break;
-		        case "Any":
-		            func = i => (i as ItemDbModel).FlatItem.Spec.Contains("101");
-		            break;
-		        case "Exa":
-		            func = y.Aggregate(_head,
-		                (current, i) => And(current, Equals(i[0].Split('.')[0], i[0].Split('.')[1], i[1])));
-		            break;
-		        default:
+                    return _collection.FindAll().Where(GetExaExpression(y).Compile()).Skip(page * length).Take(length);
+                case "Any":
+                    return _collection.FindAll().Where(GetExaExpression(y).Compile()).Skip(page * length).Take(length);
+                case "Exa":
+                    return _collection.FindAll().Where(GetExaExpression(y).Compile()).Skip(page * length).Take(length);
+                default:
 		            return null;
 		    }
 
-            return _collection.FindAll().Where(func).Skip(page * length).Take(length);
+            
         }
 
-        private static Func<T, bool> And(Func<T, bool> funcA, Func<T, bool> funcB)
+	    public static Expression<Func<T, bool>> GetConditionExpression(string[][] pairs)
 	    {
-	        return arg => funcA(arg) && funcB(arg);
+	        var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
+	        var left = Expression.Parameter(typeof(T), "c");
+	        Expression expression = Expression.Constant(false);
+	        expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left,searchItem), pair[0]), 
+	            typeof(string).GetMethod("Contains", new[] {typeof(string)}),                  
+	            Expression.Constant(pair[1])
+	        )).Aggregate<Expression, Expression>(expression, (current, right) => Expression.Or(right, current));
+	        var finalExpression
+	            = Expression.Lambda<Func<T, bool>>(expression, left);
+	        return finalExpression;
 	    }
 
-	    private static Func<T, bool> Or(Func<T, bool> funcA, Func<T, bool> funcB)
-	    {
-	        return arg => funcA(arg) || funcB(arg);
-	    }
-
-	    private static Func<T, bool> Contains(string className,string subName, string value)
-	    {
-
-	        return arg =>
-	        {
-	            var subProperty = typeof(T).GetProperty(className).GetValue(arg);
-	            return subProperty.GetType().GetProperty(subName).GetValue(subProperty).ToString().Contains(value);
-	        };
-	    }
-
-	    private static Func<T, bool> Equals(string className, string subName, string value)
-	    {
-            return arg =>
-            {
-                var subProperty = typeof(T).GetProperty(className).GetValue(arg);
-                return subProperty.GetType().GetProperty(subName).GetValue(subProperty).ToString().Equals(value);
-            };
+        public static Expression<Func<T, bool>> GetExaExpression(string[][] pairs)
+        {
+            var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
+            var left = Expression.Parameter(typeof(T), "c");
+            Expression expression = Expression.Constant(true);
+            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair[0]),
+                typeof(string).GetMethod("Equals"),
+                Expression.Constant(pair[1])
+            )).Aggregate<Expression, Expression>(expression, (current, right) => Expression.And(right, current));
+            var finalExpression
+                = Expression.Lambda<Func<T, bool>>(expression, left);
+            return finalExpression;
         }
-
-	    private readonly Func<T, bool> _head = arg => true;
-
-	    public void Dispose()
+        public void Dispose()
 		{
 			_database.Dispose();
 		}

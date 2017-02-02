@@ -12,12 +12,8 @@
     </UserControl.DataContext>
     <Grid>
         <TextBox x:Name="TextBox" Height="25" TextWrapping="Wrap" Text="{Binding Query,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" VerticalAlignment="Top" MouseDown="TextBox_MouseDown"/>
-        <DataGrid x:Name="DataGrid" ItemsSource="{Binding Data.DefaultView, IsAsync=True}" Margin="0,30" MaxHeight="1080" MaxWidth="1920"
+        <DataGrid x:Name="DataGrid" ItemsSource="{Binding Data.DefaultView, IsAsync=True}" Margin="0,25,0.2,0" MaxHeight="1080" MaxWidth="1920"
                   EnableColumnVirtualization="True" EnableRowVirtualization="True" MouseDown="DataGrid_MouseDown"/>
-        <Button x:Name="Button" Content="前" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="150" Click="Button_Click"/>
-        <Button x:Name="Button1" Content="后" Height="25" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="150" Command="{Binding Get}"/>
-        <TextBlock x:Name="TextBlock" FontSize="16" Margin="155,0" TextWrapping="Wrap" Text="{Binding Status}" Height="25" VerticalAlignment="Bottom" 
-                   TextAlignment="Center" />
 
     </Grid>
 </UserControl>

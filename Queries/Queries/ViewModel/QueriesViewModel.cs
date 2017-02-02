@@ -27,6 +27,11 @@ namespace Queries.ViewModel
 				Name = "测试",
 				ViewId = "ForTesting"
 			});
+            this.Pages.Add(new Function
+            {
+                Name = "404",
+                ViewId = "NotFound"
+            });
         }
 
 	    private List<Function> _pages = new List<Function>();

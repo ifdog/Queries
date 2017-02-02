@@ -28,20 +28,6 @@ namespace Service.Dal
 			_dbItemPrefix = dbItemPrefix;
 			_database = new LiteDatabase($"{typeof(T).Name}s.db");
 			_collection = _database.GetCollection<T>(typeof(T).Name);
-
-
-		     //typeof(T).GetProperties()
-		     //   .Where(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).ToList()
-		     //   .SelectMany(i =>
-		     //   {
-		     //       var p = i.GetCustomAttribute<BsonFieldAttribute>();
-		     //       return i.PropertyType.GetProperties()
-		     //           .Select(property => new {Name = p == null ? i.Name : p.Name, Property = property});
-		     //   })
-		     //   .Where(i => i.Property.GetCustomAttribute<IndexedAttribute>() != null)
-		     //   .Select(i => $"{i.Name}.{i.Property.Name}")
-		     //   .ForEach(i => _collection.EnsureIndex(i));
-
 		}
 
 		public void Insert(T obj)
@@ -84,8 +70,6 @@ namespace Service.Dal
                 default:
 		            return null;
 		    }
-
-            
         }
 
         public static Expression<Func<T, bool>> GetAnyExpression(string[][] pairs)

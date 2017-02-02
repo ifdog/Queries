@@ -145,16 +145,17 @@ namespace Service
 		        if (model.Action != "Add")
 		        {
 			        return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.ActionNotCorresponding));
-		        }
-		        //try
-		        {
+                }
+                try
+                {
 			        return Response.AsJson(_itemBll.AddItems(model.Items, Token.ParseName(token)));
 		        }
-		        //catch (Exception e)
-		        {
-			        //return Response.AsJson(ResultFactory.CreateItemsResult(e));
-		        }
-	        };
+
+                catch (Exception e)
+                {
+                    return Response.AsJson(ResultFactory.CreateItemsResult(e));
+                }
+            };
 
             Get["/test/"] = _ => "done";
         }

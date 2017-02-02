@@ -4,11 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Common.Attribute;
-using Common.Structure;
 using LiteDB;
 using NLog;
 using Service.Dal.Base;
-using Service.Structure;
 using Service.Structure.Base;
 
 namespace Service.Dal

@@ -3,6 +3,8 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using Common.Attribute;
+using Common.Factory;
+using Common.Static;
 using Common.Structure;
 using Queries.ViewModel.Base;
 
@@ -42,9 +44,14 @@ namespace Queries.ViewModel
 		    if (e.PropertyName.Equals(nameof(Query)))
 		    {
 				if (string.IsNullOrWhiteSpace(Query)) return;
-				var prefix = Query.Contains(':') ? "All" : "Any";
+				var parser = new QueryParser()
+				{
+				    QueryString = _query
+				};
+		        parser.Queries = parser.Queries.ToDictionary(i => _modelDict[i.Key], i => i.Value);
+             
 			    this.Page = 0;
-				var x = _client.Item.Query(_query, Page, PageLength);
+				var x = _client.Item.Query(parser.QueryString, Page, PageLength);
 				_data.Clear();
 				if (x?.Items == null || x.Items.Count <= 0) return;
 				x.Items.ForEach(i =>
@@ -59,8 +66,13 @@ namespace Queries.ViewModel
 			}
 		    if (e.PropertyName.Equals(nameof(LoadProceed)))
 		    {
-			    Page++;
-			    var cont = _client.Item.Query(_query, Page, PageLength);
+                var parser = new QueryParser()
+                {
+                    QueryString = _query
+                };
+                parser.Queries = parser.Queries.ToDictionary(i => _modelDict[i.Key], i => i.Value);
+                Page++;
+			    var cont = _client.Item.Query(parser.QueryString, Page, PageLength);
 			    if (cont?.Items == null || cont.Items.Count <= 0) return;
 			    cont.Items.ForEach(i =>
 			    {

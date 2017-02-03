@@ -31,31 +31,47 @@ namespace Queries.ViewModel
 			    .Select(i => i.GetCustomAttribute<SeenFromUiAttribute>().Description)
 			    .ToList();
 		    _titles.ForEach(i => _data.Columns.Add(i, typeof(string)));
-		    this.Previous = new RelayCommand(() =>
-		    {
-			    if (Page > 0) Page--;
-		    });
-		    this.Next = new RelayCommand(() => Page++);
 	    }
 
 	    private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 	    {
-		    if (!e.PropertyName.Equals(nameof(Query)) && !e.PropertyName.Equals(nameof(Page))) return;
-		    if (string.IsNullOrWhiteSpace(Query)) return;
-		    var prefix = Query.Contains(':') ? "All" : "Any";
-			
-		    var x = _client.Item.Query(_query, Page, PageLength);
-		    _data.Clear();
-		    if (x?.Items == null || x.Items.Count <= 0) return;
-		    x.Items.ForEach(i =>
+		    if (e.PropertyName.Equals(nameof(Query)))
 		    {
-			    var r = _data.NewRow();
-			    for (var j = 0; j < _titles.Count; j++)
+				if (string.IsNullOrWhiteSpace(Query)) return;
+				var prefix = Query.Contains(':') ? "All" : "Any";
+
+				var x = _client.Item.Query(_query, Page, PageLength);
+				_data.Clear();
+				if (x?.Items == null || x.Items.Count <= 0) return;
+				x.Items.ForEach(i =>
+				{
+					var r = _data.NewRow();
+					for (var j = 0; j < _titles.Count; j++)
+					{
+						r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
+					}
+					_data.Rows.Add(r);
+				});
+			    if (e.PropertyName.Equals(nameof(LoadProceed)))
 			    {
-				    r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
+				    if (LoadProceed)
+				    {
+					    Page++;
+						var cont = _client.Item.Query(_query, Page, PageLength);
+						if (cont?.Items == null || cont.Items.Count <= 0) return;
+						cont.Items.ForEach(i =>
+						{
+							var r = _data.NewRow();
+							for (var j = 0; j < _titles.Count; j++)
+							{
+								r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
+							}
+							_data.Rows.Add(r);
+						});
+						LoadProceed = false;
+				    }
 			    }
-			    _data.Rows.Add(r);
-		    });
+			}
 	    }
 
 	    private string _query;
@@ -116,6 +132,18 @@ namespace Queries.ViewModel
 			    _data = value; 
 			    OnPropertyChanged(nameof(Data));
 		    }
-	    }		
+	    }
+
+	    private bool _loadProceed = false;
+
+	    public bool LoadProceed
+	    {
+		    get { return _loadProceed; }
+		    set
+		    {
+			    _loadProceed = value;
+			    OnPropertyChanged(nameof(LoadProceed));
+		    }
+	    }
     }
 }

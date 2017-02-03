@@ -24,7 +24,9 @@ namespace Client
                 Encoding = Encoding.UTF8,
                 FollowRedirects = true,
                 UserAgent = _resourceManager.GetString("UserAgent"),
-                Timeout = 10000
+                Timeout = 10000,
+				Proxy = null
+			
             };
             User = new UserBll(_restClient);
             Item = new ItemBll(_restClient);

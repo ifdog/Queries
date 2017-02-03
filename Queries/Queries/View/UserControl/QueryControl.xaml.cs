@@ -1,31 +1,25 @@
-﻿using System.Windows.Input;
-using Common.Static;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace Queries.View.UserControl
 {
 	/// <summary>
 	/// QueryControl.xaml 的交互逻辑
 	/// </summary>
-	public partial class QueryControl : System.Windows.Controls.UserControl
+	public partial class QueryControl :Base.BaseQueryControl
 	{
 		public QueryControl()
 		{
 			InitializeComponent();
 		}
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            this.TextBox.Text = Excel.GetInstance();
-        }
-
-		private void TextBox_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		private void DataGrid_OnScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
-			if(e.ChangedButton == MouseButton.Middle) this.TextBox.Clear();
-		}
-
-		private void DataGrid_MouseDown(object sender, MouseButtonEventArgs e)
-		{
-			
+			if (!LoadProceed && e.ViewportHeight > 0 && e.VerticalOffset > 0 &&
+			    e.VerticalOffset - e.ExtentHeight + e.ViewportHeight > -1)
+			{
+				this.LoadProceed = true;
+			}
 		}
 	}
 }

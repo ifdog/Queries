@@ -1,19 +1,22 @@
-﻿<UserControl x:Class="Queries.View.UserControl.QueryControl"
+﻿<base:BaseQueryControl x:Class="Queries.View.UserControl.QueryControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Queries.View.UserControl"
              xmlns:viewmodel ="clr-namespace:Queries.ViewModel"
+             xmlns:base ="clr-namespace:Queries.View.Base"
              mc:Ignorable="d" 
+             LoadProceed="{Binding LoadProceed}"
              d:DesignHeight="524" d:DesignWidth="667">
     <UserControl.DataContext>
         <viewmodel:QueryViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <TextBox x:Name="TextBox" Height="25" TextWrapping="Wrap" Text="{Binding Query,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" VerticalAlignment="Top" MouseDown="TextBox_MouseDown"/>
+        <TextBox x:Name="TextBox" Height="25" TextWrapping="Wrap" Text="{Binding Query,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" VerticalAlignment="Top"/>
         <DataGrid x:Name="DataGrid" ItemsSource="{Binding Data.DefaultView, IsAsync=True}" Margin="0,25,0.2,0" MaxHeight="1080" MaxWidth="1920"
-                  EnableColumnVirtualization="True" EnableRowVirtualization="True" MouseDown="DataGrid_MouseDown"/>
+                  EnableColumnVirtualization="True" EnableRowVirtualization="True"  VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.ScrollChanged ="DataGrid_OnScrollChanged"/>
 
     </Grid>
-</UserControl>
+</base:BaseQueryControl>

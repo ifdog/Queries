@@ -24,16 +24,6 @@ namespace Queries.View
 			this.Close();
 		}
 
-		private void Expander_Expanded(object sender, RoutedEventArgs e)
-		{
-			this.Height = 400;
-		}
-
-		private void Expander_Collapsed(object sender, RoutedEventArgs e)
-		{
-			this.Height = 260;
-		}
-
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             var password = (sender as PasswordBox);

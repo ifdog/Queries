@@ -11,9 +11,9 @@ namespace Queries.ViewModel
     public class QueryViewModel : BaseViewModel
     {
         private readonly Client.Client _client;
-
 	    private readonly List<PropertyInfo> _modelProperties;
 	    private readonly List<string> _titles;
+	    private readonly Dictionary<string, string> _modelDict;
 
 	    public QueryViewModel()
 	    {
@@ -27,6 +27,13 @@ namespace Queries.ViewModel
 		    this._titles = this._modelProperties
 			    .Select(i => i.GetCustomAttribute<SeenFromUiAttribute>().Description)
 			    .ToList();
+		    this._modelDict = this._modelProperties
+			    .Select(i => new
+			    {
+				    i.GetCustomAttribute<SeenFromUiAttribute>().Description, i.Name
+				})
+			    .ToDictionary(i => i.Description, i => i.Name);
+		    this._titles = this._modelDict.Keys.ToList();
 		    _titles.ForEach(i => _data.Columns.Add(i, typeof(string)));
 	    }
 

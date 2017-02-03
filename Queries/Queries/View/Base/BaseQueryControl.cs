@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Queries.View.Base
 {
@@ -13,6 +11,6 @@ namespace Queries.View.Base
 		}
 
 		public static readonly DependencyProperty LoadProceedProperty =
-			DependencyProperty.Register(nameof(LoadProceed), typeof(bool), typeof(Lwindow));
+			DependencyProperty.Register(nameof(LoadProceed), typeof(bool), typeof(BaseQueryControl));
 	}
 }

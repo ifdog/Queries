@@ -15,9 +15,6 @@ namespace Queries.ViewModel
 	    private readonly List<PropertyInfo> _modelProperties;
 	    private readonly List<string> _titles;
 
-		public RelayCommand Previous { get; private set; }
-		public RelayCommand Next { get; private set; }
-
 	    public QueryViewModel()
 	    {
 		    _client = RunContext.Get<Client.Client>();
@@ -39,7 +36,7 @@ namespace Queries.ViewModel
 		    {
 				if (string.IsNullOrWhiteSpace(Query)) return;
 				var prefix = Query.Contains(':') ? "All" : "Any";
-
+			    this.Page = 0;
 				var x = _client.Item.Query(_query, Page, PageLength);
 				_data.Clear();
 				if (x?.Items == null || x.Items.Count <= 0) return;
@@ -52,26 +49,23 @@ namespace Queries.ViewModel
 					}
 					_data.Rows.Add(r);
 				});
-			    if (e.PropertyName.Equals(nameof(LoadProceed)))
-			    {
-				    if (LoadProceed)
-				    {
-					    Page++;
-						var cont = _client.Item.Query(_query, Page, PageLength);
-						if (cont?.Items == null || cont.Items.Count <= 0) return;
-						cont.Items.ForEach(i =>
-						{
-							var r = _data.NewRow();
-							for (var j = 0; j < _titles.Count; j++)
-							{
-								r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
-							}
-							_data.Rows.Add(r);
-						});
-						LoadProceed = false;
-				    }
-			    }
 			}
+		    if (e.PropertyName.Equals(nameof(LoadProceed)) && LoadProceed)
+		    {
+			    Page++;
+			    var cont = _client.Item.Query(_query, Page, PageLength);
+			    if (cont?.Items == null || cont.Items.Count <= 0) return;
+			    cont.Items.ForEach(i =>
+			    {
+				    var r = _data.NewRow();
+				    for (var j = 0; j < _titles.Count; j++)
+				    {
+					    r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
+				    }
+				    _data.Rows.Add(r);
+			    });
+			    LoadProceed = false;
+		    }
 	    }
 
 	    private string _query;
@@ -107,18 +101,6 @@ namespace Queries.ViewModel
 		    {
 			    _pageLength = value;
 			    OnPropertyChanged(nameof(PageLength));
-		    }
-	    }
-
-	    private string _status;
-
-	    public string Status
-	    {
-		    get { return _status; }
-		    set
-		    {
-			    _status = value;
-			    OnPropertyChanged(nameof(Status));
 		    }
 	    }
 

@@ -7,7 +7,7 @@
              xmlns:viewmodel ="clr-namespace:Queries.ViewModel"
              xmlns:base ="clr-namespace:Queries.View.Base"
              mc:Ignorable="d" 
-             LoadProceed="{Binding LoadProceed}"
+             LoadProceed="{Binding LoadProceed,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
              d:DesignHeight="524" d:DesignWidth="667">
     <UserControl.DataContext>
         <viewmodel:QueryViewModel/>

@@ -15,10 +15,10 @@ namespace Queries.View.UserControl
 
 		private void DataGrid_OnScrollChanged(object sender, ScrollChangedEventArgs e)
 		{
-			if (!LoadProceed && e.ViewportHeight > 0 && e.VerticalOffset > 0 &&
+			if (e.ViewportHeight > 0 && e.VerticalOffset > 0 &&
 			    e.VerticalOffset - e.ExtentHeight + e.ViewportHeight > -1)
 			{
-				this.LoadProceed = true;
+				this.LoadProceed = !this.LoadProceed;
 			}
 		}
 	}

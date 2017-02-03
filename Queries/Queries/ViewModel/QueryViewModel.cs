@@ -50,7 +50,7 @@ namespace Queries.ViewModel
 					_data.Rows.Add(r);
 				});
 			}
-		    if (e.PropertyName.Equals(nameof(LoadProceed)) && LoadProceed)
+		    if (e.PropertyName.Equals(nameof(LoadProceed)))
 		    {
 			    Page++;
 			    var cont = _client.Item.Query(_query, Page, PageLength);
@@ -64,7 +64,6 @@ namespace Queries.ViewModel
 				    }
 				    _data.Rows.Add(r);
 			    });
-			    LoadProceed = false;
 		    }
 	    }
 

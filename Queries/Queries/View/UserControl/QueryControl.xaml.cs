@@ -1,10 +1,6 @@
 ﻿using System.Linq;
-using System.Reflection;
-using System.Windows;
 using System.Windows.Controls;
-using Common.Attribute;
 using Common.Static;
-using Common.Structure;
 
 namespace Queries.View.UserControl
 {

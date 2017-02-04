@@ -10,13 +10,14 @@ namespace Client
     public class Client
     {
         private readonly RestClient _restClient;
-        private ResourceManager _resourceManager;
+        private readonly ResourceManager _resourceManager;
 
         public UserBll User { get; private set; }
         public ItemBll Item { get; private set; }
 
         public Client(string requestPath,int requestPort)
         {
+	        WebRequest.DefaultWebProxy = null; //By pass system proxy.
             _resourceManager = new ResourceManager("Client.Resources", typeof(Client).Assembly);
             _restClient = new RestClient($"http://{requestPath}:{requestPort}")
             {
@@ -25,8 +26,6 @@ namespace Client
                 FollowRedirects = true,
                 UserAgent = _resourceManager.GetString("UserAgent"),
                 Timeout = 10000,
-				Proxy = null
-			
             };
             User = new UserBll(_restClient);
             Item = new ItemBll(_restClient);

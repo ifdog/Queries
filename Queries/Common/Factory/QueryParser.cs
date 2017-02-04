@@ -10,8 +10,9 @@ namespace Common.Factory
 		private readonly char[] _splitAt = { '@' };
 		private readonly char[] _splitComma = { ',' };
         private readonly char[] _splitColon = { ':' };
+		private readonly char[] _splitSpace = { ' ' };
 
-	    public QueryParser(string queryString="")
+		public QueryParser(string queryString="")
 	    {
 		    QueryString = queryString;
 	    }
@@ -37,19 +38,19 @@ namespace Common.Factory
 					    QueryHead = @"All";
 					    split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
 						    .Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries))
-						    .Where(i => i.Length == 2).ForEach(i =>Queries.Add(i[0], i[1].ToUpper()));
+						    .Where(i => i.Length == 2).ForEach(i => Queries.Add(new KeyValuePair<string, string>(i[0], i[1].ToUpper())));
 					    break;
 				    case @"Any":
 					    QueryHead = @"Any";
-						split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
+					    split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
 						    .Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries))
-						    .Where(i => i.Length == 2).ForEach(i =>Queries.Add(i[0],i[1].ToUpper()));
+						    .Where(i => i.Length == 2).ForEach(i => Queries.Add(new KeyValuePair<string, string>(i[0], i[1].ToUpper())));
 					    break;
 				    case @"Exa":
 					    QueryHead = @"Exa";
-						split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
+					    split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
 						    .Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries))
-						    .Where(i => i.Length == 2).ForEach(i =>Queries.Add(i[0],i[1]));
+						    .Where(i => i.Length == 2).ForEach(i => Queries.Add(new KeyValuePair<string, string>(i[0], i[1])));
 					    break;
 				    default:
 					    var x = value.Split(_splitComma, StringSplitOptions.RemoveEmptyEntries);
@@ -57,8 +58,11 @@ namespace Common.Factory
 						    .Where(i => i.Length == 2).ForEach(i =>
 						    {
 							    Queries.Add(
-								    AttributeHelper.GetSeenPropertyDict().ContainsKey(i[0]) ? AttributeHelper.GetSeenPropertyDict()[i[0]] : i[0],
-								    i[1].ToUpper());
+								    new KeyValuePair<string, string>(
+									    AttributeHelper.GetSeenPropertyDict().ContainsKey(i[0])
+										    ? AttributeHelper.GetSeenPropertyDict()[i[0]]
+										    : i[0],
+									    i[1].ToUpper()));
 						    });
 					    if (Queries.Count > 0)
 					    {
@@ -67,7 +71,12 @@ namespace Common.Factory
 					    else
 					    {
 						    QueryHead = @"Any";
-						    AttributeHelper.GetSearchPropertyNames().ForEach(i => Queries.Add(i, value.ToUpper()));
+						    value.Split(_splitSpace, StringSplitOptions.RemoveEmptyEntries)
+							    .ForEach(i =>
+							    {
+								    AttributeHelper.GetSearchPropertyNames()
+									    .ForEach(j => Queries.Add(new KeyValuePair<string, string>(j, i.ToUpper())));
+							    });
 					    }
 					    break;
 			    }
@@ -76,7 +85,7 @@ namespace Common.Factory
 
 	    public string QueryHead { get; set; }
 
-        public Dictionary<string, string> Queries { get; set; } = new Dictionary<string, string>();
+        public List<KeyValuePair<string,string>> Queries { get; set; } 
 
     }
 }

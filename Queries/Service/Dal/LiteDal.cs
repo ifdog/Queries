@@ -73,7 +73,7 @@ namespace Service.Dal
 		    }
         }
 
-        public static Expression<Func<T, bool>> GetAnyExpression(Dictionary<string,string> pairs)
+        public static Expression<Func<T, bool>> GetAnyExpression(List<KeyValuePair<string,string>> pairs)
         {
             var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
             var left = Expression.Parameter(typeof(T), "c");
@@ -85,7 +85,7 @@ namespace Service.Dal
             return Expression.Lambda<Func<T, bool>>(expression, left);
         }
 
-        public static Expression<Func<T, bool>> GetAllExpression(Dictionary<string, string> pairs)
+        public static Expression<Func<T, bool>> GetAllExpression(List<KeyValuePair<string, string>> pairs)
         {
             var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
             var left = Expression.Parameter(typeof(T), "c");
@@ -97,7 +97,7 @@ namespace Service.Dal
             return Expression.Lambda<Func<T, bool>>(expression, left);
         }
 
-        public static Expression<Func<T, bool>> GetExaExpression(Dictionary<string, string> pairs)
+        public static Expression<Func<T, bool>> GetExaExpression(List<KeyValuePair<string, string>> pairs)
         {
             var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
             var left = Expression.Parameter(typeof(T), "c");

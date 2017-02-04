@@ -79,7 +79,7 @@ namespace Common.Factory
 
 	    public string QueryHead { get; set; }
 
-        public List<KeyValuePair<string,string>> Queries { get; set; } 
+        public List<KeyValuePair<string,string>> Queries { get; set; } = new List<KeyValuePair<string, string>>();
 
     }
 }

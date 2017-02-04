@@ -29,9 +29,9 @@ namespace Queries.View.UserControl
 		{
 			if (AttributeHelper.GetSearchPropertyDescriptions().Contains(e.Column.Header))
 			{
-				if (!string.IsNullOrWhiteSpace(this.TextBox.Text)&&!this.TextBox.Text.EndsWith(":"))
+				if (this.TextBox.Text.EndsWith(","))
 				{
-					this.TextBox.Text = $"{this.TextBox.Text},{e.Column.Header}:";
+					this.TextBox.Text = $"{this.TextBox.Text}{e.Column.Header}:";
 				}
 				else
 				{

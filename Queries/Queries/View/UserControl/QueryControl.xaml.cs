@@ -33,13 +33,13 @@ namespace Queries.View.UserControl
 		{
 			if (AttributeHelper.GetSearchPropertyDescriptions().Contains(e.Column.Header))
 			{
-				if (this.TextBox.Text.StartsWith("All@") && !this.TextBox.Text.EndsWith(":"))
+				if (!string.IsNullOrWhiteSpace(this.TextBox.Text)&&!this.TextBox.Text.EndsWith(":"))
 				{
-
+					this.TextBox.Text = $"{this.TextBox.Text},{e.Column.Header}:";
 				}
 				else
 				{
-					this.TextBox.Text = $"All@{e.Column.Header}:";
+					this.TextBox.Text = $"{e.Column.Header}:";
 				}
 				this.TextBox.Focus();
 				this.TextBox.CaretIndex = this.TextBox.Text.Length;

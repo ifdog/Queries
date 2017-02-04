@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Common.Attribute;
+using Common.Factory;
 using LiteDB;
 using NLog;
 using Service.Dal.Base;
@@ -57,51 +58,53 @@ namespace Service.Dal
 			var y = x.Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries)).ToArray();
 			if (y.Any(i => i.Length != 2)) return new List<T>();
 
-		    switch (w[0])
+			var parser = new QueryParser(query);
+
+		    switch (parser.QueryHead)
 		    {
 		        case "All":
-                    return _collection.FindAll().Where(GetAllExpression(y).Compile()).Skip(page * length).Take(length);
+                    return _collection.FindAll().Where(GetAllExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
                 case "Any":
-                    return _collection.FindAll().Where(GetAnyExpression(y).Compile()).Skip(page * length).Take(length);
+                    return _collection.FindAll().Where(GetAnyExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
                 case "Exa":
-                    return _collection.FindAll().Where(GetExaExpression(y).Compile()).Skip(page * length).Take(length);
+                    return _collection.FindAll().Where(GetExaExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
                 default:
 		            return null;
 		    }
         }
 
-        public static Expression<Func<T, bool>> GetAnyExpression(string[][] pairs)
+        public static Expression<Func<T, bool>> GetAnyExpression(Dictionary<string,string> pairs)
         {
             var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
             var left = Expression.Parameter(typeof(T), "c");
             Expression expression = Expression.Constant(false);
-            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair[0]),
+            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
                 typeof(string).GetMethod("Contains", new[] { typeof(string) }),
-                Expression.Constant(pair[1])
+                Expression.Constant(pair.Value)
             )).Aggregate<Expression, Expression>(expression, (current, right) => Expression.Or(right, current));
             return Expression.Lambda<Func<T, bool>>(expression, left);
         }
 
-        public static Expression<Func<T, bool>> GetAllExpression(string[][] pairs)
+        public static Expression<Func<T, bool>> GetAllExpression(Dictionary<string, string> pairs)
         {
             var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
             var left = Expression.Parameter(typeof(T), "c");
             Expression expression = Expression.Constant(true);
-            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair[0]),
+            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
                 typeof(string).GetMethod("Contains", new[] { typeof(string) }),
-                Expression.Constant(pair[1])
+                Expression.Constant(pair.Value)
             )).Aggregate<Expression, Expression>(expression, (current, right) => Expression.And(right, current));
             return Expression.Lambda<Func<T, bool>>(expression, left);
         }
 
-        public static Expression<Func<T, bool>> GetExaExpression(string[][] pairs)
+        public static Expression<Func<T, bool>> GetExaExpression(Dictionary<string, string> pairs)
         {
             var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
             var left = Expression.Parameter(typeof(T), "c");
             Expression expression = Expression.Constant(true);
-            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair[0]),
+            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
                 typeof(string).GetMethod("Equals", new[] { typeof(string) }),
-                Expression.Constant(pair[1])
+                Expression.Constant(pair.Value)
             )).Aggregate<Expression, Expression>(expression, (current, right) => Expression.And(right, current));
            return Expression.Lambda<Func<T, bool>>(expression, left);
         }

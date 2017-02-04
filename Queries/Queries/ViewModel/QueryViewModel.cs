@@ -32,7 +32,7 @@ namespace Queries.ViewModel
 					if (string.IsNullOrWhiteSpace(Query)) return;
 					this.Page = 0;
 					var x = _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength);
-					_data.Clear();
+					_data.Rows.Clear();
 					x?.Items.ForEach(i =>
 					{
 						var r = _data.NewRow();

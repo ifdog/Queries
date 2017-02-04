@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Common.Static;
 
@@ -42,6 +43,19 @@ namespace Queries.View.UserControl
 			}
 			e.Handled = true;
 
+		}
+
+
+
+		private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+		{
+			var x = e.Column as DataGridTextColumn;
+			if (x != null)
+			{
+				x.MaxWidth = 300;
+				x.ElementStyle = new Style(typeof(TextBlock));
+				x.ElementStyle.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
+			}
 		}
 	}
 }

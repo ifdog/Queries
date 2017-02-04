@@ -17,17 +17,18 @@
     <Window.Resources>
         <DataTemplate x:Key="PagesTemplate" DataType="base:Function">
             <TextBlock Text="{Binding Name}" FontSize="16"/>
-        </DataTemplate> 
+        </DataTemplate>
     </Window.Resources>
     <Grid Margin="0,0,0,0" Background="White" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-        <Grid x:Name="DynGrid" Margin="115,10,10,35" Background="Honeydew">
-        
+        <Grid x:Name="DynGrid" Margin="156,10,10,35" Background="Honeydew">
+
         </Grid>
-        <StatusBar Margin="10,0,10,5" Height="25" VerticalAlignment="Bottom" Background="Honeydew">
+        <StatusBar Margin="65,0,10,5" Height="25" VerticalAlignment="Bottom" Background="Honeydew">
             <TextBlock x:Name="StatusTextBlock"  Text="TextBlock" Margin="0,0,0,0" Height="25" Width="84" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            
+
         </StatusBar>
-        <ListBox x:Name="ListBox" SelectionMode="Single" HorizontalAlignment="Left" Margin="10,10,0,35" Width="100" 
+        <ListBox x:Name="ListBox" SelectionMode="Single" HorizontalAlignment="Left" Margin="26,15,0,30" Width="100" 
                  ItemTemplate="{StaticResource PagesTemplate}" ItemsSource="{Binding Pages}" SelectionChanged="ListBox_SelectionChanged"/>
+        <Button x:Name="Button" Content="菜单" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom" Width="50" Height="25" Background="PaleGreen"/>
     </Grid>
 </Window>

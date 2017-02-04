@@ -16,7 +16,7 @@ namespace Service.Bll
 	{
 		private readonly LiteDal<ItemDbModel> _itemDal = new LiteDal<ItemDbModel>("Flat");
 
-		private readonly string[] _itemPropertyNames = AttributeReader.GetProperty<SaveToDbAttribute>(new ItemModel())
+		private readonly string[] _itemPropertyNames = AttributeHelper.GetProperty<SaveToDbAttribute>(new ItemModel())
 			.Select(i => i.Name).ToArray();
 
 		private readonly Type _itemType = typeof(ItemModel);

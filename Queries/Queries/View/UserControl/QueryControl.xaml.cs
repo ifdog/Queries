@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using Common.Attribute;
+using Common.Static;
 using Common.Structure;
 
 namespace Queries.View.UserControl
@@ -12,10 +13,7 @@ namespace Queries.View.UserControl
 	/// </summary>
 	public partial class QueryControl :Base.BaseQueryControl
 	{
-		private string[] _keys = typeof(ItemModel).GetProperties(BindingFlags.Instance | BindingFlags.Public)
-			.Where(i => i.GetCustomAttribute<IndexedAttribute>() != null)
-			.Select(i => i.GetCustomAttribute<SeenFromUiAttribute>().Description)
-			.ToArray();
+	
 		public QueryControl()
 		{
 			InitializeComponent();
@@ -33,7 +31,7 @@ namespace Queries.View.UserControl
 
 		private void DataGrid_Sorting(object sender, DataGridSortingEventArgs e)
 		{
-			if (_keys.Contains(e.Column.Header))
+			if (AttributeHelper.GetSearchPropertyDescriptions().Contains(e.Column.Header))
 			{
 				if (this.TextBox.Text.StartsWith("All@") && !this.TextBox.Text.EndsWith(":"))
 				{

@@ -2,10 +2,8 @@
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using Common.Attribute;
 using Common.Factory;
 using Common.Static;
-using Common.Structure;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
@@ -13,76 +11,53 @@ namespace Queries.ViewModel
     public class QueryViewModel : BaseViewModel
     {
         private readonly Client.Client _client;
-	    private readonly List<PropertyInfo> _modelProperties;
+	    private readonly List<PropertyInfo> _modelProperties = AttributeHelper.GetSeenProperties();
 	    private readonly List<string> _titles;
-	    private readonly Dictionary<string, string> _modelDict;
+	    private readonly Dictionary<string, string> _modelDict = AttributeHelper.GetSeenPropertyDict();
 
 	    public QueryViewModel()
 	    {
 		    _client = RunContext.Get<Client.Client>();
 		    this.PropertyChanged += QueryViewModel_PropertyChanged;
-		    this._modelProperties = typeof(ItemModel)
-			    .GetProperties(BindingFlags.Instance | BindingFlags.Public)
-			    .Where(i => i.GetCustomAttribute<SeenFromUiAttribute>() != null)
-			    .OrderBy(i => i.GetCustomAttribute<SeenFromUiAttribute>().Squence)
-			    .ToList();
-		    this._titles = this._modelProperties
-			    .Select(i => i.GetCustomAttribute<SeenFromUiAttribute>().Description)
-			    .ToList();
-		    this._modelDict = this._modelProperties
-			    .Select(i => new
-			    {
-				    i.GetCustomAttribute<SeenFromUiAttribute>().Description, i.Name
-				})
-			    .ToDictionary(i => i.Description, i => i.Name);
+	
 		    this._titles = this._modelDict.Keys.ToList();
 		    _titles.ForEach(i => _data.Columns.Add(i, typeof(string)));
 	    }
 
 	    private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 	    {
-		    if (e.PropertyName.Equals(nameof(Query)))
+		    switch (e.PropertyName)
 		    {
-				if (string.IsNullOrWhiteSpace(Query)) return;
-				var parser = new QueryParser()
-				{
-				    QueryString = _query
-				};
-		        parser.Queries = parser.Queries.ToDictionary(i => _modelDict[i.Key], i => i.Value);
-             
-			    this.Page = 0;
-				var x = _client.Item.Query(parser.QueryString, Page, PageLength);
-				_data.Clear();
-				if (x?.Items == null || x.Items.Count <= 0) return;
-				x.Items.ForEach(i =>
-				{
-					var r = _data.NewRow();
-					for (var j = 0; j < _titles.Count; j++)
+				case nameof(Query):
+					if (string.IsNullOrWhiteSpace(Query)) return;
+					this.Page = 0;
+					var x = _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength);
+					_data.Clear();
+					x?.Items.ForEach(i =>
 					{
-						r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
-					}
-					_data.Rows.Add(r);
-				});
-			}
-		    if (e.PropertyName.Equals(nameof(LoadProceed)))
-		    {
-                var parser = new QueryParser()
-                {
-                    QueryString = _query
-                };
-                parser.Queries = parser.Queries.ToDictionary(i => _modelDict[i.Key], i => i.Value);
-                Page++;
-			    var cont = _client.Item.Query(parser.QueryString, Page, PageLength);
-			    if (cont?.Items == null || cont.Items.Count <= 0) return;
-			    cont.Items.ForEach(i =>
-			    {
-				    var r = _data.NewRow();
-				    for (var j = 0; j < _titles.Count; j++)
-				    {
-					    r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
-				    }
-				    _data.Rows.Add(r);
-			    });
+						var r = _data.NewRow();
+						for (var j = 0; j < _titles.Count; j++)
+						{
+							r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
+						}
+						_data.Rows.Add(r);
+					});
+					return;
+				case nameof(LoadProceed):
+					Page++;
+					var cont = _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength);
+					cont?.Items.ForEach(i =>
+					{
+						var r = _data.NewRow();
+						for (var j = 0; j < _titles.Count; j++)
+						{
+							r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
+						}
+						_data.Rows.Add(r);
+					});
+					return;
+				default:
+					return;
 		    }
 	    }
 

@@ -10,9 +10,8 @@ namespace Common.Factory
 		private readonly char[] _splitAt = { '@' };
 		private readonly char[] _splitComma = { ',' };
         private readonly char[] _splitColon = { ':' };
-		private readonly char[] _splitSpace = { ' ' };
 
-		public QueryParser(string queryString="")
+	    public QueryParser(string queryString="")
 	    {
 		    QueryString = queryString;
 	    }
@@ -23,7 +22,7 @@ namespace Common.Factory
 	    {
 		    get
 		    {
-			    _queryString = Queries.Count > 0
+			    _queryString = Queries.Count>0
 				    ? $"{QueryHead}@{string.Join(",", Queries.Select(i => $"{i.Key}:{i.Value}"))}"
 				    : string.Empty;
 			    return _queryString;
@@ -38,17 +37,17 @@ namespace Common.Factory
 					    QueryHead = @"All";
 					    split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
 						    .Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries))
-						    .Where(i => i.Length == 2).ForEach(i => Queries.Add(new KeyValuePair<string, string>(i[0], i[1].ToUpper())));
+						    .Where(i => i.Length == 2).ForEach(i =>Queries.Add(new KeyValuePair<string, string>(i[0], i[1].ToUpper())));
 					    break;
 				    case @"Any":
 					    QueryHead = @"Any";
-					    split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
+						split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
 						    .Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries))
 						    .Where(i => i.Length == 2).ForEach(i => Queries.Add(new KeyValuePair<string, string>(i[0], i[1].ToUpper())));
 					    break;
 				    case @"Exa":
 					    QueryHead = @"Exa";
-					    split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
+						split[1].Split(_splitComma, StringSplitOptions.RemoveEmptyEntries)
 						    .Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries))
 						    .Where(i => i.Length == 2).ForEach(i => Queries.Add(new KeyValuePair<string, string>(i[0], i[1])));
 					    break;
@@ -71,12 +70,7 @@ namespace Common.Factory
 					    else
 					    {
 						    QueryHead = @"Any";
-						    value.Split(_splitSpace, StringSplitOptions.RemoveEmptyEntries)
-							    .ForEach(i =>
-							    {
-								    AttributeHelper.GetSearchPropertyNames()
-									    .ForEach(j => Queries.Add(new KeyValuePair<string, string>(j, i.ToUpper())));
-							    });
+						    AttributeHelper.GetSearchPropertyNames().ForEach(i => Queries.Add(new KeyValuePair<string, string>(i,value.ToUpper())));
 					    }
 					    break;
 			    }

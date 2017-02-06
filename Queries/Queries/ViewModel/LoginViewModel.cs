@@ -101,17 +101,20 @@ namespace Queries.ViewModel
 			OkCommand = new RelayCommand(() =>
 			{
 				StartService(ServerIp, svrPort, ServerIp, reqPort);
-				var result = RunContext.Get<Client.Client>()
-					.User.Login(new UserModel
+				var t = RunContext.Get<Client.Client>().User.Login(new UserModel
 					{
 						UserName = this.UserName,
 						Password = this.Password
 					});
-				this.StatusText = result.Information;
-				if (result.ResultCode == ResultCode.Ok.ToInt())
+				t.ContinueWith(i =>
 				{
-					IsPassOn = true;
-				}
+					this.StatusText = i.Result.Information;
+					if (i.Result.ResultCode == ResultCode.Ok.ToInt())
+					{
+						IsPassOn = true;
+					}
+				});
+				//t.Start();
 			});
 
 			RegisterCommand = new RelayCommand(() =>

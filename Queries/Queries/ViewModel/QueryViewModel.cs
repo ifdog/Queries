@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Common.Factory;
 using Common.Static;
+using Common.Structure;
 using Queries.Structure;
 using Queries.ViewModel.Base;
 
@@ -36,32 +37,42 @@ namespace Queries.ViewModel
 					if (string.IsNullOrWhiteSpace(Query)) return;
 					this.Page = 0;
 				    this._reachEnd = false;
-					var x = _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength);
-					_data.Rows.Clear();
-					x?.Items.ForEach(i =>
-					{
-						var r = _data.NewRow();
-						for (var j = 0; j < _titles.Count; j++)
-						{
-							r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
-						}
-						_data.Rows.Add(r);
-					});
+				    _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength)
+					    .ContinueWith(i =>
+					    {
+						    var r = i.Result as ResultItemsModel;
+						    _data.Rows.Clear();
+						    r?.Items.ForEach(j =>
+						    {
+							    var s = Data.NewRow();
+							    for (var k = 0; k < _titles.Count; k++)
+							    {
+								    s[_titles[k]] = _modelProperties[k].GetValue(j)?.ToString();
+							    }
+							    _data.Rows.Add(s);
+						    });
+							OnPropertyChanged(nameof(Data));
+					    });
 					return;
 				case nameof(LoadProceed):
 					if (_reachEnd)return;
 					Page++;
-					var cont = _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength);
-				    if (Page > 0 && (cont == null || cont.Items.Count == 0)) _reachEnd = true;
-					cont?.Items.ForEach(i =>
-					{
-						var r = _data.NewRow();
-						for (var j = 0; j < _titles.Count; j++)
-						{
-							r[_titles[j]] = _modelProperties[j].GetValue(i)?.ToString();
-						}
-						_data.Rows.Add(r);
-					});
+				    _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength)
+					    .ContinueWith(i =>
+					    {
+						    var r = i.Result as ResultItemsModel;
+						    if (Page > 0 && (r == null || r.Items.Count == 0)) _reachEnd = true;
+						    r?.Items.ForEach(j =>
+						    {
+							    var s = Data.NewRow();
+							    for (var k = 0; k < _titles.Count; k++)
+							    {
+								    s[_titles[k]] = _modelProperties[k].GetValue(j)?.ToString();
+							    }
+							    _data.Rows.Add(s);
+						    });
+							OnPropertyChanged(nameof(Data));
+						});
 					return;
 				default:
 					return;

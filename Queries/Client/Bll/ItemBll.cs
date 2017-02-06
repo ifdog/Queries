@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Client.Dal;
 using Common.Enums;
 using Common.Factory;
@@ -20,11 +21,11 @@ namespace Client.Bll
             _itemDal = new ItemDal(restClient);
         }
 
-        public ResultItemsModel Query(string query,int page, int length)
+        public Task<BaseResult> Query(string query,int page, int length)
         {
             if (string.IsNullOrEmpty(query) || string.IsNullOrWhiteSpace(query))
             {
-	            return ResultFactory.CreateItemsResult(ResultCode.InvalidParameter);
+	            return Task.Run<BaseResult>(() => ResultFactory.CreateItemsResult(ResultCode.InvalidParameter));
             }
             try
             {
@@ -32,11 +33,11 @@ namespace Client.Bll
             }
             catch (Exception e)
             {
-	            return ResultFactory.CreateItemsResult(e);
+	            return Task.Run<BaseResult>(() => ResultFactory.CreateItemsResult(e));
             }
         }
 
-        public BaseResult AddItem(List<ItemModel> itemModels)
+        public Task<BaseResult> AddItem(List<ItemModel> itemModels)
         {
             var x = itemModels.Where(ModelCheck.Check).ToList();
             var r = new RequestItemsModel()
@@ -51,7 +52,7 @@ namespace Client.Bll
             }
             catch (Exception e)
             {
-				return ResultFactory.CreateItemsResult(e);
+	            return Task.Run<BaseResult>(() => ResultFactory.CreateItemsResult(e));
             }
         }
     }

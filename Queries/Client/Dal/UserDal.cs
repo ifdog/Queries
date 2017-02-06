@@ -1,4 +1,6 @@
-﻿using Common.Structure;
+﻿using System.Threading.Tasks;
+using Common.Structure;
+using Common.Structure.Base;
 using RestSharp;
 
 namespace Client.Dal
@@ -13,16 +15,15 @@ namespace Client.Dal
 		    _restClient.Proxy = null;
         }
 
-	    public ResultUserModel Post(RequestUserModel requestUserModel)
-	    {
-	        var request = new RestRequest("v2/users/{Action}", Method.POST)
-	            {
-	                RequestFormat = DataFormat.Json
-	            }.AddUrlSegment("Action", requestUserModel.Action.ToLower())
-	            .AddJsonBody(requestUserModel);
-	        var response = _restClient.Execute<ResultUserModel>(request);
-	        return response.Data;
-	    }
-
+		public Task<BaseResult> Post(RequestUserModel requestUserModel)
+		{
+			var request = new RestRequest("v2/users/{Action}", Method.POST)
+			{
+				RequestFormat = DataFormat.Json
+			}.AddUrlSegment("Action", requestUserModel.Action.ToLower())
+				.AddJsonBody(requestUserModel);
+			return _restClient.ExecuteTaskAsync<ResultUserModel>(request)
+				.ContinueWith<BaseResult>(i => i.Result.Data);
+		}
 	}
 }

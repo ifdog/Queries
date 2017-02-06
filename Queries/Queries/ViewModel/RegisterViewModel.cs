@@ -6,6 +6,8 @@ namespace Queries.ViewModel
 {
 	public class RegisterViewModel : BaseViewModel
 	{
+		public Client.Client Client = RunContext.Get<Client.Client>();
+
 		private string _userName;
 
 		public string UserName
@@ -100,9 +102,11 @@ namespace Queries.ViewModel
 
 		private void OkAction()
 		{
-			var r =
-				RunContext.Get<Client.Client>().User.Register(UserFactory.CreateNew(this.UserName, this.Password1, this.RealName));
-			this.Status = r.ToResultCode().GetDescription();
+			Client.User.Register(UserFactory.CreateNew(this.UserName, this.Password1, this.RealName))
+				.ContinueWith(i =>
+				{
+					this.Status = i.Result.ToResultCode().GetDescription();
+				}).Start();
 		}
 	}
 }

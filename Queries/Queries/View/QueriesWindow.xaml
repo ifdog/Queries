@@ -20,7 +20,7 @@
         </DataTemplate>
     </Window.Resources>
     <Grid Margin="0,0,0,0" Background="White" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-        <Grid x:Name="DynGrid" Margin="10,10,10,35" Background="Honeydew">
+        <Grid x:Name="DynGrid" Margin="10,10,10,35" Background="White">
             
         </Grid>
         <StatusBar Margin="65,0,10,5" Height="25" VerticalAlignment="Bottom" Background="White">

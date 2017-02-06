@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
+﻿using System.Collections.ObjectModel;
 using Queries.Structure;
 using Queries.ViewModel.Base;
 

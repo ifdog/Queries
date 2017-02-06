@@ -72,6 +72,7 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\ServiceAfter.cs" />
     <Compile Include="InitManager.cs" />
+    <Compile Include="Structure\StatusManager.cs" />
     <Compile Include="Structure\TinyShowItem.cs" />
     <Compile Include="ViewModel\Base\BaseViewModel.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />

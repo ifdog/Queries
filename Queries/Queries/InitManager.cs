@@ -1,4 +1,5 @@
 ﻿using Common.Factory;
+using Queries.Structure;
 using Queries.View;
 
 namespace Queries
@@ -12,6 +13,7 @@ namespace Queries
 			RunContext.Add(() => new RegisterWindow());
 			RunContext.Add(() => new LoginWindow());
 			RunContext.Add(() => new Tiny());
+			RunContext.Add(() => new StatusManager());
 		}
 	}
 }

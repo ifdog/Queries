@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Common.Factory;
 using Common.Static;
+using Queries.Structure;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
@@ -15,13 +16,15 @@ namespace Queries.ViewModel
 	    private readonly List<string> _titles;
 	    private readonly Dictionary<string, string> _modelDict = AttributeHelper.GetSeenPropertyDict();
 
-	    public QueryViewModel()
+
+		public QueryViewModel()
 	    {
 		    _client = RunContext.Get<Client.Client>();
 		    this.PropertyChanged += QueryViewModel_PropertyChanged;
 	
 		    this._titles = this._modelDict.Keys.ToList();
 		    _titles.ForEach(i => _data.Columns.Add(i, typeof(string)));
+			this.SetStatus("查询！");
 	    }
 
 	    private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

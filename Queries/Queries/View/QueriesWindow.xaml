@@ -20,15 +20,20 @@
         </DataTemplate>
     </Window.Resources>
     <Grid Margin="0,0,0,0" Background="White" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-        <Grid x:Name="DynGrid" Margin="156,10,10,35" Background="Honeydew">
-
+        <Grid x:Name="DynGrid" Margin="10,10,10,35" Background="Honeydew">
+            
         </Grid>
-        <StatusBar Margin="65,0,10,5" Height="25" VerticalAlignment="Bottom" Background="Honeydew">
-            <TextBlock x:Name="StatusTextBlock"  Text="TextBlock" Margin="0,0,0,0" Height="25" Width="84" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-
+        <StatusBar Margin="65,0,10,5" Height="25" VerticalAlignment="Bottom" Background="White">
+            <TextBlock x:Name="StatusTextBlock"  Text="{Binding Status}" Margin="0,0,0,0" Height="25" Width="600" FontSize="17" />
         </StatusBar>
-        <ListBox x:Name="ListBox" SelectionMode="Single" HorizontalAlignment="Left" Margin="26,15,0,30" Width="100" 
-                 ItemTemplate="{StaticResource PagesTemplate}" ItemsSource="{Binding Pages}" SelectionChanged="ListBox_SelectionChanged"/>
-        <Button x:Name="Button" Content="菜单" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom" Width="50" Height="25" Background="PaleGreen"/>
+        <Button x:Name="Button" Content="功能" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom" Width="50" Height="25" 
+                Background="AliceBlue" Click="Button_Click" LostFocus="Button_LostFocus" FontSize="18"/>
+        <Popup x:Name="Popup" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=Button}" Placement="Top" AllowsTransparency="True" 
+               StaysOpen="False" Margin="-188,315,850,5">
+            <Border Background="White"  BorderBrush="#FF000000" BorderThickness="1"  Width="122" >
+                <ListBox x:Name="ListBox" SelectionMode="Single" 
+                 ItemTemplate="{StaticResource PagesTemplate}" ItemsSource="{Binding Pages}" SelectionChanged="ListBox_SelectionChanged" Margin="0,0,0,0"/>
+            </Border>
+        </Popup>
     </Grid>
 </Window>

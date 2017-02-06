@@ -22,8 +22,16 @@ namespace Service
         {
             if (!this.Started)
             {
-                _host.Start();
-                this.Started = true;
+	            try
+	            {
+					_host.Start();
+					this.Started = true;
+				}
+	            catch (AutomaticUrlReservationCreationFailureException e)
+	            {
+					throw new Exception("要求管理员权限");
+	            }
+
             }
             return this;
         }

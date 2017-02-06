@@ -17,7 +17,7 @@ namespace Client
 
         public Client(string requestPath,int requestPort)
         {
-	        WebRequest.DefaultWebProxy = null; //By pass system proxy.
+	        WebRequest.DefaultWebProxy = null; //Bypass system proxy.
             _resourceManager = new ResourceManager("Client.Resources", typeof(Client).Assembly);
             _restClient = new RestClient($"http://{requestPath}:{requestPort}")
             {

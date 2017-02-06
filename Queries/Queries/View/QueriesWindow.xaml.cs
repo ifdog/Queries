@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Queries.View.UserControl;
 
 namespace Queries.View
 {
@@ -13,7 +14,8 @@ namespace Queries.View
         public QueriesWindow()
         {
             InitializeComponent();
-        }
+			this.DynGrid.Children.Add(new QueryControl());
+		}
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -27,6 +29,16 @@ namespace Queries.View
 		private void Grid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			DragMove();
+		}
+
+		private void Button_Click(object sender, RoutedEventArgs e)
+		{
+			Popup.IsOpen = true;
+		}
+
+		private void Button_LostFocus(object sender, RoutedEventArgs e)
+		{
+			Popup.IsOpen = false;
 		}
 	}
 }

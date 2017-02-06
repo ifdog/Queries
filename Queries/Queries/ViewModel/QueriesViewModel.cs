@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Queries.Structure;
 using Queries.ViewModel.Base;
 
 namespace Queries.ViewModel
@@ -27,11 +23,8 @@ namespace Queries.ViewModel
 				Name = "测试",
 				ViewId = "ForTesting"
 			});
-            this.Pages.Add(new Function
-            {
-                Name = "404",
-                ViewId = "NotFound"
-            });
+
+			RunContext.Get<StatusManager>().SetTarget(this);
         }
 
 	    private List<Function> _pages = new List<Function>();
@@ -46,5 +39,17 @@ namespace Queries.ViewModel
             }
 
         }
+
+	    private string _status;
+
+	    public string Status
+	    {
+		    get { return _status; }
+		    set
+		    {
+			    _status = value;
+			    OnPropertyChanged(nameof(Status));
+		    }
+	    }
     }
 }

@@ -30,9 +30,9 @@
                 Background="AliceBlue" Click="Button_Click" LostFocus="Button_LostFocus" FontSize="18"/>
         <Popup x:Name="Popup" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=Button}" Placement="Top" AllowsTransparency="True" 
                StaysOpen="False" Margin="-188,315,850,5">
-            <Border Background="White"  BorderBrush="#FF000000" BorderThickness="1"  Width="122" >
+            <Border Background="White"  BorderBrush="#FF000000" BorderThickness="1" Width="100" CornerRadius="5" >
                 <ListBox x:Name="ListBox" SelectionMode="Single" 
-                 ItemTemplate="{StaticResource PagesTemplate}" ItemsSource="{Binding Pages}" SelectionChanged="ListBox_SelectionChanged" Margin="0,0,0,0"/>
+                 ItemTemplate="{StaticResource PagesTemplate}" ItemsSource="{Binding Pages}" SelectionChanged="ListBox_SelectionChanged" Margin="3,3,3,3"/>
             </Border>
         </Popup>
     </Grid>

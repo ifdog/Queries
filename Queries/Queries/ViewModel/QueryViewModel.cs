@@ -15,7 +15,7 @@ namespace Queries.ViewModel
 	    private readonly List<PropertyInfo> _modelProperties = AttributeHelper.GetSeenProperties();
 	    private readonly List<string> _titles;
 	    private readonly Dictionary<string, string> _modelDict = AttributeHelper.GetSeenPropertyDict();
-
+	    private bool _reachEnd = false;
 
 		public QueryViewModel()
 	    {
@@ -34,6 +34,7 @@ namespace Queries.ViewModel
 				case nameof(Query):
 					if (string.IsNullOrWhiteSpace(Query)) return;
 					this.Page = 0;
+				    this._reachEnd = false;
 					var x = _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength);
 					_data.Rows.Clear();
 					x?.Items.ForEach(i =>
@@ -47,8 +48,10 @@ namespace Queries.ViewModel
 					});
 					return;
 				case nameof(LoadProceed):
+					if (_reachEnd)return;
 					Page++;
 					var cont = _client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength);
+				    if (Page > 0 && (cont == null || cont.Items.Count == 0)) _reachEnd = true;
 					cont?.Items.ForEach(i =>
 					{
 						var r = _data.NewRow();

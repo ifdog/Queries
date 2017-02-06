@@ -12,6 +12,12 @@ namespace Queries.Structure
 			set { _target.Status = value; }
 		}
 
+		public double Percents
+		{
+			get { return _target.Percents; }
+			set { _target.Percents = value; }
+		}
+
 		public void SetTarget(QueriesViewModel vm)
 		{
 			_target = vm;

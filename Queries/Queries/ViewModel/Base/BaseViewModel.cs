@@ -7,9 +7,14 @@ namespace Queries.ViewModel.Base
 	{
 		private readonly StatusManager _status = RunContext.Get<StatusManager>();
 
-		public void SetStatus(string s)
+		internal void SetStatus(string s)
 		{
 			_status.Status = s;
+		}
+
+		internal void SetPercents(double d)
+		{
+			_status.Percents = d;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

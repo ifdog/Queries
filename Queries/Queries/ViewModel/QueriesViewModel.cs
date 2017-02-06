@@ -51,5 +51,17 @@ namespace Queries.ViewModel
 			    OnPropertyChanged(nameof(Status));
 		    }
 	    }
+
+	    private double _percents;
+
+	    public double Percents
+	    {
+		    get { return _percents; }
+		    set
+		    {
+			    _percents = value; 
+			    OnPropertyChanged(nameof(Percents));
+		    }
+	    }
     }
 }

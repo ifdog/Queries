@@ -29,7 +29,8 @@ namespace Queries.ViewModel
 
 	    private void QueryViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 	    {
-		    switch (e.PropertyName)
+			SetPercents(Page);
+			switch (e.PropertyName)
 		    {
 				case nameof(Query):
 					if (string.IsNullOrWhiteSpace(Query)) return;
@@ -65,6 +66,7 @@ namespace Queries.ViewModel
 				default:
 					return;
 		    }
+			
 	    }
 
 	    private string _query;

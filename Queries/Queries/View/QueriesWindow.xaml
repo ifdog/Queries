@@ -21,17 +21,19 @@
     </Window.Resources>
     <Grid Margin="0,0,0,0" Background="White" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="DynGrid" Margin="10,10,10,35" Background="White" Grid.ColumnSpan="2">
         </Grid>
-        <TextBox x:Name="StatusTextBlock"  Text="{Binding Status}" Margin="5,0,10,5" BorderBrush="Beige" 
-                     FontSize="17" IsReadOnly="True" Height="25" VerticalAlignment="Bottom" Grid.Column="1"/>
-        <ProgressBar Margin="70,0,5,5" Height="25" VerticalAlignment="Bottom" Background="White" BorderBrush="Beige"/>
-        <Button x:Name="Button" Content="功能" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom" Width="50" Height="25" 
-                Background="Beige" Click="Button_Click" LostFocus="Button_LostFocus" FontSize="18" BorderBrush="Beige" Foreground="Teal"/>
-        <Popup x:Name="Popup" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=Button}" Placement="Top" AllowsTransparency="True" 
+        <Border  Margin="5,0,10,5"   Height="25" VerticalAlignment="Bottom" Grid.Column="1" BorderBrush="Beige" BorderThickness="1">
+            <TextBlock x:Name="StatusTextBlock"  Text="{Binding Status}" Margin="0,0,0,0"  Foreground="Teal"
+                     FontSize="17"  Height="25" VerticalAlignment="Bottom"/>
+        </Border>
+        <ProgressBar Grid.Column="0" Margin="70,0,5,5" Height="25" VerticalAlignment="Bottom" Background="White" BorderBrush="Beige" Value="{Binding Percents}"/>
+        <Button Grid.Column="0" x:Name="Button" Content="菜单" HorizontalAlignment="Left" Margin="10,0,0,5" VerticalAlignment="Bottom" Width="50" Height="25" 
+                Background="Beige" Click="Button_Click" LostFocus="Button_LostFocus" FontSize="18" BorderBrush="Beige" Foreground="CadetBlue"/>
+        <Popup Grid.Column="0" x:Name="Popup" PopupAnimation="Slide" PlacementTarget="{Binding ElementName=Button}" Placement="Top" AllowsTransparency="True" 
                StaysOpen="False" Margin="-188,315,510,5">
             <Border Background="White"  BorderBrush="#FF000000" BorderThickness="1" Width="100" CornerRadius="5" >
                 <ListBox x:Name="ListBox" SelectionMode="Single" 

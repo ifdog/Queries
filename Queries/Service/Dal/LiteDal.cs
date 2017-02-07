@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -23,13 +25,20 @@ namespace Service.Dal
 		private readonly char[] _splitColon = {':'};
 		private readonly string _dbItemPrefix;
 		private NLog.Logger _logger = LogManager.GetCurrentClassLogger();
-
+		private BlockingCollection<T> _blockingBuffer;
+		private BackgroundWorker _backgroundWorker = new BackgroundWorker();
 
 		public LiteDal(string dbItemPrefix)
 		{
 			_dbItemPrefix = dbItemPrefix;
 			_database = new LiteDatabase($"{typeof(T).Name}s.db");
 			_collection = _database.GetCollection<T>(typeof(T).Name);
+			_backgroundWorker.DoWork += _backgroundWorker_DoWork;
+		}
+
+		private void _backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			
 		}
 
 		public void Insert(T obj)
@@ -73,7 +82,6 @@ namespace Service.Dal
 				case "All":
 					if (typeof(T) == typeof(ItemDbModel))
 					{
-
 						return
 							_collection.FindAll()
 								.Where(GetAllExpression(parser.Queries).Compile())

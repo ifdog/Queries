@@ -53,7 +53,12 @@ namespace Queries.ViewModel
 							{
 								var r = i.Result as ResultItemsModel;
 								_data.Rows.Clear();
-								r?.Items.ForEach(j =>
+								if (r?.Items == null)
+								{
+									OnPropertyChanged(nameof(Data));
+									return;
+								}
+								r.Items.ForEach(j =>
 								{
 									var s = Data.NewRow();
 									for (var k = 0; k < _titles.Count; k++)

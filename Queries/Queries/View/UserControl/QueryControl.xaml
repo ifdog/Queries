@@ -13,7 +13,8 @@
         <viewmodel:QueryViewModel/>
     </UserControl.DataContext>
     <Grid>
-        <TextBox x:Name="TextBox" Height="25" TextWrapping="Wrap" Text="{Binding Query,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" VerticalAlignment="Top" FontSize="16"/>
+        <TextBox x:Name="TextBox" Height="25" TextWrapping="Wrap" Text="{Binding Query,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
+                 VerticalAlignment="Top" FontSize="16" MaxLength="30" MaxLines="1"/>
         <DataGrid x:Name="DataGrid" ItemsSource="{Binding Data.DefaultView}" Margin="0,30,0,0" MaxHeight="1080" MaxWidth="1920" HorizontalGridLinesBrush="Crimson" VerticalGridLinesBrush="Crimson"
                   EnableColumnVirtualization="True" EnableRowVirtualization="True" IsSynchronizedWithCurrentItem="True" AlternationCount="2" AlternatingRowBackground="BlanchedAlmond"
                   ScrollViewer.ScrollChanged ="DataGrid_OnScrollChanged" SelectionMode="Single" Sorting="DataGrid_Sorting" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"  >

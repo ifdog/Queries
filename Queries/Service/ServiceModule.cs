@@ -56,18 +56,18 @@ namespace Service
 		        if (string.IsNullOrEmpty(model.User.UserName) || string.IsNullOrEmpty(model.User.Password))
 		        {
 			        return Response.AsJson(ResultFactory.CreateUserResult(ResultCode.InvalidParameter));
-		        }
-				//try
-				//{
+				}
+				try
+				{
 					var x = _userBll.Login(model.User);
 					return Response.AsJson(x)
 					  .WithCookie("Token", Token.Create(model.User.UserName, new TimeSpan(1, 0, 0, 0)));
-				//}
-				//catch (Exception e)
-				//{
-				//	return Response.AsJson(ResultFactory.CreateUserResult(e));
-				//}
-			};
+			}
+				catch (Exception e)
+			{
+				return Response.AsJson(ResultFactory.CreateUserResult(e));
+			}
+		};
 
 	        Post["/users/updatepassword"] = _ =>
 	        {
@@ -117,16 +117,16 @@ namespace Service
 		        {
 			        return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.InvalidParameter));
 		        }
-				//try
+				try
 				{
 			        ResultItemsModel x = _itemBll.Search(paramerters.query, page, length);
 			        return Response.AsJson(x);
 		        }
 
-				//catch (Exception e)
-				//{
-				//	return Response.AsJson(ResultFactory.CreateItemsResult(e));
-				//}
+				catch (Exception e)
+				{
+					return Response.AsJson(ResultFactory.CreateItemsResult(e));
+				}
 			};
 
 	        Post["/items/add/"] = _ =>
@@ -146,15 +146,15 @@ namespace Service
 		        {
 			        return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.ActionNotCorresponding));
                 }
-                try
-                {
+                //try
+                //{
 			        return Response.AsJson(_itemBll.AddItems(model.Items, Token.ParseName(token)));
-		        }
+		        //}
 
-                catch (Exception e)
-                {
-                    return Response.AsJson(ResultFactory.CreateItemsResult(e));
-                }
+                //catch (Exception e)
+                //{
+                //    return Response.AsJson(ResultFactory.CreateItemsResult(e));
+                //}
             };
 
             Get["/test/"] = _ => "done";

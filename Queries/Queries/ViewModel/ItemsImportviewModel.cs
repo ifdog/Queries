@@ -16,7 +16,7 @@ namespace Queries.ViewModel
     public class ItemsImportviewModel : BaseViewModel
     {
         private const int Step = 50;
-	    private const int MaxThreads = 10;
+	    private const int MaxThreads = 1;
         private readonly BackgroundWorker _backgroundWorker = new BackgroundWorker();
         private string _filePath;
         private double _percent;

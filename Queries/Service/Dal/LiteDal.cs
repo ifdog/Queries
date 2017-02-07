@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Common.Attribute;
 using Common.Factory;
+using Common.Static;
 using LiteDB;
 using NLog;
 using Service.Dal.Base;
@@ -21,7 +22,8 @@ namespace Service.Dal
 		private readonly char[] _splitComma = {','};
 		private readonly char[] _splitColon = {':'};
 		private readonly string _dbItemPrefix;
-	    private NLog.Logger _logger = LogManager.GetCurrentClassLogger();
+		private NLog.Logger _logger = LogManager.GetCurrentClassLogger();
+
 
 		public LiteDal(string dbItemPrefix)
 		{
@@ -34,6 +36,15 @@ namespace Service.Dal
 		{
 			obj.Id = ObjectId.NewObjectId().ToByteArray();
 			_collection.Insert(obj);
+		}
+
+		public void Insert(IEnumerable<T> objs)
+		{
+			using (var trans = _database.BeginTrans())
+			{
+				objs.ForEach(Insert);
+				trans.Commit();
+			}
 		}
 
 		public void Update(T obj)
@@ -55,68 +66,77 @@ namespace Service.Dal
 			if (!x.All(i => i.Contains(':'))) return new List<T>();
 			var y = x.Select(i => i.Split(_splitColon, StringSplitOptions.RemoveEmptyEntries)).ToArray();
 			if (y.Any(i => i.Length != 2)) return new List<T>();
-
 			var parser = new QueryParser(query);
 
-		    switch (parser.QueryHead)
-		    {
-		        case "All":
-				    if (typeof(T) == typeof(ItemDbModel))
-				    {
-					    return
-						    _collection.FindAll()
-							    .Where(GetAllExpression(parser.Queries).Compile())
-							    .OrderBy(i => (i as ItemDbModel)?.Item.Name.Length)
-							    .Skip(page*length)
-							    .Take(length);
-				    }
-				    return _collection.FindAll().Where(GetAllExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
-                case "Any":
-                    return _collection.FindAll().Where(GetAnyExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
-                case "Exa":
-                    return _collection.FindAll().Where(GetExaExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
-                default:
-		            return null;
-		    }
-        }
+			switch (parser.QueryHead)
+			{
+				case "All":
+					if (typeof(T) == typeof(ItemDbModel))
+					{
 
-        public static Expression<Func<T, bool>> GetAnyExpression(List<KeyValuePair<string,string>> pairs)
-        {
-            var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
-            var left = Expression.Parameter(typeof(T), "c");
-            Expression expression = Expression.Constant(false);
-            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
-                typeof(string).GetMethod("Contains", new[] { typeof(string) }),
-                Expression.Constant(pair.Value)
-            )).Aggregate<Expression, Expression>(expression, (current, right) => Expression.Or(right, current));
-            return Expression.Lambda<Func<T, bool>>(expression, left);
-        }
+						return
+							_collection.FindAll()
+								.Where(GetAllExpression(parser.Queries).Compile())
+								.OrderBy(i => (i as ItemDbModel)?.Item.Name.Length)
+								.Skip(page*length)
+								.Take(length);
+					}
 
-        public static Expression<Func<T, bool>> GetAllExpression(List<KeyValuePair<string, string>> pairs)
-        {
-            var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
-            var left = Expression.Parameter(typeof(T), "c");
-            Expression expression = Expression.Constant(true);
-            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
-                typeof(string).GetMethod("Contains", new[] { typeof(string) }),
-                Expression.Constant(pair.Value)
-            )).Aggregate<Expression, Expression>(expression, (current, right) => Expression.And(right, current));
-            return Expression.Lambda<Func<T, bool>>(expression, left);
-        }
+					return _collection.FindAll().Where(GetAllExpression(parser.Queries).Compile()).Skip(page*length).Take(length);
 
-        public static Expression<Func<T, bool>> GetExaExpression(List<KeyValuePair<string, string>> pairs)
-        {
-            var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
-            var left = Expression.Parameter(typeof(T), "c");
-            Expression expression = Expression.Constant(true);
-            expression = pairs.Select(pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
-                typeof(string).GetMethod("Equals", new[] { typeof(string) }),
-                Expression.Constant(pair.Value)
-            )).Aggregate<Expression, Expression>(expression, (current, right) => Expression.And(right, current));
-           return Expression.Lambda<Func<T, bool>>(expression, left);
-        }
+				case "Any":
 
-        public void Dispose()
+					return _collection.FindAll().Where(GetAnyExpression(parser.Queries).Compile()).Skip(page*length).Take(length);
+
+				case "Exa":
+
+					return _collection.FindAll().Where(GetExaExpression(parser.Queries).Compile()).Skip(page*length).Take(length);
+
+				default:
+					return null;
+			}
+		}
+
+		public static Expression<Func<T, bool>> GetAnyExpression(List<KeyValuePair<string, string>> pairs)
+		{
+			var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
+			var left = Expression.Parameter(typeof(T), "c");
+			Expression expression = Expression.Constant(false);
+			expression = pairs.Select(
+				pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
+					typeof(string).GetMethod("Contains", new[] {typeof(string)}),
+					Expression.Constant(pair.Value)
+					)).Aggregate<Expression, Expression>(expression, (current, right) => Expression.Or(right, current));
+			return Expression.Lambda<Func<T, bool>>(expression, left);
+		}
+
+		public static Expression<Func<T, bool>> GetAllExpression(List<KeyValuePair<string, string>> pairs)
+		{
+			var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
+			var left = Expression.Parameter(typeof(T), "c");
+			Expression expression = Expression.Constant(true);
+			expression = pairs.Select(
+				pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
+					typeof(string).GetMethod("Contains", new[] {typeof(string)}),
+					Expression.Constant(pair.Value)
+					)).Aggregate<Expression, Expression>(expression, (current, right) => Expression.And(right, current));
+			return Expression.Lambda<Func<T, bool>>(expression, left);
+		}
+
+		public static Expression<Func<T, bool>> GetExaExpression(List<KeyValuePair<string, string>> pairs)
+		{
+			var searchItem = typeof(T).GetProperties().First(i => i.GetCustomAttribute<TypeIndexedAttribute>() != null).Name;
+			var left = Expression.Parameter(typeof(T), "c");
+			Expression expression = Expression.Constant(true);
+			expression = pairs.Select(
+				pair => Expression.Call(Expression.Property(Expression.Property(left, searchItem), pair.Key),
+					typeof(string).GetMethod("Equals", new[] {typeof(string)}),
+					Expression.Constant(pair.Value)
+					)).Aggregate<Expression, Expression>(expression, (current, right) => Expression.And(right, current));
+			return Expression.Lambda<Func<T, bool>>(expression, left);
+		}
+
+		public void Dispose()
 		{
 			_database.Dispose();
 		}

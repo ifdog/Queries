@@ -8,6 +8,7 @@ using Common.Factory;
 using LiteDB;
 using NLog;
 using Service.Dal.Base;
+using Service.Structure;
 using Service.Structure.Base;
 
 namespace Service.Dal
@@ -45,9 +46,6 @@ namespace Service.Dal
 			throw new NotImplementedException();
 		}
 
-		//All@Name:xxx,Spec:yyy,Brand:zzz		Search.And
-		//Any@Name:xxx,Spec:yyy,Brand:zzz		Search.Or
-		//Exa@Name:xxx,Spec:yyy,Brand:zzz		Search.Exactly
 		public IEnumerable<T> Find(string query, int page = 0, int length = 50)
 		{
 			var w = query.Split(_splitAt, StringSplitOptions.RemoveEmptyEntries);
@@ -63,7 +61,16 @@ namespace Service.Dal
 		    switch (parser.QueryHead)
 		    {
 		        case "All":
-                    return _collection.FindAll().Where(GetAllExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
+				    if (typeof(T) == typeof(ItemDbModel))
+				    {
+					    return
+						    _collection.FindAll()
+							    .Where(GetAllExpression(parser.Queries).Compile())
+							    .OrderBy(i => (i as ItemDbModel)?.Item.Name.Length)
+							    .Skip(page*length)
+							    .Take(length);
+				    }
+				    return _collection.FindAll().Where(GetAllExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
                 case "Any":
                     return _collection.FindAll().Where(GetAnyExpression(parser.Queries).Compile()).Skip(page * length).Take(length);
                 case "Exa":

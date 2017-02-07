@@ -14,9 +14,9 @@
     </UserControl.DataContext>
     <Grid>
         <TextBox x:Name="TextBox" Height="25" TextWrapping="Wrap" Text="{Binding Query,UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" VerticalAlignment="Top" FontSize="16"/>
-        <DataGrid x:Name="DataGrid" ItemsSource="{Binding Data.DefaultView, IsAsync=True}" Margin="0,30,0,0" MaxHeight="1080" MaxWidth="1920"
-                  EnableColumnVirtualization="True" EnableRowVirtualization="True" 
-                  ScrollViewer.ScrollChanged ="DataGrid_OnScrollChanged" SelectionMode="Single" Sorting="DataGrid_Sorting" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn" >
+        <DataGrid x:Name="DataGrid" ItemsSource="{Binding Data.DefaultView}" Margin="0,30,0,0" MaxHeight="1080" MaxWidth="1920" HorizontalGridLinesBrush="Crimson" VerticalGridLinesBrush="Crimson"
+                  EnableColumnVirtualization="True" EnableRowVirtualization="True" IsSynchronizedWithCurrentItem="True" AlternationCount="2" AlternatingRowBackground="BlanchedAlmond"
+                  ScrollViewer.ScrollChanged ="DataGrid_OnScrollChanged" SelectionMode="Single" Sorting="DataGrid_Sorting" AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"  >
         </DataGrid>
     </Grid>
 </base:BaseQueryControl>

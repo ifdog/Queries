@@ -63,8 +63,8 @@ namespace Queries.ViewModel
 	            }
 
 	            gp.ForEach(i =>
-				{
-					client.Item.AddItem(i);
+	            {
+		            var x =client.Item.AddItem(i).Result;
 					Interlocked.Increment(ref _progress);
 					this.Status = $"{_progress} / {gp.Count}";
 					var c = Convert.ToDouble(_progress)/Convert.ToDouble(gp.Count)*100.0;

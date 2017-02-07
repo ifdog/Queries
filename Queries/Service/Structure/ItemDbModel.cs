@@ -10,6 +10,7 @@ namespace Service.Structure
 		public ItemModel Item { get; set; }
 		[BsonField("Flat")]
 		[TypeIndexed]
+		[BsonIndex]
 		public ItemModel FlatItem { get; set; }
 	}
 }

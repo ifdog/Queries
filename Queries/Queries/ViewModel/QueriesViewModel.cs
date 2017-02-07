@@ -18,12 +18,6 @@ namespace Queries.ViewModel
                 Name = "导入",
                 ViewId = "ItemsImport"
             });
-			this.Pages.Add(new Function
-			{
-				Name = "测试",
-				ViewId = "ForTesting"
-			});
-
 			RunContext.Get<StatusManager>().SetTarget(this);
         }
 

@@ -40,7 +40,7 @@ namespace Client.Bll
         public Task<BaseResult> AddItem(List<ItemModel> itemModels)
         {
             var x = itemModels.Where(ModelCheck.Check).ToList();
-            var r = new RequestItemsModel()
+            var r = new RequestItemsModel
             {
                 Action = "Add",
                 Parameter = string.Empty,

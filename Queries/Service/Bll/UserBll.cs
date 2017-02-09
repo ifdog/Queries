@@ -4,6 +4,7 @@ using Common.Enums;
 using Common.Factory;
 using Common.Structure;
 using Service.Dal;
+using Service.Dal.Base;
 using Service.Structure;
 
 
@@ -11,9 +12,10 @@ namespace Service.Bll
 {
     public class UserBll
     {
-	    private readonly LiteDal<UserDbModel> _userDal = new LiteDal<UserDbModel>("User");
+		// private readonly LiteDal<UserDbModel> _userDal = new LiteDal<UserDbModel>("User");
+		private readonly IDal<UserDbModel> _userDal = new PgDal<UserDbModel>();
 
-	    public ResultUserModel Register(UserModel user)
+		public ResultUserModel Register(UserModel user)
 	    {
 			if (_userDal.Find($"Exa@UserName:{user.UserName}").Any())
 				return ResultFactory.CreateUserResult(ResultCode.UserNameAlreadyExist);

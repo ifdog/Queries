@@ -8,13 +8,15 @@ using Common.Factory;
 using Common.Static;
 using Common.Structure;
 using Service.Dal;
+using Service.Dal.Base;
 using Service.Structure;
 
 namespace Service.Bll
 {
 	public class ItemBll
 	{
-		private readonly LiteDal<ItemDbModel> _itemDal = new LiteDal<ItemDbModel>("Flat");
+		//private readonly LiteDal<ItemDbModel> _itemDal = new LiteDal<ItemDbModel>("Flat");
+		private readonly IDal<ItemDbModel> _itemDal = new PgDal<ItemDbModel>();
 
 		private readonly string[] _itemPropertyNames = AttributeHelper.GetProperty<SaveToDbAttribute>(new ItemModel())
 			.Select(i => i.Name).ToArray();

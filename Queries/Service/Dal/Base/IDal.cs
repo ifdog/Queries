@@ -7,6 +7,6 @@ namespace Service.Dal.Base
 		void Insert(T obj);
 		void Update(T obj);
 		void Delete(T obj);
-		IEnumerable<T> Find(string query, int page, int length);
+		IEnumerable<T> Find(string query, int page =0, int length=50);
 	}
 }

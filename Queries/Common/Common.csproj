@@ -109,6 +109,7 @@
     <Compile Include="Static\Csv.cs" />
     <Compile Include="Static\Excel.cs" />
     <Compile Include="Static\Extension.cs" />
+    <Compile Include="Static\Identify.cs" />
     <Compile Include="Static\ItemMapping.cs" />
     <Compile Include="Static\Json.cs" />
     <Compile Include="Static\Log.cs" />

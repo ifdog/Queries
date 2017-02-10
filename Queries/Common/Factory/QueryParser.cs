@@ -23,7 +23,7 @@ namespace Common.Factory
 		    get
 		    {
 			    _queryString = Queries.Count>0
-				    ? $"{QueryHead}@{string.Join(",", Queries.Select(i => $"Item.{i.Key}:{i.Value}"))}"
+				    ? $"{QueryHead}@{string.Join(",", Queries.Select(i => $"{i.Key}:{i.Value}"))}"
 				    : string.Empty;
 			    return _queryString;
 		    }

@@ -48,7 +48,7 @@ namespace Common.Static
 				.Select(i => new
 				{
 					i.GetCustomAttribute<SeenFromUiAttribute>().Description,
-					i.Name
+					Name = $"Item.{i.Name}"
 				})
 				.ToDictionary(i => i.Description, i => i.Name));
 		}

@@ -82,7 +82,7 @@ namespace Service.Dal
 				case "All":
 					if (typeof(T) == typeof(ItemDbModel))
 					{
-						orderCmd = "order by length(content->'Item'->>'Name');";
+						//orderCmd = "order by length(Item->'Item'->>'Name');";
 					}
 					searchCondition = string.Join(" AND ",parser.Queries.Select(i => $" Item -> '{i.Key.Split(_splitDot)[0]}' ->> '{i.Key.Split(_splitDot)[1]}' ilike '%{i.Value}%'"));
 					break;

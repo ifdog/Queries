@@ -117,16 +117,16 @@ namespace Service
 		        {
 			        return Response.AsJson(ResultFactory.CreateItemsResult(ResultCode.InvalidParameter));
 		        }
-				try
+				//try
 				{
 			        ResultItemsModel x = _itemBll.Search(paramerters.query, page, length);
 			        return Response.AsJson(x);
 		        }
 
-				catch (Exception e)
-				{
-					return Response.AsJson(ResultFactory.CreateItemsResult(e));
-				}
+				//catch (Exception e)
+				//{
+				//	return Response.AsJson(ResultFactory.CreateItemsResult(e));
+				//}
 			};
 
 	        Post["/items/add/"] = _ =>

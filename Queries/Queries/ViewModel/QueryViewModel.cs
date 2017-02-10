@@ -43,7 +43,7 @@ namespace Queries.ViewModel
 					{
 						_data.Clear();
 						return;
-					};
+					}
 					this.Page = 0;
 					this._reachEnd = false;
 					_client.Item.Query(new QueryParser(_query).QueryString, Page, PageLength)

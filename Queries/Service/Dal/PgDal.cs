@@ -27,19 +27,18 @@ namespace Service.Dal
 			using (var cmd = new NpgsqlCommand())
 			{
 				cmd.Connection = this.Connection;
-				cmd.CommandText = $@"CREATE TABLE IF NOT EXISTS {TableName} (
-									Id integer PRIMARY KEY,
-									Item jsonb NOT NULL)";
+				cmd.CommandText = $@"CREATE TABLE IF NOT EXISTS {TableName} (Id integer PRIMARY KEY, Item jsonb NOT NULL)";
 				cmd.ExecuteNonQuery();
 				
 			}
 		}
 		public void Insert(T obj)
 		{
+			obj.Id = Identify.NewId();
 			using (var cmd = new NpgsqlCommand())
 			{
 				cmd.Connection = this.Connection;
-				cmd.CommandText =$@"INSERT INTO {TableName} VALUES ({(obj.Id == 0 ? Identify.NewId() : obj.Id)},'{Json.FromObject(obj)}'); ";
+				cmd.CommandText =$@"INSERT INTO {TableName} VALUES ({obj.Id},'{Json.FromObject(obj)}'); ";
 				cmd.ExecuteNonQuery();
 			}
 		}
@@ -76,12 +75,14 @@ namespace Service.Dal
 			var parser = new QueryParser(query);
 			string searchCondition;
 			string orderCmd = String.Empty;
+			string _table = TableName;
+			if (parser.Queries.Count == 0) return null;
 			switch (parser.QueryHead)
 			{
 				case "All":
 					if (typeof(T) == typeof(ItemDbModel))
 					{
-						orderCmd = "";
+						orderCmd = "order by length(content->'Item'->>'Name');";
 					}
 					searchCondition = string.Join(" AND ",parser.Queries.Select(i => $" Item -> '{i.Key.Split(_splitDot)[0]}' ->> '{i.Key.Split(_splitDot)[1]}' ilike '%{i.Value}%'"));
 					break;
@@ -91,13 +92,17 @@ namespace Service.Dal
 				case "Exa":
 					searchCondition = string.Join(" AND ", parser.Queries.Select(i => $" Item ->  '{i.Key.Split(_splitDot)[0]}' ->> '{i.Key.Split(_splitDot)[1]}' = '{i.Value}'"));
 					break;
+				case "Eth":
+					_table = @"lateral jsonb_each_text(content->'Item')";
+					searchCondition = string.Join(" AND ", parser.Queries.Select(i => $" value ilike '%{i.Value}%'"));
+					break;
 				default:
 					return null;
 			}
 			using (var cmd = new NpgsqlCommand())
 			{
 				cmd.Connection = this.Connection;
-				cmd.CommandText = $@"SELECT * FROM {TableName} WHERE {searchCondition};  ";
+				cmd.CommandText = $@"SELECT * FROM {_table} WHERE {searchCondition} {orderCmd};";
 				var l = new List<T>();
 				using (var r = cmd.ExecuteReader())
 				{

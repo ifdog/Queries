@@ -32,14 +32,14 @@ namespace Service
 		        {
 			        return Response.AsJson(ResultFactory.CreateUserResult(ResultCode.InvalidParameter));
 		        }
-				try
+				//try
 				{
 			        return Response.AsJson(_userBll.Register(model.User));
 		        }
-				catch (Exception e)
-				{
-					return Response.AsJson(ResultFactory.CreateUserResult(e));
-				}
+				//catch (Exception e)
+				//{
+				//	return Response.AsJson(ResultFactory.CreateUserResult(e));
+				//}
 	        };
 
 	        Post["/users/login/"] = _ =>

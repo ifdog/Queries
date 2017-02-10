@@ -2,6 +2,6 @@
 {
 	public abstract class DbModel
 	{
-		public byte[] Id { get; set; }
+		public int Id { get; set; }
 	}
 }

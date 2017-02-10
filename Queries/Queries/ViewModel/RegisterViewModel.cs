@@ -106,7 +106,7 @@ namespace Queries.ViewModel
 				.ContinueWith(i =>
 				{
 					this.Status = i.Result.ToResultCode().GetDescription();
-				}).Start();
+				});
 		}
 	}
 }

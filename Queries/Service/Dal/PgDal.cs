@@ -17,6 +17,7 @@ namespace Service.Dal
 		private readonly char[] _splitAt = { '@' };
 		private readonly char[] _splitComma = { ',' };
 		private readonly char[] _splitColon = { ':' };
+		private readonly char[] _splitDot = { '.' };
 
 		public PgDal()
 		{
@@ -30,6 +31,7 @@ namespace Service.Dal
 									Id integer PRIMARY KEY,
 									Item jsonb NOT NULL)";
 				cmd.ExecuteNonQuery();
+				
 			}
 		}
 		public void Insert(T obj)
@@ -37,7 +39,7 @@ namespace Service.Dal
 			using (var cmd = new NpgsqlCommand())
 			{
 				cmd.Connection = this.Connection;
-				cmd.CommandText =$@"INSERT INTO {TableName} VALUES ({obj.Id},{Json.FromObject(obj)}::jsonb); ";
+				cmd.CommandText =$@"INSERT INTO {TableName} VALUES ({(obj.Id == 0 ? Identify.NewId() : 1)},{Json.FromObject(obj)}); ";
 				cmd.ExecuteNonQuery();
 			}
 		}
@@ -81,13 +83,13 @@ namespace Service.Dal
 					{
 						orderCmd = "";
 					}
-					searchCondition = string.Join(" AND ",parser.Queries.Select(i=>$" Item.data->'Item' -> 'Item' ->> {i.Key} LIKE {i.Value}"));
+					searchCondition = string.Join(" AND ",parser.Queries.Select(i => $" Item -> '{i.Key.Split(_splitDot)[0]}' ->> '{i.Key.Split(_splitDot)[1]}' ilike '%{i.Value}%'"));
 					break;
 				case "Any":
-					searchCondition = string.Join(" OR ", parser.Queries.Select(i => $" Item.data->'Item' -> 'Item' ->> {i.Key} LIKE {i.Value}"));
+					searchCondition = string.Join(" OR ", parser.Queries.Select(i => $" Item ->  '{i.Key.Split(_splitDot)[0]}' ->> '{i.Key.Split(_splitDot)[1]}' ilike '%{i.Value}%'"));
 					break;
 				case "Exa":
-					searchCondition = string.Join(" AND ", parser.Queries.Select(i => $" Item.data->'Item' -> 'Item' ->> {i.Key} = {i.Value}"));
+					searchCondition = string.Join(" AND ", parser.Queries.Select(i => $" Item ->  '{i.Key.Split(_splitDot)[0]}' ->> '{i.Key.Split(_splitDot)[1]}' = '{i.Value}'"));
 					break;
 				default:
 					return null;
@@ -95,9 +97,13 @@ namespace Service.Dal
 			using (var cmd = new NpgsqlCommand())
 			{
 				cmd.Connection = this.Connection;
-				cmd.CommandText = $@"SELECT Item FROM {TableName} WHERE {searchCondition};  ";
-				var r = cmd.ExecuteReader();
-				return r.Cast<Model>().Select(i => Json.ToObject<T>(i.Item));
+				cmd.CommandText = $@"SELECT * FROM {TableName} WHERE {searchCondition};  ";
+				using (var r = cmd.ExecuteReader())
+				{
+					var rt = r.Cast<Model>().Select(i => Json.ToObject<T>(i.Item));
+					r.Close();
+					return rt;
+				}
 			}
 		}
 		private class Model

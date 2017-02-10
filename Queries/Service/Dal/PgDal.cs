@@ -39,7 +39,7 @@ namespace Service.Dal
 			using (var cmd = new NpgsqlCommand())
 			{
 				cmd.Connection = this.Connection;
-				cmd.CommandText =$@"INSERT INTO {TableName} VALUES ({(obj.Id == 0 ? Identify.NewId() : 1)},{Json.FromObject(obj)}); ";
+				cmd.CommandText =$@"INSERT INTO {TableName} VALUES ({(obj.Id == 0 ? Identify.NewId() : obj.Id)},'{Json.FromObject(obj)}'); ";
 				cmd.ExecuteNonQuery();
 			}
 		}
@@ -49,7 +49,7 @@ namespace Service.Dal
 			using (var cmd = new NpgsqlCommand())
 			{
 				cmd.Connection = this.Connection;
-				cmd.CommandText = $@"UPDATE {TableName} SET Item = {Json.FromObject(obj)} WHERE Id ={obj.Id}; ";
+				cmd.CommandText = $@"UPDATE {TableName} SET Item = '{Json.FromObject(obj)}' WHERE Id ={obj.Id}; ";
 				cmd.ExecuteNonQuery();
 			}
 		}
@@ -98,20 +98,17 @@ namespace Service.Dal
 			{
 				cmd.Connection = this.Connection;
 				cmd.CommandText = $@"SELECT * FROM {TableName} WHERE {searchCondition};  ";
+				var l = new List<T>();
 				using (var r = cmd.ExecuteReader())
 				{
-					var rt = r.Cast<Model>().Select(i => Json.ToObject<T>(i.Item));
+					while (r.Read())
+					{
+						l.Add(Json.ToObject<T>(r.GetString(1)));
+					}
 					r.Close();
-					return rt;
 				}
+				return l;
 			}
 		}
-		private class Model
-		{
-			public int Id { get; set; }
-			public string Item { get; set; }
-		}
 	}
-
-
 }

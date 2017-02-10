@@ -87,6 +87,7 @@ namespace Service.Dal
 					searchCondition = string.Join(" AND ",parser.Queries.Select(i => $" Item -> '{i.Key.Split(_splitDot)[0]}' ->> '{i.Key.Split(_splitDot)[1]}' ilike '%{i.Value}%'"));
 					break;
 				case "Any":
+					//var xx = parser;
 					searchCondition = string.Join(" OR ", parser.Queries.Select(i => $" Item ->  '{i.Key.Split(_splitDot)[0]}' ->> '{i.Key.Split(_splitDot)[1]}' ilike '%{i.Value}%'"));
 					break;
 				case "Exa":

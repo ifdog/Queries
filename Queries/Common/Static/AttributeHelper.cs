@@ -71,7 +71,7 @@ namespace Common.Static
 			return _searchPropertyNames ??
 				   (_searchPropertyNames = typeof(ItemModel).GetProperties(BindingFlags.Instance | BindingFlags.Public)
 					   .Where(i => i.GetCustomAttribute<IndexedAttribute>() != null)
-					   .Select(i => i.Name)
+					   .Select(i =>$"Item.{i.Name}")
 					   .ToList());
 		}
 	}
